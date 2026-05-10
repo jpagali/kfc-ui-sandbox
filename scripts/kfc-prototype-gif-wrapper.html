@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KFC Prototype GIF Wrapper</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 402px;
+      height: 874px;
+      overflow: hidden;
+      background: #f7f0e8;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    iframe {
+      width: 402px;
+      height: 874px;
+      border: 0;
+      display: block;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="prototype" src="../rna-sneak-peek-prototype.html"></iframe>
+  <script>
+    const iframe = document.getElementById("prototype");
+    const params = new URLSearchParams(window.location.search);
+    const stateName = params.get("state") || "home";
+
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const runSequence = async (win, steps) => {
+      for (const step of steps) {
+        // eslint-disable-next-line no-eval
+        win.eval(step);
+        await wait(80);
+      }
+    };
+
+    const baseDeliverySetup = [
+      "resetPrototypeSessionToEmpty();",
+      "startDeliveryFlow('initial');",
+      "state.draftDeliveryAddressId = 'home';",
+      "state.draftDeliveryInput = deliveryAddresses.home.fullLine;",
+      "render();",
+      "proceedDeliveryAddress();",
+      "proceedDeliveryResults();",
+      "confirmDeliverySetup();"
+    ];
+
+    const states = {
+      home: [],
+      "order-sheet": [
+        "resetPrototypeSessionToEmpty();",
+        "openSheet('order');"
+      ],
+      "delivery-address": [
+        "resetPrototypeSessionToEmpty();",
+        "startDeliveryFlow('initial');"
+      ],
+      "delivery-home": [
+        "resetPrototypeSessionToEmpty();",
+        "startDeliveryFlow('initial');",
+        "state.draftDeliveryAddressId = 'home';",
+        "state.draftDeliveryInput = deliveryAddresses.home.fullLine;",
+        "render();"
+      ],
+      "delivery-menu": baseDeliverySetup.concat([
+        "goToMenuLanding();"
+      ]),
+      "combo-pdp": baseDeliverySetup.concat([
+        "openProductDetail('double-tender-burger-combo');"
+      ]),
+      "combo-customize": baseDeliverySetup.concat([
+        "openProductDetail('double-tender-burger-combo');",
+        "openBundleCustomize('primary', 'full');"
+      ]),
+      "secret-clue": [
+        "resetPrototypeSessionToEmpty();",
+        "goToMenuLanding();"
+      ],
+      "secret-unlocked": [
+        "resetPrototypeSessionToEmpty();",
+        "goToMenuLanding();",
+        "state.secretMenuStage = 'full-animation';",
+        "render();"
+      ]
+    };
+
+    iframe.addEventListener("load", async () => {
+      const win = iframe.contentWindow;
+      await wait(240);
+      const steps = states[stateName] || states.home;
+      await runSequence(win, steps);
+      await wait(stateName === "secret-unlocked" ? 250 : 150);
+      document.body.dataset.ready = "true";
+    });
+  </script>
+</body>
+</html>

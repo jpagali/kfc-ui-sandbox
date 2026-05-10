@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>KFC Atlas - Post Order</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@1,900&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: "Kentucky Fried Sans";
+      src: url("fonts/KentuckyFriedSans-Regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Sans";
+      src: url("fonts/KentuckyFriedSans-Semibold.ttf") format("truetype");
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src: url("fonts/KentuckyFriedSerif-ExtraboldItalic.ttf") format("truetype");
+      font-weight: 700 800;
+      font-style: italic;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src: url("fonts/KentuckyFriedSerif-BlackItalic.ttf") format("truetype");
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    :root {
+      --bg: #f6efe8;
+      --panel: #fff9f3;
+      --panel-2: #f4ece4;
+      --line: rgba(66, 40, 30, 0.1);
+      --text: #231815;
+      --muted: rgba(35, 24, 21, 0.6);
+      --red: #e4002b;
+      --red-soft: rgba(228, 0, 43, 0.08);
+      --gold: #f2c25c;
+      --green: #15934b;
+      --shadow: 0 24px 60px rgba(71, 47, 36, 0.18);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --font-display: "Kentucky Fried Serif", Georgia, serif;
+      --font-ui: "Kentucky Fried Sans", "Segoe UI", sans-serif;
+      --font-hero: "Barlow Condensed", "Anton", Impact, "Arial Narrow", sans-serif;
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    * , *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer;
+      background: none;
+    }
+
+    html, body {
+      min-height: 100%;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(228, 0, 43, 0.08), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(255, 191, 91, 0.08), transparent 20%),
+        #f7f0e8;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-style: italic;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .stage {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .phone-wrap {
+      position: relative;
+      width: min(390px, calc(100vw - 32px));
+      height: min(844px, calc(100vh - 32px));
+      height: min(844px, calc(100dvh - 32px));
+      border-radius: 54px;
+      padding: 12px;
+      background: linear-gradient(180deg, #efe5dc 0%, #d9cec3 100%);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(66, 40, 30, 0.12);
+    }
+
+    .phone-wrap::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 124px;
+      height: 30px;
+      border-radius: 999px;
+      background: #dad0c7;
+      z-index: 30;
+    }
+
+    .phone {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 42px;
+      background: #ffffff;
+    }
+
+    .ambient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 90% 6%, rgba(228, 0, 43, 0.06), transparent 20%);
+      z-index: 1;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 25;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px 0;
+      height: 52px;
+      color: rgba(35, 24, 21, 0.86);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      font-style: normal;
+      font-family: var(--font-ui);
+    }
+
+    .viewport {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ocb {
+      flex-shrink: 0;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 58px 18px 14px;
+      gap: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .ocb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      color: #231815;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.4;
+      letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-bottom: 1.5px solid rgba(35, 24, 21, 0.75);
+      text-transform: none;
+    }
+
+    .ocb-btn:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .ocb-btn:last-child {
+      flex-shrink: 0;
+    }
+
+    .ocb-btn svg {
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+
+    .ocb-sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(35, 24, 21, 0.2);
+      margin: 0 14px;
+      flex-shrink: 0;
+    }
+
+    .content {
+      position: relative;
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 0 140px;
+      background: #ffffff;
+      color: #231815;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+
+    .content::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screen {
+      padding: 14px 18px 0;
+      display: none;
+      gap: 14px;
+    }
+
+    .screen.active {
+      display: grid;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+      box-shadow: 0 18px 40px rgba(71, 47, 36, 0.16);
+    }
+
+    .map-hero {
+      min-height: 286px;
+      background:
+        linear-gradient(125deg, rgba(197, 220, 201, 0.88), rgba(226, 238, 225, 0.94)),
+        #d6e7d9;
+      border: 1px solid rgba(35, 24, 21, 0.08);
+    }
+
+    .map-hero::before,
+    .map-hero::after {
+      content: "";
+      position: absolute;
+      background: rgba(255, 255, 255, 0.56);
+      border-radius: 999px;
+    }
+
+    .map-hero::before {
+      width: 132%;
+      height: 22px;
+      left: -18%;
+      top: 40%;
+      transform: rotate(-9deg);
+    }
+
+    .map-hero::after {
+      width: 122%;
+      height: 18px;
+      right: -16%;
+      top: 65%;
+      transform: rotate(12deg);
+    }
+
+    .map-road {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.46);
+      border-radius: 999px;
+    }
+
+    .map-road.one {
+      width: 14px;
+      height: 78%;
+      top: 11%;
+      left: 24%;
+      transform: rotate(13deg);
+    }
+
+    .map-road.two {
+      width: 14px;
+      height: 72%;
+      top: 14%;
+      right: 22%;
+      transform: rotate(-11deg);
+    }
+
+    .map-road.three {
+      width: 70%;
+      height: 14px;
+      top: 25%;
+      left: 14%;
+      transform: rotate(6deg);
+    }
+
+    .route {
+      position: absolute;
+      left: 18%;
+      top: 22%;
+      width: 60%;
+      height: 54%;
+      border: 4px dashed rgba(228, 0, 43, 0.82);
+      border-color: rgba(228, 0, 43, 0.88) transparent transparent transparent;
+      border-radius: 54% 44% 54% 38%;
+      transform: rotate(12deg);
+    }
+
+    .map-top {
+      position: absolute;
+      inset: 0 0 auto 0;
+      padding: 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #231815;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 16px rgba(35, 24, 21, 0.08);
+    }
+
+    .hero-order {
+      text-align: right;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: rgba(35, 24, 21, 0.72);
+    }
+
+    .hero-order strong {
+      display: block;
+      color: #231815;
+    }
+
+    .map-store,
+    .map-driver {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 12px 20px rgba(35, 24, 21, 0.12);
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      z-index: 2;
+    }
+
+    .map-store {
+      right: 14px;
+      top: 70px;
+    }
+
+    .map-driver {
+      left: 14px;
+      bottom: 96px;
+    }
+
+    .pin,
+    .driver-marker {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      box-shadow: 0 12px 20px rgba(35, 24, 21, 0.18);
+      z-index: 2;
+    }
+
+    .pin {
+      right: 18%;
+      top: 28%;
+      background: var(--red);
+      color: #ffffff;
+      transform: rotate(-6deg);
+    }
+
+    .driver-marker {
+      left: 18%;
+      bottom: 28%;
+      background: #231815;
+      color: #ffffff;
+      transition: left 0.35s var(--ease), bottom 0.35s var(--ease), transform 0.35s var(--ease);
+    }
+
+    .driver-marker.approaching {
+      left: 42%;
+      bottom: 38%;
+      transform: rotate(8deg);
+    }
+
+    .driver-marker.nearby {
+      left: 55%;
+      bottom: 48%;
+      transform: rotate(10deg);
+    }
+
+    .map-bottom {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      z-index: 2;
+    }
+
+    .map-stat {
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(35, 24, 21, 0.82);
+      color: #fff8f1;
+      backdrop-filter: blur(12px);
+    }
+
+    .map-stat__label,
+    .mini-label,
+    .section-meta,
+    .sheet-subtitle {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .map-stat__label {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 248, 241, 0.64);
+    }
+
+    .map-stat__value {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .pickup-hero {
+      padding: 20px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 191, 91, 0.34), transparent 38%),
+        linear-gradient(180deg, rgba(228, 0, 43, 0.08), rgba(255, 255, 255, 0.98));
+      border: 1px solid rgba(228, 0, 43, 0.14);
+    }
+
+    .pickup-hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .pickup-title {
+      margin-top: 10px;
+      font-family: var(--font-hero);
+      font-size: 34px;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 0.92;
+      transform: skewX(-4deg);
+      transform-origin: left center;
+    }
+
+    .pickup-subtitle {
+      margin-top: 8px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(35, 24, 21, 0.68);
+    }
+
+    .countdown {
+      min-width: 96px;
+      min-height: 96px;
+      padding: 12px;
+      border-radius: 24px;
+      background: #231815;
+      color: #fff8f1;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      box-shadow: 0 16px 24px rgba(35, 24, 21, 0.14);
+    }
+
+    .countdown__time {
+      font-size: 28px;
+      line-height: 0.9;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .countdown__label {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 248, 241, 0.68);
+    }
+
+    .pickup-meta-row {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pickup-meta-card,
+    .section-card {
+      padding: 16px;
+      border-radius: 24px;
+      border: 1px solid rgba(66, 40, 30, 0.08);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 14px 30px rgba(80, 51, 39, 0.08);
+    }
+
+    .pickup-meta-title,
+    .section-title,
+    .step-title,
+    .action-title,
+    .sheet-title {
+      font-family: var(--font-hero);
+      font-style: italic;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      transform: skewX(-4deg);
+      transform-origin: left center;
+      display: inline-block;
+    }
+
+    .pickup-meta-title {
+      font-size: 20px;
+      line-height: 0.95;
+    }
+
+    .pickup-meta-copy,
+    .section-copy,
+    .action-copy,
+    .sheet-copy,
+    .progress-summary {
+      margin-top: 6px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 13px;
+      line-height: 1.4;
+      color: rgba(35, 24, 21, 0.66);
+    }
+
+    .section {
+      display: grid;
+      gap: 10px;
+    }
+
+    .section-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      line-height: 0.95;
+    }
+
+    .section-meta {
+      color: rgba(35, 24, 21, 0.44);
+    }
+
+    .progress-toggle {
+      width: 100%;
+      padding: 0;
+      text-align: left;
+    }
+
+    .progress-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .progress-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .progress-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(228, 0, 43, 0.12);
+      flex-shrink: 0;
+    }
+
+    .progress-current {
+      min-width: 0;
+    }
+
+    .progress-current .section-title {
+      font-size: 24px;
+    }
+
+    .progress-chevron {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(35, 24, 21, 0.05);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.18s var(--ease);
+    }
+
+    .progress-card.expanded .progress-chevron {
+      transform: rotate(180deg);
+    }
+
+    .steps {
+      display: none;
+      gap: 12px;
+      padding-top: 6px;
+    }
+
+    .progress-card.expanded .steps {
+      display: grid;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .step-dot {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(35, 24, 21, 0.18);
+      background: #ffffff;
+      margin-top: 2px;
+    }
+
+    .step.complete .step-dot,
+    .step.current .step-dot {
+      border-color: transparent;
+      background: var(--red);
+    }
+
+    .step.complete .step-dot::after,
+    .step.current .step-dot::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+
+    .step-title {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .receipt-row,
+    .inline-actions,
+    .pickup-point-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .receipt-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(35, 24, 21, 0.08);
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .receipt-line:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .receipt-line strong {
+      color: #231815;
+      font-weight: 600;
+    }
+
+    .dual-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .action-btn,
+    .pickup-point-btn,
+    .sheet-action {
+      min-height: 58px;
+      padding: 14px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid rgba(35, 24, 21, 0.08);
+      text-align: left;
+      transition: transform 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
+    }
+
+    .action-btn[disabled],
+    .floating-btn[disabled] {
+      opacity: 0.42;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .action-btn:active,
+    .pickup-point-btn:active,
+    .sheet-action:active,
+    .floating-btn:active,
+    .mini-cancel:active,
+    .progress-toggle:active {
+      transform: scale(0.98);
+    }
+
+    .action-title {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .pickup-point-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pickup-point-btn.selected {
+      background: rgba(228, 0, 43, 0.08);
+      border-color: rgba(228, 0, 43, 0.28);
+    }
+
+    .pickup-point-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 8px;
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .pickup-point-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #231815;
+      color: #ffffff;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      opacity: 0;
+    }
+
+    .pickup-point-btn.selected .pickup-point-check {
+      opacity: 1;
+    }
+
+    .mini-cancel-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(35, 24, 21, 0.04);
+      border: 1px solid rgba(35, 24, 21, 0.08);
+    }
+
+    .mini-cancel-text {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(35, 24, 21, 0.62);
+    }
+
+    .mini-cancel {
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--red);
+      color: #ffffff;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .bottom-nav-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 60;
+    }
+
+    .bottom-nav-wrap.pickup-footer-wrap {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255,255,255,0.92) 24%, #ffffff 44%, #ffffff 100%);
+      padding-top: 10px;
+      box-shadow: 0 -22px 30px rgba(71, 47, 36, 0.08);
+    }
+
+    .floating-btn {
+      margin: 0 16px 12px;
+      width: calc(100% - 32px);
+      min-height: 48px;
+      border-radius: 8px;
+      background: var(--red);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-hero);
+      font-size: 24px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      transform: skewX(-4deg);
+      transform-origin: center;
+      box-shadow: 0 16px 24px rgba(228, 0, 43, 0.22);
+    }
+
+    .floating-btn[hidden] {
+      display: none !important;
+    }
+
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      padding: 8px 4px 2px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: #000000;
+    }
+
+    .nav-btn {
+      min-height: 60px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 1px;
+      border: 0;
+      transition: opacity 0.15s var(--ease), color 0.15s var(--ease);
+    }
+
+    .nav-btn.active {
+      color: var(--red);
+    }
+
+    .nav-btn:active {
+      opacity: 0.65;
+    }
+
+    .nav-btn-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
+    }
+
+    .nav-btn-icon {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+    }
+
+    .nav-btn-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .nav-btn-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.15s var(--ease);
+    }
+
+    .nav-btn.active .nav-btn-label {
+      color: var(--red);
+    }
+
+    .sheet-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 80;
+      background: rgba(15, 12, 12, 0.34);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s var(--ease);
+    }
+
+    .sheet-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sheet {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 81;
+      padding: 12px 16px calc(20px + env(safe-area-inset-bottom));
+      border-radius: 28px 28px 0 0;
+      background: #fff9f3;
+      box-shadow: 0 -18px 36px rgba(35, 24, 21, 0.16);
+      transform: translateY(100%);
+      transition: transform 0.22s var(--ease);
+    }
+
+    .sheet.open {
+      transform: translateY(0);
+    }
+
+    .sheet-handle {
+      width: 46px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(35, 24, 21, 0.18);
+      margin: 0 auto 14px;
+    }
+
+    .sheet-subtitle {
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .sheet-title {
+      font-size: 28px;
+      line-height: 0.94;
+    }
+
+    .sheet-actions {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .sheet-action {
+      display: grid;
+      gap: 4px;
+    }
+
+    .sheet-action.primary {
+      background: rgba(228, 0, 43, 0.06);
+      border-color: rgba(228, 0, 43, 0.18);
+    }
+
+    @media (max-width: 390px) {
+      .map-bottom,
+      .pickup-meta-row,
+      .dual-actions,
+      .pickup-point-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="ambient"></div>
+
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>5G ▰▰▰ 🔋</span>
+        </div>
+
+        <div class="viewport">
+          <div class="ocb">
+            <button class="ocb-btn" type="button">
+              <span id="storeText">KFC Elizabeth Street Melbourne</span>
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <span class="ocb-sep"></span>
+            <button class="ocb-btn" id="fulfillmentToggle" type="button">
+              <span id="fulfillmentText">Delivery</span>
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <main class="content">
+            <section class="screen active" id="deliveryScreen">
+              <article class="hero-card map-hero">
+                <div class="map-road one"></div>
+                <div class="map-road two"></div>
+                <div class="map-road three"></div>
+                <div class="route"></div>
+                <div class="map-top">
+                  <span class="hero-pill" id="deliveryStatusPill">En route</span>
+                  <div class="hero-order">Order #<strong>KFC-40291</strong></div>
+                </div>
+                <div class="map-store">Store ready</div>
+                <div class="map-driver" id="deliveryDriverTag">Theo • Yamaha</div>
+                <div class="pin">🍗</div>
+                <div class="driver-marker approaching" id="driverMarker">🛵</div>
+                <div class="map-bottom">
+                  <div class="map-stat">
+                    <span class="map-stat__label">ETA</span>
+                    <span class="map-stat__value" id="deliveryEta">9 min</span>
+                  </div>
+                  <div class="map-stat">
+                    <span class="map-stat__label">Driver</span>
+                    <span class="map-stat__value">Theo</span>
+                  </div>
+                  <div class="map-stat">
+                    <span class="map-stat__label">Share</span>
+                    <span class="map-stat__value">Live</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="section-card progress-card" id="deliveryProgressCard">
+                <button class="progress-toggle" id="deliveryProgressToggle" type="button" aria-expanded="false">
+                  <div class="progress-head">
+                    <div class="progress-main">
+                      <span class="progress-dot"></span>
+                      <div class="progress-current">
+                        <div class="section-title" id="deliveryCurrentTitle">En route</div>
+                        <div class="progress-summary" id="deliveryCurrentSummary">Theo is heading to your address.</div>
+                      </div>
+                    </div>
+                    <span class="progress-chevron">
+                      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
+                        <path d="M2 2l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </div>
+                </button>
+                <div class="steps" id="deliverySteps"></div>
+              </article>
+
+              <article class="section-card section">
+                <div class="section-top">
+                  <div class="section-title">Receipt</div>
+                </div>
+                <div class="receipt-row">
+                  <div class="receipt-line"><span>Order number</span><strong>KFC-40291</strong></div>
+                  <div class="receipt-line"><span>Payment</span><strong id="deliveryPaymentValue">Credit Card</strong></div>
+                  <div class="receipt-line"><span>Total</span><strong id="deliveryTotalValue">$32.34</strong></div>
+                </div>
+                <div class="dual-actions">
+                  <button class="action-btn" type="button" id="receiptButton">
+                    <div class="action-title" id="deliveryReceiptTitle">View receipt</div>
+                    <div class="action-copy">Open line items and totals.</div>
+                  </button>
+                  <button class="action-btn" type="button" id="shareButton">
+                    <div class="action-title">Share status</div>
+                    <div class="action-copy">Send the live delivery state.</div>
+                  </button>
+                </div>
+              </article>
+
+              <article class="section-card section" id="deliveryCancelSection">
+                <div class="mini-cancel-wrap">
+                  <div class="mini-cancel-text">Cancel in <span id="deliveryCancelTimer">00:58</span></div>
+                  <button class="mini-cancel" id="deliveryCancelButton" type="button">Cancel</button>
+                </div>
+              </article>
+
+              <article class="section-card section">
+                <div class="section-top">
+                  <div class="section-title">Need help</div>
+                </div>
+                <button class="action-btn" id="helpButtonDelivery" type="button">
+                  <div class="action-title">Contact support</div>
+                  <div class="action-copy">Chat with support or call store.</div>
+                </button>
+              </article>
+            </section>
+
+            <section class="screen" id="pickupScreen">
+              <article class="hero-card pickup-hero">
+                <div class="pickup-hero-top">
+                  <div>
+                    <span class="hero-pill" id="pickupStatusPill">Ready by</span>
+                    <div class="pickup-title" id="pickupHeroTitle">Ready by 12:18 PM</div>
+                    <div class="pickup-subtitle" id="pickupHeroSubtitle">We are preparing the order now.</div>
+                  </div>
+                  <div class="countdown">
+                    <div class="countdown__time" id="pickupCountdown">07:42</div>
+                    <div class="countdown__label" id="pickupCountdownLabel">to ready</div>
+                  </div>
+                </div>
+                <div class="pickup-meta-row">
+                  <div class="pickup-meta-card">
+                    <div class="mini-label">Pickup point</div>
+                    <div class="pickup-meta-title" id="pickupPointDisplay">Counter</div>
+                    <div class="pickup-meta-copy" id="pickupPointCopy">Show your order number at the front counter.</div>
+                  </div>
+                  <div class="pickup-meta-card">
+                    <div class="mini-label">Check-in</div>
+                    <div class="pickup-meta-title" id="pickupCheckinState">Not checked in</div>
+                    <div class="pickup-meta-copy" id="pickupCheckinCopy">We will confirm the handoff point before finalizing arrival.</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="section-card progress-card" id="pickupProgressCard">
+                <button class="progress-toggle" id="pickupProgressToggle" type="button" aria-expanded="false">
+                  <div class="progress-head">
+                    <div class="progress-main">
+                      <span class="progress-dot"></span>
+                      <div class="progress-current">
+                        <div class="section-title" id="pickupCurrentTitle">Ready by 12:18 PM</div>
+                        <div class="progress-summary" id="pickupCurrentSummary">Kitchen is working on your order.</div>
+                      </div>
+                    </div>
+                    <span class="progress-chevron">
+                      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
+                        <path d="M2 2l6 6 6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </div>
+                </button>
+                <div class="steps" id="pickupSteps"></div>
+              </article>
+
+              <article class="section-card section">
+                <div class="section-top">
+                  <div class="section-title">Pickup point</div>
+                  <div class="section-meta">Confirm on check-in</div>
+                </div>
+                <div class="pickup-point-row">
+                  <button class="pickup-point-btn selected" type="button" data-point="Counter">
+                    <span class="pickup-point-check">✓</span>
+                    <span class="pickup-point-icon" aria-hidden="true">🏬</span>
+                    <div class="action-title">Counter</div>
+                    <div class="action-copy">Go inside and show the order number.</div>
+                  </button>
+                  <button class="pickup-point-btn" type="button" data-point="Drive-Thru">
+                    <span class="pickup-point-check">✓</span>
+                    <span class="pickup-point-icon" aria-hidden="true">🚗</span>
+                    <div class="action-title">Drive-Thru</div>
+                    <div class="action-copy">Head to the drive-thru lane for pickup.</div>
+                  </button>
+                  <button class="pickup-point-btn" type="button" data-point="Curbside">
+                    <span class="pickup-point-check">✓</span>
+                    <span class="pickup-point-icon" aria-hidden="true">🅿️</span>
+                    <div class="action-title">Curbside</div>
+                    <div class="action-copy">Park and wait for handoff at the bay.</div>
+                  </button>
+                  <button class="pickup-point-btn" type="button" data-point="Lockers">
+                    <span class="pickup-point-check">✓</span>
+                    <span class="pickup-point-icon" aria-hidden="true">🗄️</span>
+                    <div class="action-title">Lockers</div>
+                    <div class="action-copy">Use the pickup locker once it is released.</div>
+                  </button>
+                </div>
+              </article>
+
+              <article class="section-card section">
+                <div class="section-top">
+                  <div class="section-title">Receipt</div>
+                </div>
+                <div class="receipt-row">
+                  <div class="receipt-line"><span>Order number</span><strong>KFC-40291</strong></div>
+                  <div class="receipt-line"><span>Payment</span><strong id="pickupPaymentValue">Credit Card</strong></div>
+                  <div class="receipt-line"><span>Total</span><strong id="pickupTotalValue">$32.34</strong></div>
+                </div>
+                <div class="dual-actions">
+                  <button class="action-btn" type="button" id="pickupReceiptButton">
+                    <div class="action-title" id="pickupReceiptTitle">View receipt</div>
+                    <div class="action-copy">Open line items and totals.</div>
+                  </button>
+                  <button class="action-btn" type="button" id="pickupShareButton">
+                    <div class="action-title">Share status</div>
+                    <div class="action-copy">Send the pickup timing and point.</div>
+                  </button>
+                </div>
+              </article>
+
+              <article class="section-card section" id="pickupCancelSection">
+                <div class="mini-cancel-wrap">
+                  <div class="mini-cancel-text">Cancel in <span id="pickupCancelTimer">00:58</span></div>
+                  <button class="mini-cancel" id="pickupCancelButton" type="button">Cancel</button>
+                </div>
+              </article>
+
+              <article class="section-card section">
+                <div class="section-top">
+                  <div class="section-title">Need help</div>
+                </div>
+                <button class="action-btn" id="helpButtonPickup" type="button">
+                  <div class="action-title">Contact support</div>
+                  <div class="action-copy">Chat with support or call store.</div>
+                </button>
+              </article>
+            </section>
+          </main>
+
+          <div class="sheet-backdrop" id="sheetBackdrop"></div>
+          <div class="sheet" id="receiptSheet" aria-hidden="true">
+            <div class="sheet-handle"></div>
+            <div class="sheet-subtitle">Receipt</div>
+            <div class="sheet-title" id="receiptSheetTitle">View receipt</div>
+            <div class="sheet-copy" id="receiptSheetCopy">Order summary and payment details.</div>
+            <div class="sheet-actions">
+              <button class="sheet-action primary" type="button" id="receiptSheetPrimary">
+                <div class="action-title" id="receiptSheetPrimaryTitle">Open receipt</div>
+                <div class="action-copy" id="receiptSheetPrimaryCopy">Preview the receipt for this order.</div>
+              </button>
+            </div>
+          </div>
+          <div class="sheet" id="helpSheet" aria-hidden="true">
+            <div class="sheet-handle"></div>
+            <div class="sheet-subtitle">Need help</div>
+            <div class="sheet-title">Get support fast</div>
+            <div class="sheet-copy">We will carry order number and latest order state into the next step.</div>
+            <div class="sheet-actions">
+              <button class="sheet-action" type="button" id="sheetChatButton">
+                <div class="action-title">Chat with support</div>
+                <div class="action-copy">Start in-app support relay.</div>
+              </button>
+              <button class="sheet-action" type="button" id="sheetCallButton">
+                <div class="action-title">Call store</div>
+                <div class="action-copy">Direct line to Elizabeth Street.</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="bottom-nav-wrap pickup-footer-wrap" id="footerWrap">
+            <button class="floating-btn" id="floatingAction" type="button">Call driver</button>
+            <nav class="bottom-nav" id="bottom-nav">
+              <button class="nav-btn" data-tab="home" type="button">
+                <span class="nav-btn-inner">
+                  <span class="nav-btn-icon">
+                    <svg viewBox="20.4688 16.625 24.9372 22.75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="currentColor" d="M39.9418 28.3137C40.2612 28.0986 40.4812 28.0856 40.7697 28.2909C41.6351 28.9037 42.6961 28.9852 43.762 28.7831V38.8486C43.6756 39.0702 43.4148 39.3685 43.1361 39.3685L35.851 39.375L35.8396 32.9244C35.6522 32.7109 35.2725 32.662 34.9922 32.6408L30.3652 32.6848C30.0491 32.7353 29.9007 32.9439 29.9007 33.2519L29.9073 39.3603H22.8552C22.4413 39.362 22.1821 38.9887 22.1447 38.6074L22.1479 28.7798L22.1756 27.08C21.2483 26.7182 20.6094 25.9163 20.5247 24.9173C20.4578 24.1285 20.4187 23.294 20.5996 22.5101C20.7023 22.0701 21.0283 21.6284 21.276 21.2438L23.939 17.1335C24.1183 16.8581 24.3514 16.625 24.736 16.625L41.2472 16.6331C41.5504 16.6331 41.7785 16.8255 41.9138 17.0373L43.5045 19.5293C43.9396 20.2105 45.3461 22.189 45.3771 22.8426C45.4113 23.5613 45.4276 24.2328 45.3477 24.9401C45.2206 26.0728 44.3307 27.0034 43.3007 27.1745C42.1338 27.3668 41.0647 26.8877 40.4454 25.7697C39.7103 26.9056 38.5809 27.463 37.3341 27.1631C36.516 26.9659 35.9472 26.4542 35.5055 25.5839C34.777 27.0197 33.276 27.5999 31.832 27.0132C31.1915 26.7524 30.8265 26.2439 30.406 25.579C29.9105 26.6188 29.0549 27.2039 28.0167 27.2316C26.9786 27.2593 25.9958 26.7003 25.5069 25.6784C25.1206 25.8071 25.2184 26.1135 25.3097 26.3873C25.5933 27.2283 26.105 27.8818 26.9786 28.1589C28.0053 28.4832 29.1706 28.4034 30.0572 27.7612C30.3 27.5852 30.4923 27.538 30.7401 27.727C31.9836 28.6755 33.8595 29.1058 35.1975 28.0725C35.3523 27.9536 35.5772 27.9764 35.7402 28.0986C36.9577 29.0162 38.6461 29.184 39.9385 28.3137H39.9418Z"/>
+                    </svg>
+                  </span>
+                  <span class="nav-btn-label">Home</span>
+                </span>
+              </button>
+              <button class="nav-btn" data-tab="menu" type="button">
+                <span class="nav-btn-inner">
+                  <span class="nav-btn-icon">
+                    <svg viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clip-path="url(#clip-menu)">
+                        <path fill="currentColor" d="M8.67613 20.0495C8.12133 19.5129 7.79742 19.0246 7.59476 18.8668C7.55158 18.8336 7.38879 18.9797 7.38879 19.0379L7.40706 22.3235C7.84725 22.2288 8.11468 22.2022 8.36218 22.4381L9.80898 23.8118C9.1678 23.7487 8.62131 23.6756 8.05488 23.4746L7.40042 23.1357L7.37218 26.2087L1.90558 26.1456C1.41556 26.1406 0.855774 25.9745 0.535186 25.6191C0.214598 25.2636 -0.00964704 24.6872 0.000319419 24.1573L0.204632 13.9234C0.236192 12.3653 0.515253 7.4369 1.24114 6.11967L7.33398 6.14957C6.86389 8.63122 8.04159 11.3438 10.7076 11.6959C11.9817 11.8637 13.0963 11.1992 13.5962 10.0099C14.1012 8.81062 14.0663 7.50667 13.6843 6.1994C15.3287 6.1396 16.9383 6.11303 18.5928 6.15123C19.2721 6.16784 19.8319 6.09642 20.508 5.86719C20.7272 6.69274 20.8983 7.47511 20.9316 8.31229L21.2555 16.2738L21.2987 22.2022C21.307 23.2487 21.498 25.1473 20.5678 25.8101C20.1126 26.134 19.503 26.1988 18.9383 26.1905C17.229 26.1655 15.5929 26.1705 13.8238 26.2469L13.7873 24.2387L13.0979 24.3982L10.8804 24.0061L12.9999 23.2421C13.4916 23.0643 13.8005 22.6324 13.8022 22.0843L13.8089 19.9564C13.8089 19.885 13.7059 19.6973 13.6544 19.7172C13.2541 19.8751 13.3438 20.0578 12.872 20.2488L10.0631 21.39L8.67447 20.0495H8.67613ZM12.0249 13.4533C11.3704 13.3171 10.9153 13.2341 10.284 13.1792L10.2409 15.0529L9.26747 14.8852L9.2575 13.44C9.25252 12.7324 9.95848 12.3936 9.37876 12.2939L7.7044 12.0082C7.57151 11.9849 7.37716 12.1378 7.37716 12.2873L7.38879 17.812C7.9303 17.6691 8.24923 17.6459 8.67945 17.7223L13.4766 18.5744C13.5514 18.5877 13.6843 18.5595 13.7275 18.513C13.7607 18.4781 13.8105 18.3203 13.8105 18.2705L13.7989 15.4483C13.6261 15.3719 13.4467 15.4599 13.2574 15.4881C12.8803 15.543 12.4401 15.4466 12.0514 15.3669L12.0232 13.4533H12.0249Z"/>
+                        <path fill="currentColor" d="M19.5175 4.70749L15.7684 4.74237C13.4961 4.76397 11.3201 4.78889 9.04108 4.76397L1.8021 4.68922C1.35527 4.68424 0.755624 4.42677 0.709113 3.95502C0.631043 3.17764 0.684197 2.37036 0.851966 1.61955C1.04133 0.775723 1.69579 0.114614 2.56454 0.101326L9.04772 0L17.8431 0.0514934C18.4644 0.0548155 19.0208 0.0149497 19.5972 0.2475C20.9776 0.8023 20.9028 2.50158 20.6753 3.73576C20.5706 4.30219 20.1487 4.70251 19.5192 4.70749H19.5175Z"/>
+                        <path fill="currentColor" d="M11.5929 7.90985C11.4683 8.52778 10.9069 8.83341 10.3504 8.64073C9.79393 8.44804 9.44345 7.94972 9.42019 7.35505C9.40358 6.93812 9.55474 6.50126 9.76736 6.16406L11.1975 6.18566C11.5464 6.66571 11.7224 7.272 11.5929 7.90985Z"/>
+                      </g>
+                      <defs><clipPath id="clip-menu"><rect width="21.3199" height="26.25"/></clipPath></defs>
+                    </svg>
+                  </span>
+                  <span class="nav-btn-label">Menu</span>
+                </span>
+              </button>
+              <button class="nav-btn active" data-tab="cart" type="button">
+                <span class="nav-btn-inner">
+                  <span class="nav-btn-icon">
+                    <svg viewBox="170.5 14 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="currentColor" d="M194.132 40.1135C192.604 40.9134 186.752 41.233 184.825 41.2408C181.744 41.2545 178.788 41.0016 175.772 40.4547C175.255 40.3606 174.307 39.9861 174.202 39.3823L170.377 17.4089C170.358 16.3659 172.495 15.9385 173.333 15.7856C180.774 14.4133 188.358 14.4192 195.795 15.8111C196.596 15.9601 198.8 16.4149 198.609 17.5109L194.88 39.0862C194.8 39.5509 194.522 39.9096 194.13 40.1155L194.132 40.1135Z"/>
+                    </svg>
+                  </span>
+                  <span class="nav-btn-label">Cart</span>
+                </span>
+              </button>
+              <button class="nav-btn" data-tab="rewards" type="button">
+                <span class="nav-btn-inner">
+                  <span class="nav-btn-icon">
+                    <svg viewBox="251.539 18.375 23.4851 19.25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="currentColor" d="M269.195 33.2563L266.742 35.7317C266.188 36.2913 265.644 36.8793 264.947 37.2662C263.907 37.8428 262.649 37.6714 261.624 37.1188C260.706 36.6243 259.958 35.9527 259.239 35.1932C258.216 34.1093 257.222 33.0906 256.136 32.0647C254.636 30.6478 252.311 28.3128 251.755 26.3135C251.322 24.7535 251.557 23.0717 252.308 21.6576C253.729 18.9867 256.818 17.7625 259.686 18.6736C261.776 19.3381 262.131 20.4277 263.195 20.5963C264.153 20.7479 264.594 19.5294 266.259 18.8748C268.784 17.8816 271.754 18.5234 273.547 20.6006C275.299 22.6282 275.477 25.5512 274.155 27.8494C273.569 28.8682 272.9 29.7495 272.045 30.5571L269.192 33.2563H269.195Z"/>
+                    </svg>
+                  </span>
+                  <span class="nav-btn-label">Rewards</span>
+                </span>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const deliverySteps = [
+      { title: "Order received", summary: "The store accepted your order." },
+      { title: "Preparing order", summary: "Kitchen packed the order for handoff." },
+      { title: "En route", summary: "Theo is heading to your address." },
+      { title: "Arriving soon", summary: "Driver is close to your location." }
+    ];
+
+    const pickupSteps = [
+      { title: "Order received", summary: "The store accepted your order." },
+      { title: "Preparing order", summary: "Kitchen is working on your order." },
+      { title: "Ready by 12:18 PM", summary: "You can still check in when you arrive." },
+      { title: "Ready for pickup", summary: "Pickup point is confirmed and your order is ready." }
+    ];
+
+    const state = {
+      mode: "delivery",
+      deliveryStepIndex: 2,
+      pickupStepIndex: 2,
+      pickupPoint: "Counter",
+      checkedIn: false,
+      cancelSeconds: 58,
+      canceled: false,
+      orderClosed: false,
+      paymentMethodLabel: "Credit Card",
+      finalTotal: "$32.34"
+    };
+
+    const el = {
+      deliveryScreen: document.getElementById("deliveryScreen"),
+      pickupScreen: document.getElementById("pickupScreen"),
+      fulfillmentText: document.getElementById("fulfillmentText"),
+      fulfillmentToggle: document.getElementById("fulfillmentToggle"),
+      footerWrap: document.getElementById("footerWrap"),
+      floatingAction: document.getElementById("floatingAction"),
+      deliveryProgressCard: document.getElementById("deliveryProgressCard"),
+      deliveryProgressToggle: document.getElementById("deliveryProgressToggle"),
+      deliverySteps: document.getElementById("deliverySteps"),
+      deliveryCurrentTitle: document.getElementById("deliveryCurrentTitle"),
+      deliveryCurrentSummary: document.getElementById("deliveryCurrentSummary"),
+      pickupProgressCard: document.getElementById("pickupProgressCard"),
+      pickupProgressToggle: document.getElementById("pickupProgressToggle"),
+      pickupSteps: document.getElementById("pickupSteps"),
+      pickupCurrentTitle: document.getElementById("pickupCurrentTitle"),
+      pickupCurrentSummary: document.getElementById("pickupCurrentSummary"),
+      pickupStatusPill: document.getElementById("pickupStatusPill"),
+      pickupHeroTitle: document.getElementById("pickupHeroTitle"),
+      pickupHeroSubtitle: document.getElementById("pickupHeroSubtitle"),
+      pickupCountdown: document.getElementById("pickupCountdown"),
+      pickupCountdownLabel: document.getElementById("pickupCountdownLabel"),
+      pickupPointDisplay: document.getElementById("pickupPointDisplay"),
+      pickupPointCopy: document.getElementById("pickupPointCopy"),
+      pickupCheckinState: document.getElementById("pickupCheckinState"),
+      pickupCheckinCopy: document.getElementById("pickupCheckinCopy"),
+      deliveryPaymentValue: document.getElementById("deliveryPaymentValue"),
+      deliveryTotalValue: document.getElementById("deliveryTotalValue"),
+      pickupPaymentValue: document.getElementById("pickupPaymentValue"),
+      pickupTotalValue: document.getElementById("pickupTotalValue"),
+      deliveryReceiptTitle: document.getElementById("deliveryReceiptTitle"),
+      pickupReceiptTitle: document.getElementById("pickupReceiptTitle"),
+      deliveryCancelSection: document.getElementById("deliveryCancelSection"),
+      pickupCancelSection: document.getElementById("pickupCancelSection"),
+      deliveryCancelTimer: document.getElementById("deliveryCancelTimer"),
+      pickupCancelTimer: document.getElementById("pickupCancelTimer"),
+      deliveryCancelButton: document.getElementById("deliveryCancelButton"),
+      pickupCancelButton: document.getElementById("pickupCancelButton"),
+      sheetBackdrop: document.getElementById("sheetBackdrop"),
+      receiptSheet: document.getElementById("receiptSheet"),
+      receiptSheetTitle: document.getElementById("receiptSheetTitle"),
+      receiptSheetCopy: document.getElementById("receiptSheetCopy"),
+      receiptSheetPrimaryTitle: document.getElementById("receiptSheetPrimaryTitle"),
+      receiptSheetPrimaryCopy: document.getElementById("receiptSheetPrimaryCopy"),
+      helpSheet: document.getElementById("helpSheet"),
+      deliveryStatusPill: document.getElementById("deliveryStatusPill"),
+      deliveryEta: document.getElementById("deliveryEta"),
+      deliveryDriverTag: document.getElementById("deliveryDriverTag"),
+      driverMarker: document.getElementById("driverMarker")
+    };
+
+    function formatSeconds(total) {
+      const secs = Math.max(0, total);
+      const minutes = String(Math.floor(secs / 60)).padStart(2, "0");
+      const seconds = String(secs % 60).padStart(2, "0");
+      return minutes + ":" + seconds;
+    }
+
+    function renderSteps(container, steps, currentIndex) {
+      container.innerHTML = steps.map((step, index) => {
+        const stateClass = index < currentIndex ? "complete" : index === currentIndex ? "current" : "";
+        return `
+          <div class="step ${stateClass}">
+            <div class="step-dot"></div>
+            <div>
+              <div class="step-title">${step.title}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderDelivery() {
+      if (state.canceled) {
+        el.deliveryCurrentTitle.textContent = "Order canceled";
+        el.deliveryCurrentSummary.textContent = "Refund started before kitchen work began.";
+        el.deliveryStatusPill.textContent = "Canceled";
+        el.deliveryEta.textContent = "--";
+        el.deliveryDriverTag.textContent = "Order closed";
+        el.driverMarker.className = "driver-marker";
+        renderSteps(el.deliverySteps, deliverySteps, -1);
+        return;
+      }
+
+      const current = deliverySteps[state.deliveryStepIndex];
+      el.deliveryCurrentTitle.textContent = current.title;
+      el.deliveryCurrentSummary.textContent = current.summary;
+      el.deliveryStatusPill.textContent = current.title;
+      renderSteps(el.deliverySteps, deliverySteps, state.deliveryStepIndex);
+
+      if (state.deliveryStepIndex === 2) {
+        el.deliveryEta.textContent = "9 min";
+        el.deliveryDriverTag.textContent = "Theo • Yamaha";
+        el.driverMarker.className = "driver-marker approaching";
+      } else if (state.deliveryStepIndex >= 3) {
+        el.deliveryEta.textContent = "3 min";
+        el.deliveryDriverTag.textContent = "Theo • nearby";
+        el.driverMarker.className = "driver-marker nearby";
+      } else {
+        el.deliveryEta.textContent = "14 min";
+        el.deliveryDriverTag.textContent = "Driver assigning";
+        el.driverMarker.className = "driver-marker";
+      }
+    }
+
+    function renderPickup() {
+      if (state.canceled) {
+        el.pickupCurrentTitle.textContent = "Order canceled";
+        el.pickupCurrentSummary.textContent = "Refund started before kitchen work began.";
+        el.pickupStatusPill.textContent = "Canceled";
+        el.pickupHeroTitle.textContent = "Order canceled";
+        el.pickupHeroSubtitle.textContent = "This order will not be prepared.";
+        el.pickupCountdown.textContent = "--:--";
+        el.pickupCountdownLabel.textContent = "closed";
+        el.pickupCheckinState.textContent = "Canceled";
+        el.pickupCheckinCopy.textContent = "Pickup handoff was canceled.";
+        renderSteps(el.pickupSteps, pickupSteps, -1);
+        return;
+      }
+
+      const current = pickupSteps[state.pickupStepIndex];
+      el.pickupCurrentTitle.textContent = current.title;
+      el.pickupCurrentSummary.textContent = current.summary;
+      renderSteps(el.pickupSteps, pickupSteps, state.pickupStepIndex);
+
+      if (state.checkedIn) {
+        el.pickupStatusPill.textContent = "Checked in";
+        el.pickupHeroTitle.textContent = "Pickup point confirmed";
+        el.pickupHeroSubtitle.textContent = "We will hand off at " + state.pickupPoint.toLowerCase() + ".";
+        el.pickupCountdown.textContent = "04:30";
+        el.pickupCountdownLabel.textContent = "to ready";
+        el.pickupCheckinState.textContent = "Confirmed";
+        el.pickupCheckinCopy.textContent = "The store will hand off at " + state.pickupPoint.toLowerCase() + ".";
+        el.pickupStepIndex = Math.max(state.pickupStepIndex, 2);
+      } else {
+        el.pickupStatusPill.textContent = "Ready by";
+        el.pickupHeroTitle.textContent = "Ready by 12:18 PM";
+        el.pickupHeroSubtitle.textContent = "We are preparing the order now.";
+        el.pickupCountdown.textContent = "07:42";
+        el.pickupCountdownLabel.textContent = "to ready";
+        el.pickupCheckinState.textContent = "Not checked in";
+        el.pickupCheckinCopy.textContent = "We will confirm the handoff point before finalizing arrival.";
+      }
+
+      el.pickupPointDisplay.textContent = state.pickupPoint;
+      if (state.pickupPoint === "Counter") {
+        el.pickupPointCopy.textContent = "Show your order number at the front counter.";
+      } else if (state.pickupPoint === "Drive-Thru") {
+        el.pickupPointCopy.textContent = "Head to the drive-thru lane for pickup.";
+      } else if (state.pickupPoint === "Curbside") {
+        el.pickupPointCopy.textContent = "Park at the bay and wait for curbside handoff.";
+      } else {
+        el.pickupPointCopy.textContent = "Use the pickup locker once it is released.";
+      }
+
+      document.querySelectorAll("[data-point]").forEach((button) => {
+        button.classList.toggle("selected", button.dataset.point === state.pickupPoint);
+      });
+    }
+
+    function renderFooter() {
+      if (state.canceled) {
+        el.floatingAction.hidden = true;
+        el.floatingAction.disabled = true;
+        return;
+      }
+
+      if (state.mode === "delivery") {
+        el.floatingAction.hidden = false;
+        const driverAssigned = state.deliveryStepIndex >= 2;
+        el.floatingAction.disabled = !driverAssigned;
+        el.floatingAction.textContent = driverAssigned ? "Call driver" : "Driver being assigned";
+      } else {
+        el.floatingAction.hidden = false;
+        el.floatingAction.disabled = false;
+        el.floatingAction.textContent = state.checkedIn ? "Checked in" : "Check in";
+      }
+    }
+
+    function renderCancel() {
+      const visible = state.cancelSeconds > 0 && !state.canceled;
+      el.deliveryCancelSection.style.display = visible ? "" : "none";
+      el.pickupCancelSection.style.display = visible ? "" : "none";
+      el.deliveryCancelTimer.textContent = formatSeconds(state.cancelSeconds);
+      el.pickupCancelTimer.textContent = formatSeconds(state.cancelSeconds);
+    }
+
+    function renderReceipt() {
+      const ctaLabel = state.orderClosed ? "Download receipt" : "View receipt";
+      el.deliveryPaymentValue.textContent = state.paymentMethodLabel;
+      el.pickupPaymentValue.textContent = state.paymentMethodLabel;
+      el.deliveryTotalValue.textContent = state.finalTotal;
+      el.pickupTotalValue.textContent = state.finalTotal;
+      el.deliveryReceiptTitle.textContent = ctaLabel;
+      el.pickupReceiptTitle.textContent = ctaLabel;
+      el.receiptSheetTitle.textContent = ctaLabel;
+      el.receiptSheetCopy.textContent = state.orderClosed
+        ? "The order is closed and the receipt is ready to download."
+        : "Review the order summary and payment details.";
+      el.receiptSheetPrimaryTitle.textContent = state.orderClosed ? "Download receipt" : "Open receipt";
+      el.receiptSheetPrimaryCopy.textContent = state.orderClosed
+        ? "Save a copy of the final receipt for this order."
+        : "Preview the receipt for this order.";
+    }
+
+    function render() {
+      state.orderClosed = state.canceled;
+      el.deliveryScreen.classList.toggle("active", state.mode === "delivery");
+      el.pickupScreen.classList.toggle("active", state.mode === "pickup");
+      el.fulfillmentText.textContent = state.mode === "delivery" ? "Delivery" : "Pickup";
+      renderDelivery();
+      renderPickup();
+      renderFooter();
+      renderCancel();
+      renderReceipt();
+    }
+
+    function toggleProgress(card, button) {
+      const expanded = card.classList.toggle("expanded");
+      button.setAttribute("aria-expanded", String(expanded));
+    }
+
+    function openHelpSheet() {
+      el.sheetBackdrop.classList.add("open");
+      el.helpSheet.classList.add("open");
+      el.helpSheet.setAttribute("aria-hidden", "false");
+    }
+
+    function openReceiptSheet() {
+      el.sheetBackdrop.classList.add("open");
+      el.receiptSheet.classList.add("open");
+      el.receiptSheet.setAttribute("aria-hidden", "false");
+    }
+
+    function closeSheets() {
+      el.sheetBackdrop.classList.remove("open");
+      el.helpSheet.classList.remove("open");
+      el.helpSheet.setAttribute("aria-hidden", "true");
+      el.receiptSheet.classList.remove("open");
+      el.receiptSheet.setAttribute("aria-hidden", "true");
+    }
+
+    el.fulfillmentToggle.addEventListener("click", () => {
+      state.mode = state.mode === "delivery" ? "pickup" : "delivery";
+      render();
+    });
+
+    el.deliveryProgressToggle.addEventListener("click", () => {
+      toggleProgress(el.deliveryProgressCard, el.deliveryProgressToggle);
+    });
+
+    el.pickupProgressToggle.addEventListener("click", () => {
+      toggleProgress(el.pickupProgressCard, el.pickupProgressToggle);
+    });
+
+    document.querySelectorAll("[data-point]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.pickupPoint = button.dataset.point;
+        renderPickup();
+      });
+    });
+
+    el.floatingAction.addEventListener("click", () => {
+      if (state.mode === "delivery") {
+        if (el.floatingAction.disabled) return;
+        return;
+      }
+
+      state.checkedIn = true;
+      render();
+    });
+
+    document.getElementById("helpButtonDelivery").addEventListener("click", openHelpSheet);
+    document.getElementById("helpButtonPickup").addEventListener("click", openHelpSheet);
+    document.getElementById("sheetChatButton").addEventListener("click", closeSheets);
+    document.getElementById("sheetCallButton").addEventListener("click", closeSheets);
+    el.sheetBackdrop.addEventListener("click", closeSheets);
+
+    document.getElementById("receiptButton").addEventListener("click", openReceiptSheet);
+    document.getElementById("pickupReceiptButton").addEventListener("click", openReceiptSheet);
+    document.getElementById("receiptSheetPrimary").addEventListener("click", closeSheets);
+    document.getElementById("shareButton").addEventListener("click", () => {});
+    document.getElementById("pickupShareButton").addEventListener("click", () => {});
+
+    el.deliveryCancelButton.addEventListener("click", () => {
+      state.cancelSeconds = 0;
+      state.canceled = true;
+      render();
+    });
+
+    el.pickupCancelButton.addEventListener("click", () => {
+      state.cancelSeconds = 0;
+      state.canceled = true;
+      render();
+    });
+
+    document.querySelectorAll(".nav-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".nav-btn").forEach((node) => node.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    setInterval(() => {
+      if (state.cancelSeconds > 0) {
+        state.cancelSeconds -= 1;
+        renderCancel();
+      }
+    }, 1000);
+
+    render();
+  </script>
+</body>
+</html>

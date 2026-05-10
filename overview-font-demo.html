@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OVERVIEW Font Style</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@1,900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ffffff;
+      color: #000000;
+      font-family: sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 48px;
+    }
+
+    /* ── The custom font style ── */
+    .display-font {
+      font-family: 'Barlow Condensed', 'Anton', Impact, 'Arial Narrow', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+      text-transform: uppercase;
+      /* Subtle extra skew to push past typical italic */
+      transform: skewX(-4deg);
+      display: inline-block;
+    }
+
+    /* ── Hero word ── */
+    .hero {
+      font-size: clamp(80px, 18vw, 200px);
+      color: #000;
+    }
+
+    /* ── Alphabet grid ── */
+    .alphabet-wrap {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .alphabet-label {
+      font-family: sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    .alphabet {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .char {
+      font-family: 'Barlow Condensed', 'Anton', Impact, 'Arial Narrow', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(48px, 7vw, 96px);
+      transform: skewX(-4deg);
+      display: inline-block;
+      line-height: 1;
+      color: #000;
+    }
+
+    /* ── Colour variants ── */
+    .white-bg {
+      background: #000;
+      padding: 40px 60px;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .white-bg .display-font {
+      color: #fff;
+    }
+
+    /* ── Live type tester ── */
+    .tester {
+      width: 100%;
+      max-width: 900px;
+      border: 2px solid #000;
+      padding: 32px;
+      border-radius: 4px;
+    }
+
+    .tester label {
+      display: block;
+      font-family: sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 12px;
+    }
+
+    .tester input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-family: 'Barlow Condensed', 'Anton', Impact, sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      transform: skewX(-4deg);
+      display: block;
+      font-size: clamp(48px, 9vw, 120px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #000;
+      background: transparent;
+      caret-color: #000;
+    }
+
+    /* ── Size specimens ── */
+    .sizes {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .size-row {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+
+    .size-label {
+      font-family: monospace;
+      font-size: 11px;
+      color: #bbb;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    .size-text {
+      font-family: 'Barlow Condensed', 'Anton', Impact, sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      transform: skewX(-4deg);
+      display: inline-block;
+      line-height: 1.1;
+      color: #000;
+    }
+
+    /* ── Info panel ── */
+    .info {
+      width: 100%;
+      max-width: 900px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      padding: 24px 28px;
+      font-family: sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .info strong { color: #000; }
+    .info code {
+      background: #e0e0e0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero specimen -->
+  <span class="display-font hero">OVERVIEW</span>
+
+  <!-- Black background variant -->
+  <div class="white-bg">
+    <span class="display-font hero">OVERVIEW</span>
+  </div>
+
+  <!-- Live type tester -->
+  <div class="tester">
+    <label>Type your own text</label>
+    <input type="text" value="YOUR TEXT" maxlength="20" spellcheck="false" />
+  </div>
+
+  <!-- Full alphabet -->
+  <div class="alphabet-wrap">
+    <div class="alphabet-label">Full Alphabet</div>
+    <div class="alphabet">
+      <span class="char">A</span><span class="char">B</span><span class="char">C</span>
+      <span class="char">D</span><span class="char">E</span><span class="char">F</span>
+      <span class="char">G</span><span class="char">H</span><span class="char">I</span>
+      <span class="char">J</span><span class="char">K</span><span class="char">L</span>
+      <span class="char">M</span><span class="char">N</span><span class="char">O</span>
+      <span class="char">P</span><span class="char">Q</span><span class="char">R</span>
+      <span class="char">S</span><span class="char">T</span><span class="char">U</span>
+      <span class="char">V</span><span class="char">W</span><span class="char">X</span>
+      <span class="char">Y</span><span class="char">Z</span>
+      <span class="char">0</span><span class="char">1</span><span class="char">2</span>
+      <span class="char">3</span><span class="char">4</span><span class="char">5</span>
+      <span class="char">6</span><span class="char">7</span><span class="char">8</span><span class="char">9</span>
+    </div>
+  </div>
+
+  <!-- Size specimens -->
+  <div class="sizes">
+    <div class="alphabet-label">Size Specimens</div>
+    <div class="size-row">
+      <span class="size-label">96</span>
+      <span class="size-text" style="font-size:96px">HEADLINE</span>
+    </div>
+    <div class="size-row">
+      <span class="size-label">72</span>
+      <span class="size-text" style="font-size:72px">BOLD STATEMENT</span>
+    </div>
+    <div class="size-row">
+      <span class="size-label">48</span>
+      <span class="size-text" style="font-size:48px">DISPLAY TYPOGRAPHY AT ITS FINEST</span>
+    </div>
+    <div class="size-row">
+      <span class="size-label">32</span>
+      <span class="size-text" style="font-size:32px">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG</span>
+    </div>
+    <div class="size-row">
+      <span class="size-label">24</span>
+      <span class="size-text" style="font-size:24px">THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG 0123456789</span>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="info">
+    <strong>Font used:</strong> Barlow Condensed 900 Italic (fallback: Anton, Impact)<br/>
+    <strong>Source:</strong> Google Fonts — <code>Barlow Condensed</code><br/>
+    <strong>CSS recipe:</strong>
+    <code>font-weight: 900; font-style: italic; text-transform: uppercase; transform: skewX(-4deg);</code><br/><br/>
+    To use in your own project, add this to your HTML:<br/>
+    <code>&lt;link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,900&display=swap" rel="stylesheet"&gt;</code>
+  </div>
+
+  <script>
+    // Auto-select text on focus for quick editing
+    const input = document.querySelector('.tester input');
+    input.addEventListener('focus', () => input.select());
+  </script>
+</body>
+</html>

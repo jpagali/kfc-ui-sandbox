@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KFC UI Sandbox</title>
+  <style>
+    :root {
+      --kfc-red: #e4002b;
+      --ink: #15110f;
+      --paper: #fff8ef;
+      --line: rgba(21, 17, 15, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(228, 0, 43, 0.18), transparent 28rem),
+        linear-gradient(135deg, #fffaf2 0%, #f4eadf 52%, #ead9c7 100%);
+    }
+
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 72px 0;
+    }
+
+    .hero {
+      display: grid;
+      gap: 24px;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 24px 80px rgba(21, 17, 15, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .eyebrow {
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--kfc-red);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(42px, 7vw, 88px);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+    }
+
+    p {
+      max-width: 700px;
+      margin: 0;
+      color: rgba(21, 17, 15, 0.72);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    a.card {
+      min-height: 150px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      color: inherit;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.74);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    a.card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(228, 0, 43, 0.42);
+      box-shadow: 0 18px 44px rgba(21, 17, 15, 0.14);
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .card span {
+      color: rgba(21, 17, 15, 0.64);
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Atlas UI Sandbox</div>
+      <h1>Prototype index for KFC Atlas UI explorations.</h1>
+      <p>
+        Public GitHub Pages entry point for selected sandbox files. Keep production wiki content
+        in the separate Atlas Wiki repo and use this repo for visual prototypes only.
+      </p>
+      <div class="grid">
+        <a class="card" href="./rna-sneak-peek-prototype.html">
+          <strong>RNA Sneak Peek Prototype</strong>
+          <span>Primary end-to-end menu and ordering sandbox.</span>
+        </a>
+        <a class="card" href="./search-screen.html">
+          <strong>Search Screen</strong>
+          <span>Standalone search screen exploration.</span>
+        </a>
+        <a class="card" href="./overview-font-demo.html">
+          <strong>Font Demo</strong>
+          <span>Typography and visual foundation reference.</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

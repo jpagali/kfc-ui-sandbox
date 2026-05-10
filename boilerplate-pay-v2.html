@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KFC Boilerplate - Checkout V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080808;
+      --panel: #121212;
+      --panel-2: #1b1b1b;
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #fff8f1;
+      --muted: rgba(255, 248, 241, 0.6);
+      --red: #e4002b;
+      --red-soft: rgba(228, 0, 43, 0.12);
+      --gold: #ffbf5b;
+      --green: #169251;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --font-ui: "Barlow Condensed", "Segoe UI", sans-serif;
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    html[data-theme="light"] {
+      --bg: #f6efe8;
+      --panel: #fff9f3;
+      --panel-2: #f4ece4;
+      --line: rgba(66, 40, 30, 0.1);
+      --text: #231815;
+      --muted: rgba(35, 24, 21, 0.6);
+      --red-soft: rgba(228, 0, 43, 0.08);
+      --shadow: 0 24px 60px rgba(71, 47, 36, 0.18);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input, select {
+      font: inherit;
+      border: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(228, 0, 43, 0.08), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(255, 191, 91, 0.08), transparent 20%),
+        #f7f0e8;
+      font-family: var(--font-ui);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .stage {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: clamp(8px, 2vw, 24px);
+    }
+
+    .phone-wrap {
+      position: relative;
+      width: min(390px, calc(100vw - 16px));
+      height: min(844px, calc(100vh - 16px));
+      height: min(844px, calc(100dvh - 16px));
+      border-radius: 54px;
+      padding: 12px;
+      background: linear-gradient(180deg, #efe5dc 0%, #d9cec3 100%);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(66, 40, 30, 0.12);
+    }
+
+    .phone-wrap::before {
+      content: "";
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 124px;
+      height: 30px;
+      border-radius: 999px;
+      background: #dad0c7;
+      z-index: 30;
+    }
+
+    .phone {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 42px;
+      background: #ffffff;
+    }
+
+    .ambient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 90% 6%, rgba(228, 0, 43, 0.06), transparent 20%);
+      z-index: 1;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 25;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px 0;
+      height: 52px;
+      color: rgba(35, 24, 21, 0.86);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .viewport {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ocb {
+      flex-shrink: 0;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 58px 18px 14px;
+      gap: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .ocb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 700;
+      color: #231815;
+      border-bottom: 1.5px solid rgba(35, 24, 21, 0.75);
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ocb-btn:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .ocb-btn:last-child {
+      flex-shrink: 0;
+    }
+
+    .ocb-btn svg {
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+
+    .ocb-sep {
+      width: 1px;
+      height: 14px;
+      background: rgba(35, 24, 21, 0.2);
+      margin: 0 14px;
+      flex-shrink: 0;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding: 18px 18px 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 241, 233, 0.96));
+      color: #231815;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(35, 24, 21, 0.18) transparent;
+    }
+
+    .content::-webkit-scrollbar { width: 4px; }
+    .content::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb {
+      background: rgba(35, 24, 21, 0.18);
+      border-radius: 999px;
+    }
+
+    .checkout-hero {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .checkout-hero__title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .checkout-hero__title {
+      font-size: 32px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .checkout-hero__count {
+      display: inline-flex;
+      min-width: 64px;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border-radius: 14px;
+      background: #231815;
+      color: #fff8f1;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .checkout-meta {
+      display: grid;
+      gap: 10px;
+    }
+
+    .checkout-meta__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(66, 40, 30, 0.08);
+    }
+
+    .checkout-meta__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(35, 24, 21, 0.52);
+    }
+
+    .checkout-meta__value {
+      font-size: 14px;
+      font-weight: 700;
+      color: #231815;
+      text-align: right;
+      line-height: 1.25;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-card {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(66, 40, 30, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(71, 47, 36, 0.08);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .section-card--accent {
+      background: linear-gradient(180deg, rgba(228, 0, 43, 0.08), rgba(255, 255, 255, 0.94));
+    }
+
+    .section-card--pickup {
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 18px 8px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .section-meta {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(35, 24, 21, 0.52);
+    }
+
+    .order-list {
+      display: grid;
+      gap: 14px;
+      padding: 0 18px 18px;
+    }
+
+    .order-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(35, 24, 21, 0.08);
+    }
+
+    .order-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .order-item__title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .order-item__meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(35, 24, 21, 0.58);
+    }
+
+    .order-item__price {
+      grid-row: 1 / span 2;
+      grid-column: 2 / 3;
+      align-self: start;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .totals {
+      display: grid;
+      gap: 10px;
+      padding: 0 18px 18px;
+    }
+
+    .totals__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(35, 24, 21, 0.7);
+    }
+
+    .totals__row strong {
+      color: #231815;
+      font-weight: 700;
+    }
+
+    .totals__row--discount strong {
+      color: #0d8b48;
+    }
+
+    .totals__row--grand {
+      margin-top: 4px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(35, 24, 21, 0.1);
+      font-size: 14px;
+      color: #231815;
+    }
+
+    .totals__row--grand strong {
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .coupon-panel {
+      padding: 0 18px 18px;
+    }
+
+    .coupon-entry {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+    }
+
+    .coupon-input {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(35, 24, 21, 0.1);
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #231815;
+      outline: none;
+    }
+
+    .coupon-input::placeholder {
+      color: rgba(35, 24, 21, 0.36);
+    }
+
+    .inline-btn {
+      min-height: 52px;
+      padding: 0 16px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s var(--ease), filter 0.15s var(--ease), background 0.15s var(--ease);
+    }
+
+    .inline-btn:active {
+      transform: scale(0.97);
+      filter: brightness(0.97);
+    }
+
+    .inline-btn--primary {
+      background: var(--red);
+      color: #ffffff;
+      box-shadow: 0 14px 28px rgba(228, 0, 43, 0.18);
+    }
+
+    .inline-btn--secondary {
+      background: rgba(35, 24, 21, 0.06);
+      color: #231815;
+    }
+
+    .applied-coupon {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(13, 139, 72, 0.08);
+      border: 1px solid rgba(13, 139, 72, 0.16);
+    }
+
+    .applied-coupon__info {
+      display: grid;
+      gap: 2px;
+    }
+
+    .applied-coupon__name {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #167445;
+    }
+
+    .applied-coupon__value {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(22, 116, 69, 0.72);
+    }
+
+    .text-btn {
+      background: transparent;
+      color: #167445;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .methods {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 0;
+    }
+
+    .pickup-options {
+      padding: 0 18px 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .pickup-option {
+      min-height: 56px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(35, 24, 21, 0.12);
+      background: rgba(255, 255, 255, 0.94);
+      color: #231815;
+      display: grid;
+      grid-template-columns: 24px 34px 1fr;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(71, 47, 36, 0.08);
+      transition: transform 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease), box-shadow 0.15s var(--ease);
+    }
+
+    .pickup-option:active {
+      transform: scale(0.98);
+    }
+
+    .pickup-option.is-active {
+      background: linear-gradient(180deg, rgba(228, 0, 43, 0.08), rgba(255, 255, 255, 0.96));
+      border-color: rgba(228, 0, 43, 0.4);
+      box-shadow: 0 14px 28px rgba(228, 0, 43, 0.10);
+    }
+
+    .pickup-option__control {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(35, 24, 21, 0.6);
+      position: relative;
+      justify-self: center;
+    }
+
+    .pickup-option.is-active .pickup-option__control::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 999px;
+      background: var(--red);
+    }
+
+    .pickup-option__icon {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: center;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .pickup-option__label {
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .pickup-option__label--mixed {
+      text-transform: none;
+      line-height: 1.08;
+    }
+
+    .payment-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .payment-item {
+      display: grid;
+      gap: 10px;
+    }
+
+    .method-card {
+      width: 100%;
+      padding: 16px 18px;
+      background: #171311;
+      border: 1px solid rgba(228, 0, 43, 0.18);
+      border-radius: 12px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      text-align: left;
+      transition: opacity 0.15s var(--ease), transform 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
+    }
+
+    .method-card:active {
+      transform: scale(0.98);
+    }
+
+    .payment-item.is-active .method-card {
+      background: linear-gradient(180deg, rgba(228, 0, 43, 0.22), rgba(23, 19, 17, 0.98));
+      border-color: rgba(228, 0, 43, 0.58);
+    }
+
+    .method-card__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .method-card__title-wrap {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .method-card__title {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #fff8f1;
+    }
+
+    .method-card__meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 248, 241, 0.62);
+    }
+
+    .method-card__divider {
+      width: 1px;
+      align-self: stretch;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .method-card__icon {
+      min-width: 56px;
+      min-height: 40px;
+      padding: 0 12px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: rgba(255, 248, 241, 0.82);
+      flex-shrink: 0;
+    }
+
+    .payment-item.is-active .method-card__icon {
+      background: rgba(228, 0, 43, 0.18);
+      color: #ffffff;
+    }
+
+    .method-panel {
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(35, 24, 21, 0.98), rgba(16, 12, 11, 1));
+      color: #fff8f1;
+      margin: 0;
+      padding: 16px;
+      display: none;
+      gap: 14px;
+      box-shadow: 0 24px 40px rgba(35, 24, 21, 0.22);
+      border: 1px solid rgba(228, 0, 43, 0.16);
+    }
+
+    .method-panel.is-visible {
+      display: grid;
+    }
+
+    .method-panel__title {
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .cash-grid,
+    .voucher-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .cash-chip,
+    .voucher-chip {
+      min-height: 48px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff8f1;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: background 0.15s var(--ease), transform 0.15s var(--ease);
+    }
+
+    .cash-chip:active,
+    .voucher-chip:active {
+      transform: scale(0.97);
+    }
+
+    .cash-chip.is-active,
+    .voucher-chip.is-active {
+      background: rgba(228, 0, 43, 0.22);
+      color: #ffffff;
+    }
+
+    .method-field,
+    .split-select,
+    .split-row input {
+      min-height: 52px;
+      width: 100%;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0 16px;
+      color: #fff8f1;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .method-field::placeholder {
+      color: rgba(255, 248, 241, 0.42);
+    }
+
+    .method-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .method-stat {
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 12px;
+    }
+
+    .method-stat__label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 248, 241, 0.56);
+    }
+
+    .method-stat__value {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .card-row,
+    .card-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .card-form {
+      display: none;
+    }
+
+    .card-form.is-visible {
+      display: grid;
+    }
+
+    .card-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .saved-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(228, 0, 43, 0.32), rgba(92, 17, 22, 0.82));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .saved-card__name {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .saved-card__meta {
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 248, 241, 0.72);
+    }
+
+    .ghost-btn {
+      min-height: 46px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff8f1;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(228, 0, 43, 0.16);
+    }
+
+    .split-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .split-row {
+      display: grid;
+      grid-template-columns: 1fr 116px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .split-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .split-btn {
+      min-height: 44px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: rgba(228, 0, 43, 0.16);
+      color: #fff8f1;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(228, 0, 43, 0.24);
+    }
+
+    .voucher-balance {
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .voucher-balance__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 248, 241, 0.58);
+    }
+
+    .voucher-balance__value {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .voucher-balance-choice {
+      display: grid;
+      gap: 10px;
+    }
+
+    .voucher-balance-choice__title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 248, 241, 0.62);
+    }
+
+    .voucher-balance-choice__options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .voucher-balance-choice__option {
+      min-height: 46px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff8f1;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
+    }
+
+    .voucher-balance-choice__option:active {
+      transform: scale(0.98);
+    }
+
+    .voucher-balance-choice__option.is-active {
+      background: rgba(228, 0, 43, 0.18);
+      border-color: rgba(228, 0, 43, 0.36);
+    }
+
+    .pay-footer {
+      flex-shrink: 0;
+      background: #000000;
+      padding: 16px 16px 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .pay-footer__amount-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .pay-footer__label {
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.72);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pay-footer__value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .pay-footer__subrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.56);
+    }
+
+    .pay-btn {
+      width: 100%;
+      min-height: 54px;
+      background: var(--red);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: filter 0.15s var(--ease), transform 0.15s var(--ease), opacity 0.15s var(--ease);
+    }
+
+    .pay-btn:active {
+      filter: brightness(0.9);
+      transform: scale(0.98);
+    }
+
+    .pay-btn:disabled {
+      opacity: 0.46;
+      cursor: default;
+    }
+
+    .home-indicator {
+      flex-shrink: 0;
+      height: 22px;
+      background: #000000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .home-indicator__pill {
+      width: 134px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.26);
+      margin-top: 6px;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(35, 24, 21, 0.1);
+      border: 1px solid rgba(35, 24, 21, 0.18);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(35, 24, 21, 0.16);
+      transform: scale(1.08);
+    }
+
+    .sheet {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      align-items: end;
+      background: rgba(16, 10, 8, 0.34);
+      backdrop-filter: blur(4px);
+    }
+
+    .sheet.is-visible {
+      display: flex;
+    }
+
+    .sheet__panel {
+      width: 100%;
+      max-height: 72%;
+      border-radius: 28px 28px 0 0;
+      background: #fff9f3;
+      padding: 14px 18px 24px;
+      box-shadow: 0 -18px 40px rgba(35, 24, 21, 0.16);
+      overflow-y: auto;
+    }
+
+    .sheet__handle {
+      width: 54px;
+      height: 5px;
+      margin: 0 auto 16px;
+      border-radius: 999px;
+      background: rgba(35, 24, 21, 0.16);
+    }
+
+    .sheet__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .sheet__title {
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #231815;
+    }
+
+    .coupon-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .coupon-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(35, 24, 21, 0.08);
+      border-radius: 16px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .coupon-card__name {
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .coupon-card__tag {
+      margin-top: 5px;
+      display: inline-flex;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(35, 24, 21, 0.06);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(35, 24, 21, 0.62);
+    }
+
+    .coupon-card__value {
+      flex-shrink: 0;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    @media (max-width: 390px) {
+      .checkout-hero__title {
+        font-size: 30px;
+      }
+
+      .coupon-entry {
+        grid-template-columns: 1fr;
+      }
+
+      .cash-grid,
+      .voucher-grid,
+      .method-stat-row,
+      .card-form__row,
+      .split-row {
+        grid-template-columns: 1fr;
+      }
+
+      .voucher-balance-choice__options {
+        grid-template-columns: 1fr;
+      }
+
+      .pickup-options {
+        grid-template-columns: 1fr;
+      }
+
+      .pickup-option {
+        grid-template-columns: 24px 32px 1fr;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+
+      .pickup-option__icon {
+        width: 32px;
+        height: 32px;
+        font-size: 22px;
+      }
+
+      .method-card__row {
+        align-items: flex-start;
+      }
+
+      .method-card__icon {
+        min-width: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="ambient"></div>
+
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>5G ▰▰▰ 🔋</span>
+        </div>
+
+        <div class="viewport">
+          <div class="ocb">
+            <button class="ocb-btn">
+              Pick Up: KFC Elizabeth Street Melbourne
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <span class="ocb-sep"></span>
+            <button class="ocb-btn">
+              10:00AM
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <main class="content">
+            <section class="checkout-hero">
+              <div class="checkout-hero__title-row">
+                <h1 class="checkout-hero__title">Checkout</h1>
+                <div class="checkout-hero__count">4 Items</div>
+              </div>
+              <div class="checkout-meta">
+                <div class="checkout-meta__row">
+                  <span class="checkout-meta__label">Serving Store</span>
+                  <span class="checkout-meta__value">KFC Elizabeth Street Melbourne</span>
+                </div>
+                <div class="checkout-meta__row">
+                  <span class="checkout-meta__label">Ready By</span>
+                  <span class="checkout-meta__value">10:00 AM</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-card section-card--pickup">
+                <div class="section-head">
+                  <h2 class="section-title">Pickup Options</h2>
+                  <span class="section-meta" id="pickup-meta">Counter</span>
+                </div>
+                <div class="pickup-options">
+                  <button class="pickup-option is-active" type="button" data-pickup-option="Counter">
+                    <span class="pickup-option__control"></span>
+                    <span class="pickup-option__icon" aria-hidden="true">🏬</span>
+                    <span class="pickup-option__label pickup-option__label--mixed">In Store Pick Up</span>
+                  </button>
+                  <button class="pickup-option" type="button" data-pickup-option="Drive-Thru">
+                    <span class="pickup-option__control"></span>
+                    <span class="pickup-option__icon" aria-hidden="true">🚗</span>
+                    <span class="pickup-option__label pickup-option__label--mixed">Drive Thru Pick Up</span>
+                  </button>
+                  <button class="pickup-option" type="button" data-pickup-option="Curbside">
+                    <span class="pickup-option__control"></span>
+                    <span class="pickup-option__icon" aria-hidden="true">🅿️</span>
+                    <span class="pickup-option__label pickup-option__label--mixed">Curbside Pick Up</span>
+                  </button>
+                  <button class="pickup-option" type="button" data-pickup-option="Lockers">
+                    <span class="pickup-option__control"></span>
+                    <span class="pickup-option__icon" aria-hidden="true">🗄️</span>
+                    <span class="pickup-option__label pickup-option__label--mixed">Locker Pick Up</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-card">
+                <div class="section-head">
+                  <h2 class="section-title">Your Order</h2>
+                  <span class="section-meta">Pickup</span>
+                </div>
+                <div class="order-list">
+                  <article class="order-item">
+                    <h3 class="order-item__title">Zinger Burger</h3>
+                    <p class="order-item__meta">1x Ala carte</p>
+                    <span class="order-item__price">$8.90</span>
+                  </article>
+                  <article class="order-item">
+                    <h3 class="order-item__title">Hot &amp; Crispy Boneless</h3>
+                    <p class="order-item__meta">1x 6 pcs</p>
+                    <span class="order-item__price">$11.50</span>
+                  </article>
+                  <article class="order-item">
+                    <h3 class="order-item__title">Regular Fries</h3>
+                    <p class="order-item__meta">2x Original</p>
+                    <span class="order-item__price">$5.80</span>
+                  </article>
+                  <article class="order-item">
+                    <h3 class="order-item__title">Pepsi Max</h3>
+                    <p class="order-item__meta">1x Regular</p>
+                    <span class="order-item__price">$3.20</span>
+                  </article>
+                </div>
+                <div class="totals">
+                  <div class="totals__row"><span>Subtotal</span><strong id="subtotal-amount">$29.40</strong></div>
+                  <div class="totals__row"><span>Tax</span><strong id="tax-amount">$2.94</strong></div>
+                  <div class="totals__row totals__row--discount"><span>Discount</span><strong id="discount-amount">-$0.00</strong></div>
+                  <div class="totals__row totals__row--grand"><span>Total</span><strong id="grand-total-amount">$32.34</strong></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-card section-card--accent">
+                <div class="section-head">
+                  <h2 class="section-title">Coupon</h2>
+                  <button class="inline-btn inline-btn--secondary" id="open-coupon-sheet-btn" type="button">View Coupons</button>
+                </div>
+                <div class="coupon-panel">
+                  <div class="coupon-entry">
+                    <input class="coupon-input" id="coupon-input" type="text" value="ZINGER10" placeholder="Type coupon code" />
+                    <button class="inline-btn inline-btn--primary" id="apply-coupon-btn" type="button">Apply</button>
+                  </div>
+                  <div class="applied-coupon" id="applied-coupon">
+                    <div class="applied-coupon__info">
+                      <span class="applied-coupon__name" id="applied-coupon-name">Zinger10</span>
+                      <span class="applied-coupon__value" id="applied-coupon-value">-$3.23</span>
+                    </div>
+                    <button class="text-btn" id="remove-coupon-btn" type="button">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-card">
+                <div class="section-head">
+                  <h2 class="section-title">Payment By</h2>
+                  <span class="section-meta" id="payment-meta">Credit Card</span>
+                </div>
+                <div class="methods">
+                  <div class="payment-list">
+                    <div class="payment-item" data-method="cash">
+                      <button class="method-card" type="button" data-method="cash">
+                        <div class="method-card__row">
+                          <span class="method-card__title-wrap">
+                            <span class="method-card__title">Cash</span>
+                          </span>
+                          <span class="method-card__divider"></span>
+                          <span class="method-card__icon">$</span>
+                        </div>
+                      </button>
+                      <div class="method-panel" id="cash-panel">
+                        <div class="method-panel__title">Cash</div>
+                        <div class="cash-grid">
+                          <button class="cash-chip" type="button" data-cash-amount="32.34">$32.34</button>
+                          <button class="cash-chip" type="button" data-cash-amount="40.00">$40</button>
+                          <button class="cash-chip" type="button" data-cash-amount="50.00">$50</button>
+                        </div>
+                        <input class="method-field" id="cash-input" type="text" value="$40.00" />
+                        <div class="method-stat-row">
+                          <div class="method-stat">
+                            <span class="method-stat__label">Tendered</span>
+                            <span class="method-stat__value" id="cash-tendered">$40.00</span>
+                          </div>
+                          <div class="method-stat">
+                            <span class="method-stat__label">Total</span>
+                            <span class="method-stat__value" id="cash-total">$32.34</span>
+                          </div>
+                          <div class="method-stat">
+                            <span class="method-stat__label">Change</span>
+                            <span class="method-stat__value" id="cash-change">$7.66</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="payment-item is-active" data-method="card">
+                      <button class="method-card" type="button" data-method="card">
+                        <div class="method-card__row">
+                          <span class="method-card__title-wrap">
+                            <span class="method-card__title">Credit / Debit Card</span>
+                          </span>
+                          <span class="method-card__divider"></span>
+                          <span class="method-card__icon">Card</span>
+                        </div>
+                      </button>
+                      <div class="method-panel is-visible" id="card-panel">
+                        <div class="method-panel__title">Credit Card</div>
+                        <div class="card-row">
+                          <div class="saved-card">
+                            <div>
+                              <div class="saved-card__name">Visa</div>
+                              <div class="saved-card__meta">Ending in 4242</div>
+                            </div>
+                            <button class="ghost-btn" id="use-saved-card-btn" type="button">Use Saved</button>
+                          </div>
+                          <button class="ghost-btn" id="toggle-new-card-btn" type="button">Add New Card</button>
+                        </div>
+                        <div class="card-form" id="card-form">
+                          <input class="method-field" type="text" placeholder="Name on card" />
+                          <input class="method-field" type="text" placeholder="Card number" />
+                          <div class="card-form__row">
+                            <input class="method-field" type="text" placeholder="MM / YY" />
+                            <input class="method-field" type="text" placeholder="CVV" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="payment-item" data-method="applepay">
+                      <button class="method-card" type="button" data-method="applepay">
+                        <div class="method-card__row">
+                          <span class="method-card__title-wrap">
+                            <span class="method-card__title">Apple Pay</span>
+                          </span>
+                          <span class="method-card__divider"></span>
+                          <span class="method-card__icon">Apple</span>
+                        </div>
+                      </button>
+                      <div class="method-panel" id="applepay-panel">
+                        <div class="method-panel__title">Apple Pay</div>
+                        <div class="saved-card">
+                          <div>
+                            <div class="saved-card__name">Apple Pay</div>
+                            <div class="saved-card__meta">iPhone wallet ready</div>
+                          </div>
+                          <button class="ghost-btn" type="button">Use Apple Pay</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="payment-item" data-method="split">
+                      <button class="method-card" type="button" data-method="split">
+                        <div class="method-card__row">
+                          <span class="method-card__title-wrap">
+                            <span class="method-card__title">Split Payment</span>
+                          </span>
+                          <span class="method-card__divider"></span>
+                          <span class="method-card__icon">Split</span>
+                        </div>
+                      </button>
+                      <div class="method-panel" id="split-panel">
+                        <div class="method-panel__title">Split Payment</div>
+                        <div class="split-stack" id="split-stack">
+                          <div class="split-row">
+                            <select class="split-select">
+                              <option value="card" selected>Card</option>
+                              <option value="cash">Cash</option>
+                              <option value="voucher">Voucher</option>
+                            </select>
+                            <input type="text" value="$20.00" />
+                          </div>
+                          <div class="split-row">
+                            <select class="split-select">
+                              <option value="cash" selected>Cash</option>
+                              <option value="card">Card</option>
+                              <option value="voucher">Voucher</option>
+                            </select>
+                            <input type="text" value="$12.34" />
+                          </div>
+                        </div>
+                        <div class="split-actions">
+                          <button class="split-btn" id="add-split-btn" type="button">Add Payment</button>
+                          <button class="split-btn" id="fill-remaining-btn" type="button">Fill Remaining</button>
+                        </div>
+                        <div class="method-stat-row">
+                          <div class="method-stat">
+                            <span class="method-stat__label">Paid</span>
+                            <span class="method-stat__value" id="split-paid">$32.34</span>
+                          </div>
+                          <div class="method-stat">
+                            <span class="method-stat__label">Remaining</span>
+                            <span class="method-stat__value" id="split-remaining">$0.00</span>
+                          </div>
+                          <div class="method-stat">
+                            <span class="method-stat__label">Total</span>
+                            <span class="method-stat__value" id="split-total">$32.34</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="payment-item" data-method="voucher">
+                      <button class="method-card" type="button" data-method="voucher">
+                        <div class="method-card__row">
+                          <span class="method-card__title-wrap">
+                            <span class="method-card__title">Gift Voucher</span>
+                          </span>
+                          <span class="method-card__divider"></span>
+                          <span class="method-card__icon">Gift</span>
+                        </div>
+                      </button>
+                      <div class="method-panel" id="voucher-panel">
+                        <div class="method-panel__title">Gift Voucher</div>
+                        <input class="method-field" id="voucher-input" type="text" value="CHICKEN25" />
+                        <div class="voucher-balance">
+                          <span class="voucher-balance__label">Voucher Balance</span>
+                          <span class="voucher-balance__value" id="voucher-balance">$25.00</span>
+                        </div>
+                        <div class="method-stat-row">
+                          <div class="method-stat">
+                            <span class="method-stat__label">Applied</span>
+                            <span class="method-stat__value" id="voucher-applied">$25.00</span>
+                          </div>
+                          <div class="method-stat">
+                            <span class="method-stat__label">Remaining</span>
+                            <span class="method-stat__value" id="voucher-remaining">$7.34</span>
+                          </div>
+                          <div class="method-stat">
+                            <span class="method-stat__label">Next</span>
+                            <span class="method-stat__value" id="voucher-next-method">Card</span>
+                          </div>
+                        </div>
+                        <div class="voucher-balance-choice">
+                          <span class="voucher-balance-choice__title">Pay Remaining Balance With</span>
+                          <div class="voucher-balance-choice__options">
+                            <button class="voucher-balance-choice__option is-active" type="button" data-voucher-balance-method="card">Card</button>
+                            <button class="voucher-balance-choice__option" type="button" data-voucher-balance-method="cash">Cash</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </main>
+
+          <div class="pay-footer">
+            <div class="pay-footer__amount-row">
+              <span class="pay-footer__label">Amount</span>
+              <span class="pay-footer__value" id="footer-total">$32.34</span>
+            </div>
+            <div class="pay-footer__subrow">
+              <span id="footer-method">Credit Card</span>
+              <span id="footer-status">Ready</span>
+            </div>
+            <button class="pay-btn" id="pay-btn" type="button">Pay Now</button>
+          </div>
+
+          <div class="home-indicator">
+            <div class="home-indicator__pill"></div>
+          </div>
+        </div>
+
+        <div class="sheet" id="coupon-sheet">
+          <div class="sheet__panel">
+            <div class="sheet__handle"></div>
+            <div class="sheet__head">
+              <h3 class="sheet__title">Available Coupons</h3>
+              <button class="inline-btn inline-btn--secondary" id="close-coupon-sheet-btn" type="button">Close</button>
+            </div>
+            <div class="coupon-list">
+              <button class="coupon-card" type="button" data-coupon-code="ZINGER10" data-coupon-label="Zinger10" data-coupon-discount="3.23">
+                <span>
+                  <span class="coupon-card__name">Zinger10</span>
+                  <span class="coupon-card__tag">Burger</span>
+                </span>
+                <span class="coupon-card__value">-$3.23</span>
+              </button>
+              <button class="coupon-card" type="button" data-coupon-code="BOX5" data-coupon-label="Box5" data-coupon-discount="5.00">
+                <span>
+                  <span class="coupon-card__name">Box5</span>
+                  <span class="coupon-card__tag">Meals</span>
+                </span>
+                <span class="coupon-card__value">-$5.00</span>
+              </button>
+              <button class="coupon-card" type="button" data-coupon-code="FREEFRIES" data-coupon-label="FreeFries" data-coupon-discount="2.90">
+                <span>
+                  <span class="coupon-card__name">FreeFries</span>
+                  <span class="coupon-card__tag">Sides</span>
+                </span>
+                <span class="coupon-card__value">-$2.90</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
+
+  <script>
+    const state = {
+      subtotal: 29.40,
+      tax: 2.94,
+      coupon: { code: "ZINGER10", label: "Zinger10", discount: 3.23 },
+      pickupOption: "Counter",
+      paymentMethod: "card",
+      cashTendered: 40.00,
+      voucherBalance: 25.00,
+      voucherRemainingMethod: "card",
+      usingNewCard: false
+    };
+
+    const el = {
+      subtotalAmount: document.getElementById("subtotal-amount"),
+      taxAmount: document.getElementById("tax-amount"),
+      discountAmount: document.getElementById("discount-amount"),
+      grandTotalAmount: document.getElementById("grand-total-amount"),
+      footerTotal: document.getElementById("footer-total"),
+      footerMethod: document.getElementById("footer-method"),
+      footerStatus: document.getElementById("footer-status"),
+      payBtn: document.getElementById("pay-btn"),
+      paymentMeta: document.getElementById("payment-meta"),
+      couponInput: document.getElementById("coupon-input"),
+      appliedCoupon: document.getElementById("applied-coupon"),
+      appliedCouponName: document.getElementById("applied-coupon-name"),
+      appliedCouponValue: document.getElementById("applied-coupon-value"),
+      couponSheet: document.getElementById("coupon-sheet"),
+      pickupMeta: document.getElementById("pickup-meta"),
+      cashInput: document.getElementById("cash-input"),
+      cashTendered: document.getElementById("cash-tendered"),
+      cashTotal: document.getElementById("cash-total"),
+      cashChange: document.getElementById("cash-change"),
+      splitPaid: document.getElementById("split-paid"),
+      splitRemaining: document.getElementById("split-remaining"),
+      splitTotal: document.getElementById("split-total"),
+      splitStack: document.getElementById("split-stack"),
+      voucherInput: document.getElementById("voucher-input"),
+      voucherBalance: document.getElementById("voucher-balance"),
+      voucherApplied: document.getElementById("voucher-applied"),
+      voucherRemaining: document.getElementById("voucher-remaining"),
+      voucherNextMethod: document.getElementById("voucher-next-method"),
+      cardForm: document.getElementById("card-form"),
+      toggleNewCardBtn: document.getElementById("toggle-new-card-btn"),
+      useSavedCardBtn: document.getElementById("use-saved-card-btn")
+    };
+
+    const methodCards = [...document.querySelectorAll(".method-card")];
+    const pickupOptions = [...document.querySelectorAll(".pickup-option")];
+    const paymentItems = [...document.querySelectorAll(".payment-item")];
+    const voucherBalanceOptions = [...document.querySelectorAll("[data-voucher-balance-method]")];
+    const panels = {
+      cash: document.getElementById("cash-panel"),
+      card: document.getElementById("card-panel"),
+      applepay: document.getElementById("applepay-panel"),
+      split: document.getElementById("split-panel"),
+      voucher: document.getElementById("voucher-panel")
+    };
+
+    function money(value) {
+      return `$${value.toFixed(2)}`;
+    }
+
+    function parseMoney(text) {
+      const numeric = Number(String(text).replace(/[^0-9.]/g, ""));
+      return Number.isFinite(numeric) ? numeric : 0;
+    }
+
+    function getTotal() {
+      return Math.max(0, state.subtotal + state.tax - (state.coupon ? state.coupon.discount : 0));
+    }
+
+    function getMethodLabel(method) {
+      if (method === "cash") return "Cash";
+      if (method === "card") return state.usingNewCard ? "New Card" : "Credit Card";
+      if (method === "applepay") return "Apple Pay";
+      if (method === "split") return "Split Payment";
+      return "Gift Voucher";
+    }
+
+    function getSplitInputs() {
+      return [...el.splitStack.querySelectorAll("input")];
+    }
+
+    function getSplitSum() {
+      return getSplitInputs().reduce((sum, input) => sum + parseMoney(input.value), 0);
+    }
+
+    function renderSplitSummary() {
+      const total = getTotal();
+      const paid = getSplitSum();
+      const remaining = Math.max(0, total - paid);
+      el.splitPaid.textContent = money(Math.min(paid, total));
+      el.splitRemaining.textContent = money(remaining);
+      el.splitTotal.textContent = money(total);
+      return remaining;
+    }
+
+    function renderCash() {
+      const total = getTotal();
+      const change = Math.max(0, state.cashTendered - total);
+      el.cashInput.value = money(state.cashTendered);
+      el.cashTendered.textContent = money(state.cashTendered);
+      el.cashTotal.textContent = money(total);
+      el.cashChange.textContent = money(change);
+      [...document.querySelectorAll(".cash-chip")].forEach((chip) => {
+        chip.classList.toggle("is-active", Number(chip.dataset.cashAmount) === Number(state.cashTendered.toFixed(2)));
+      });
+    }
+
+    function renderVoucher() {
+      const total = getTotal();
+      const applied = Math.min(state.voucherBalance, total);
+      const remaining = Math.max(0, total - applied);
+      el.voucherBalance.textContent = money(state.voucherBalance);
+      el.voucherApplied.textContent = money(applied);
+      el.voucherRemaining.textContent = money(remaining);
+      el.voucherNextMethod.textContent = state.voucherRemainingMethod === "cash" ? "Cash" : "Card";
+      voucherBalanceOptions.forEach((option) => {
+        option.classList.toggle("is-active", option.dataset.voucherBalanceMethod === state.voucherRemainingMethod);
+      });
+    }
+
+    function renderCoupon() {
+      if (state.coupon) {
+        el.appliedCoupon.style.display = "flex";
+        el.appliedCouponName.textContent = state.coupon.label;
+        el.appliedCouponValue.textContent = `-${money(state.coupon.discount)}`;
+        el.couponInput.value = state.coupon.code;
+      } else {
+        el.appliedCoupon.style.display = "none";
+        el.couponInput.value = "";
+      }
+    }
+
+    function renderCardState() {
+      el.cardForm.classList.toggle("is-visible", state.usingNewCard);
+      el.toggleNewCardBtn.textContent = state.usingNewCard ? "Hide New Card" : "Add New Card";
+      el.useSavedCardBtn.textContent = state.usingNewCard ? "Use Saved Card" : "Use Saved";
+    }
+
+    function renderPickupOption() {
+      pickupOptions.forEach((option) => {
+        option.classList.toggle("is-active", option.dataset.pickupOption === state.pickupOption);
+      });
+      el.pickupMeta.textContent = state.pickupOption;
+    }
+
+    function renderTotals() {
+      const total = getTotal();
+      const discount = state.coupon ? state.coupon.discount : 0;
+      el.subtotalAmount.textContent = money(state.subtotal);
+      el.taxAmount.textContent = money(state.tax);
+      el.discountAmount.textContent = `-${money(discount)}`;
+      el.grandTotalAmount.textContent = money(total);
+      el.footerTotal.textContent = money(total);
+      renderCash();
+      renderVoucher();
+      renderSplitSummary();
+    }
+
+    function renderPaymentMethod() {
+      paymentItems.forEach((item) => {
+        item.classList.toggle("is-active", item.dataset.method === state.paymentMethod);
+      });
+
+      Object.entries(panels).forEach(([method, panel]) => {
+        panel.classList.toggle("is-visible", method === state.paymentMethod);
+      });
+
+      el.paymentMeta.textContent = getMethodLabel(state.paymentMethod);
+      el.footerMethod.textContent = getMethodLabel(state.paymentMethod);
+
+      const total = getTotal();
+      let status = "Ready";
+      let label = "Pay Now";
+      let disabled = false;
+
+      if (state.paymentMethod === "cash" && state.cashTendered < total) {
+        status = "Need More Cash";
+        label = `Add ${money(total - state.cashTendered)}`;
+        disabled = true;
+      }
+
+      if (state.paymentMethod === "split") {
+        const remaining = renderSplitSummary();
+        if (remaining > 0) {
+          status = `Remaining ${money(remaining)}`;
+          label = `Complete ${money(remaining)}`;
+          disabled = true;
+        }
+      }
+
+      if (state.paymentMethod === "voucher") {
+        const remaining = Math.max(0, total - Math.min(state.voucherBalance, total));
+        if (remaining > 0) {
+          status = `Remaining ${money(remaining)}`;
+          label = state.voucherRemainingMethod === "cash" ? "Pay Balance in Cash" : "Pay Balance by Card";
+        }
+      }
+
+      el.footerStatus.textContent = status;
+      el.payBtn.textContent = label;
+      el.payBtn.disabled = disabled;
+      renderCardState();
+    }
+
+    function render() {
+      renderCoupon();
+      renderTotals();
+      renderPickupOption();
+      renderPaymentMethod();
+    }
+
+    methodCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        state.paymentMethod = card.dataset.method;
+        renderPaymentMethod();
+      });
+    });
+
+    pickupOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        state.pickupOption = option.dataset.pickupOption;
+        renderPickupOption();
+      });
+    });
+
+    document.getElementById("open-coupon-sheet-btn").addEventListener("click", () => {
+      el.couponSheet.classList.add("is-visible");
+    });
+
+    document.getElementById("close-coupon-sheet-btn").addEventListener("click", () => {
+      el.couponSheet.classList.remove("is-visible");
+    });
+
+    el.couponSheet.addEventListener("click", (event) => {
+      if (event.target === el.couponSheet) {
+        el.couponSheet.classList.remove("is-visible");
+      }
+    });
+
+    document.getElementById("apply-coupon-btn").addEventListener("click", () => {
+      const code = el.couponInput.value.trim().toUpperCase();
+      if (!code) {
+        state.coupon = null;
+      } else if (code === "BOX5") {
+        state.coupon = { code, label: "Box5", discount: 5.0 };
+      } else if (code === "FREEFRIES") {
+        state.coupon = { code, label: "FreeFries", discount: 2.9 };
+      } else {
+        state.coupon = { code, label: "Zinger10", discount: 3.23 };
+      }
+      render();
+    });
+
+    document.getElementById("remove-coupon-btn").addEventListener("click", () => {
+      state.coupon = null;
+      render();
+    });
+
+    [...document.querySelectorAll(".coupon-card")].forEach((button) => {
+      button.addEventListener("click", () => {
+        state.coupon = {
+          code: button.dataset.couponCode,
+          label: button.dataset.couponLabel,
+          discount: Number(button.dataset.couponDiscount)
+        };
+        el.couponSheet.classList.remove("is-visible");
+        render();
+      });
+    });
+
+    [...document.querySelectorAll(".cash-chip")].forEach((chip) => {
+      chip.addEventListener("click", () => {
+        state.cashTendered = Number(chip.dataset.cashAmount);
+        render();
+      });
+    });
+
+    el.cashInput.addEventListener("change", () => {
+      state.cashTendered = parseMoney(el.cashInput.value);
+      render();
+    });
+
+    [...document.querySelectorAll(".voucher-chip")].forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const code = chip.dataset.voucherCode;
+        document.querySelectorAll(".voucher-chip").forEach((item) => item.classList.toggle("is-active", item === chip));
+        el.voucherInput.value = code;
+        state.voucherBalance = code === "CHICKEN25" ? 25.0 : code === "FAMILY10" ? 10.0 : 5.0;
+        render();
+      });
+    });
+
+    el.voucherInput.addEventListener("change", () => {
+      const code = el.voucherInput.value.trim().toUpperCase();
+      state.voucherBalance = code === "FAMILY10" ? 10.0 : code === "LUNCH5" ? 5.0 : 25.0;
+      render();
+    });
+
+    voucherBalanceOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        state.voucherRemainingMethod = option.dataset.voucherBalanceMethod;
+        render();
+      });
+    });
+
+    el.toggleNewCardBtn.addEventListener("click", () => {
+      state.usingNewCard = !state.usingNewCard;
+      renderPaymentMethod();
+    });
+
+    el.useSavedCardBtn.addEventListener("click", () => {
+      state.usingNewCard = false;
+      renderPaymentMethod();
+    });
+
+    el.splitStack.addEventListener("change", (event) => {
+      if (event.target.matches("input")) {
+        renderPaymentMethod();
+      }
+    });
+
+    document.getElementById("add-split-btn").addEventListener("click", () => {
+      const row = document.createElement("div");
+      row.className = "split-row";
+      row.innerHTML = `
+        <select class="split-select">
+          <option value="card">Card</option>
+          <option value="cash">Cash</option>
+          <option value="voucher" selected>Voucher</option>
+        </select>
+        <input type="text" value="$0.00" />
+      `;
+      el.splitStack.appendChild(row);
+      renderPaymentMethod();
+    });
+
+    document.getElementById("fill-remaining-btn").addEventListener("click", () => {
+      const inputs = getSplitInputs();
+      if (!inputs.length) return;
+      const total = getTotal();
+      const current = getSplitSum();
+      const remaining = Math.max(0, total - current);
+      const lastInput = inputs[inputs.length - 1];
+      lastInput.value = money(parseMoney(lastInput.value) + remaining);
+      renderPaymentMethod();
+    });
+
+    el.payBtn.addEventListener("click", () => {
+      if (el.payBtn.disabled) return;
+      window.location.href = "checkout-next-thread.html";
+    });
+
+    const toggle = document.getElementById("theme-toggle");
+    toggle.addEventListener("click", () => {
+      const html = document.documentElement;
+      html.dataset.theme = html.dataset.theme === "light" ? "dark" : "light";
+      toggle.textContent = html.dataset.theme === "light" ? "🌙" : "🌓";
+    });
+
+    render();
+  </script>
+</body>
+</html>
