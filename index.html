@@ -3,13 +3,142 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RNA Sneak Peek Prototype</title>
-  <meta http-equiv="refresh" content="0; url=./rna-sneak-peek-prototype.html">
-  <script>
-    window.location.replace('./rna-sneak-peek-prototype.html');
-  </script>
+  <title>KFC RNA Prototype Sandbox</title>
+  <style>
+    :root {
+      --kfc-red: #e4002b;
+      --ink: #15110f;
+      --paper: #fff8ef;
+      --line: rgba(21, 17, 15, 0.16);
+      --phone-w: 402px;
+      --phone-h: 874px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(228, 0, 43, 0.20), transparent 30rem),
+        linear-gradient(135deg, #fffaf2 0%, #f4eadf 52%, #ead9c7 100%);
+    }
+
+    .layout {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(320px, 36vw) 1fr;
+      gap: 20px;
+      padding: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 20px 64px rgba(21, 17, 15, 0.12);
+      backdrop-filter: blur(14px);
+      padding: 28px;
+      display: grid;
+      align-content: start;
+      gap: 16px;
+      overflow: auto;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: var(--kfc-red);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 3vw, 46px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+    }
+
+    p, li {
+      margin: 0;
+      color: rgba(21, 17, 15, 0.78);
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    ul { margin: 0; padding-left: 18px; display: grid; gap: 10px; }
+
+    .right {
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.62);
+      box-shadow: 0 20px 64px rgba(21, 17, 15, 0.12);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .phone-frame {
+      width: min(var(--phone-w), calc(100vw - 420px));
+      aspect-ratio: 402 / 874;
+      border-radius: 46px;
+      border: 1px solid rgba(66, 40, 30, 0.18);
+      box-shadow: 0 24px 80px rgba(21, 17, 15, 0.22);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    @media (max-width: 1120px) {
+      html, body { overflow: auto; height: auto; }
+      .layout {
+        min-height: 100vh;
+        height: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      .right { padding: 14px; }
+      .phone-frame {
+        width: min(var(--phone-w), calc(100vw - 62px));
+      }
+    }
+  </style>
 </head>
 <body>
-  <p>Redirecting to the RNA Sneak Peek prototype… <a href="./rna-sneak-peek-prototype.html">Open now</a>.</p>
+  <main class="layout">
+    <section class="panel" aria-label="Prototype context">
+      <div class="eyebrow">RNA Prototype Sandbox</div>
+      <h1>Preview the full RNA Sneak Peek flow without extra clicks.</h1>
+      <p>
+        This page keeps the context and review notes visible while loading the live prototype directly in an iPhone viewport.
+      </p>
+      <ul>
+        <li>The right frame mirrors a full iPhone 16-style canvas so you can see the complete app shell at once.</li>
+        <li>No extra click is required to start testing menu, cart, checkout, and post-order experiences.</li>
+        <li>The prototype itself is untouched; this wrapper only improves review ergonomics.</li>
+      </ul>
+    </section>
+
+    <section class="right" aria-label="Prototype viewport">
+      <div class="phone-frame">
+        <iframe src="./rna-sneak-peek-prototype.html" title="RNA Sneak Peek Prototype" loading="eager"></iframe>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
