@@ -2,6 +2,29 @@
 *.log
 *.zip
 *.fig
+*
+!.github/
+!.github/workflows/
+!.github/workflows/deploy-gh-pages.yml
+!.gitignore
+!README.md
+!index.html
+!rna-sneak-peek-prototype.html
+!kfc-au-menu-data.js
+!VIEW ALL MENU .jpg
+!fonts/
+!fonts/Kentucky Fried Sans/
+!fonts/Kentucky Fried Sans/WOFF/
+!fonts/Kentucky Fried Sans/WOFF/*.woff
+!fonts/Kentucky Fried Sans/WOFF/*.woff2
+!fonts/Kentucky Fried Serif/
+!fonts/Kentucky Fried Serif/WOFF/
+!fonts/Kentucky Fried Serif/WOFF/*.woff
+!fonts/Kentucky Fried Serif/WOFF/*.woff2
+!fonts/Kentucky Fried Stripes/
+!fonts/Kentucky Fried Stripes/WOFF/
+!fonts/Kentucky Fried Stripes/WOFF/*.woff
+!fonts/Kentucky Fried Stripes/WOFF/*.woff2
 node_modules/
 dist/
 build/
