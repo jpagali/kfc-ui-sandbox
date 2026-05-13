@@ -58,6 +58,18 @@
       cursor: grabbing;
     }
 
+    body.embed-mode .page {
+      padding: 0;
+    }
+
+    body.embed-mode .viewport {
+      height: 100vh;
+    }
+
+    body.embed-mode .controls {
+      display: none;
+    }
+
     .stage {
       position: absolute;
       top: 0;
@@ -507,7 +519,13 @@
     const viewport = document.getElementById('viewport');
     const stage = document.getElementById('stage');
     const readout = document.getElementById('zoomReadout');
+    const params = new URLSearchParams(window.location.search);
+    const isEmbedMode = params.get('embed') === '1';
     const state = { scale: 1, fitScale: 1, x: 0, y: 0, dragging: false, dragStartX: 0, dragStartY: 0, startX: 0, startY: 0 };
+
+    if (isEmbedMode) {
+      document.body.classList.add('embed-mode');
+    }
 
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
@@ -518,12 +536,19 @@
       const viewportHeight = viewport.clientHeight;
       const stageHeight = stage.scrollHeight;
       const widthScale = (viewportWidth - 40) / 820;
+      if (isEmbedMode) {
+        return clamp(viewportWidth / 820, 0.42, 2.2);
+      }
       const heightScale = (viewportHeight - 24) / stageHeight;
       return clamp(Math.min(widthScale, heightScale), 0.42, 1.78);
     }
 
     function centerForScale(scale) {
       state.x = 0;
+      if (isEmbedMode) {
+        state.y = 0;
+        return;
+      }
       state.y = Math.max((viewport.clientHeight - stage.scrollHeight * scale) / 2, 0);
     }
 
