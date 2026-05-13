@@ -214,6 +214,7 @@
     }
 
     .commerce-domain {
+      position: relative;
       display: block;
       border: 1px solid var(--ink);
       border-radius: 6px;
@@ -228,6 +229,45 @@
       transition: transform 160ms ease, box-shadow 160ms ease;
     }
 
+    .commerce-domain::after,
+    .service::after {
+      pointer-events: none;
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      z-index: 60;
+      width: 260px;
+      transform: translateX(-50%);
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 10px 12px;
+      color: var(--ink);
+      text-align: left;
+      text-decoration: none;
+      white-space: normal;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+      opacity: 0;
+      box-shadow: 3px 3px 0 var(--ink);
+      content: attr(data-tooltip);
+      transition: opacity 160ms ease;
+    }
+
+    .commerce-domain:nth-child(4n + 1)::after,
+    .service:first-child::after {
+      left: 0;
+      transform: none;
+    }
+
+    .commerce-domain:nth-child(4n)::after,
+    .service:last-child::after {
+      right: 0;
+      left: auto;
+      transform: none;
+    }
+
     .commerce-domain:hover,
     .commerce-domain:focus-visible,
     .service:hover,
@@ -235,6 +275,14 @@
       transform: translateY(-2px);
       outline: none;
       box-shadow: 2px 2px 0 rgba(16, 24, 32, 0.28);
+      z-index: 70;
+    }
+
+    .commerce-domain:hover::after,
+    .commerce-domain:focus-visible::after,
+    .service:hover::after,
+    .service:focus-visible::after {
+      opacity: 1;
     }
 
     .service-grid {
@@ -245,6 +293,7 @@
     }
 
     .service {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -489,24 +538,24 @@
               <h3>Commerce</h3>
             </div>
             <div class="commerce-grid">
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Customer Domain Services provide a unified view of the customer across Byte, centralizing profile, preferences, favorites, marketing preferences, and compliance (DSR/DSAR) through federated APIs.">Customer</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Promotion Domain Services determine discounts applied to a customer's Cart and calculate pricing impact, supporting automatic or code-based application with percent off, amount off, and fixed price discount types managed via Byte Portal.">Promotions</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Payment Domain Services securely authorize and capture customer payments, bridging customer-facing channels, digital wallets, and payment gateways - including online checkout, gift cards, saved methods, and PCI compliance.">Payments</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Store &amp; Menu Domain Services support store information management and menu authoring, with Byte Portal managing Store Group/Store data and domain services handling retrieval across customer-facing and 3P aggregator channels.">StoreMenu</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Loyalty Domain Services manage customer rewards to drive engagement, supporting challenges, punch cards, point-based rewards and offers via integration with third-party platforms (Marigold) and Byte's own Loyalty Lite.">Loyalty</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Order Domain Services manage the full order lifecycle for eCommerce, 3P aggregator, and in-store orders - handling submission, payment auth, loyalty/promo redemption, store transmission, KDS push, delivery notification, and payment capture.">Order</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Byte offers static recommendations (manual product association, included in base Commerce license) and dynamic recommendations (real-time, personalized, available as a separate add-on).">Recommendations</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Cart Domain Services manage items a customer intends to purchase - containing menu items, promotions, loyalty offers, payment method, and customer info - calculating tax, applying promotions, and performing validations before order submission.">Cart</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Tax Domain Services determine applicable taxes and manage tax rules related to Store Groups, supporting effective dates, cart conditions (occasion, delivery zip, regulatory tag, subtotal), and product filters.">Tax</a>
-              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Delivery Domain Services support order delivery using first-party aggregator partners (primarily DoorDash), managing delivery estimates, creation, and lifecycle status updates for delivery-occasion orders.">Delivery</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Customer Domain Services provide a unified view of the customer across Byte, centralizing profile, preferences, favorites, marketing preferences, and compliance (DSR/DSAR) through federated APIs.">Customer</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Promotion Domain Services determine discounts applied to a customer's Cart and calculate pricing impact, supporting automatic or code-based application with percent off, amount off, and fixed price discount types managed via Byte Portal.">Promotions</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Payment Domain Services securely authorize and capture customer payments, bridging customer-facing channels, digital wallets, and payment gateways - including online checkout, gift cards, saved methods, and PCI compliance.">Payments</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Store &amp; Menu Domain Services support store information management and menu authoring, with Byte Portal managing Store Group/Store data and domain services handling retrieval across customer-facing and 3P aggregator channels.">StoreMenu</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Loyalty Domain Services manage customer rewards to drive engagement, supporting challenges, punch cards, point-based rewards and offers via integration with third-party platforms (Marigold) and Byte's own Loyalty Lite.">Loyalty</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Order Domain Services manage the full order lifecycle for eCommerce, 3P aggregator, and in-store orders - handling submission, payment auth, loyalty/promo redemption, store transmission, KDS push, delivery notification, and payment capture.">Order</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Byte offers static recommendations (manual product association, included in base Commerce license) and dynamic recommendations (real-time, personalized, available as a separate add-on).">Recommendations</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Cart Domain Services manage items a customer intends to purchase - containing menu items, promotions, loyalty offers, payment method, and customer info - calculating tax, applying promotions, and performing validations before order submission.">Cart</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Tax Domain Services determine applicable taxes and manage tax rules related to Store Groups, supporting effective dates, cart conditions (occasion, delivery zip, regulatory tag, subtotal), and product filters.">Tax</a>
+              <a class="commerce-domain" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Delivery Domain Services support order delivery using first-party aggregator partners (primarily DoorDash), managing delivery estimates, creation, and lifecycle status updates for delivery-occasion orders.">Delivery</a>
             </div>
           </div>
 
           <div class="service-grid">
-            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Centralized platform for managing and configuring Byte solutions - including menus, pricing, promotions, taxes, customer support (order search/refunds), device management, and Connect - with real-time analytics and AI-powered reporting.">Portal</a>
-            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Global solution unifying menu and order integration across channels and brands, simplifying aggregator connections (DoorDash, UberEats, GrubHub) with centralized menu publishing, store management, and resilient order routing.">Connect</a>
-            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="Menu supports centralized menu configuration and publishing so markets can manage channel-ready menu data across Byte experiences.">Menu</a>
-            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" title="POS supports store-level order handoff and point-of-sale integration so digital and aggregator orders can flow reliably into restaurant operations.">POS</a>
+            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Centralized platform for managing and configuring Byte solutions - including menus, pricing, promotions, taxes, customer support (order search/refunds), device management, and Connect - with real-time analytics and AI-powered reporting.">Portal</a>
+            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Global solution unifying menu and order integration across channels and brands, simplifying aggregator connections (DoorDash, UberEats, GrubHub) with centralized menu publishing, store management, and resilient order routing.">Connect</a>
+            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Menu supports centralized menu configuration and publishing so markets can manage channel-ready menu data across Byte experiences.">Menu</a>
+            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="POS supports store-level order handoff and point-of-sale integration so digital and aggregator orders can flow reliably into restaurant operations.">POS</a>
           </div>
 
           <div class="supporting-panel" id="supporting-platforms">
