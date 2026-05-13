@@ -422,6 +422,26 @@
       display: none;
     }
 
+    .export-surface {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: -10000px;
+      z-index: -1;
+      width: 832px;
+      padding: 0 8px 8px 0;
+      background: transparent;
+    }
+
+    .export-surface .stage {
+      position: static;
+      left: auto;
+      top: auto;
+      width: 820px;
+      transform: none;
+      transform-origin: top left;
+    }
+
     .byte-logo {
       width: 32px;
       height: 32px;
@@ -689,25 +709,29 @@
       }
 
       const exportButton = document.getElementById('downloadPng');
-      const originalTransform = stage.style.transform;
-      const originalPosition = stage.style.position;
-      const originalLeft = stage.style.left;
-      const originalTop = stage.style.top;
+      const exportSurface = document.createElement('div');
+      const exportStage = stage.cloneNode(true);
 
       exportButton.disabled = true;
       document.body.classList.add('exporting');
-      stage.style.transform = 'none';
-      stage.style.position = 'relative';
-      stage.style.left = '0';
-      stage.style.top = '0';
+      exportSurface.className = 'export-surface';
+      exportStage.removeAttribute('id');
+      exportStage.style.position = 'static';
+      exportStage.style.left = 'auto';
+      exportStage.style.top = 'auto';
+      exportStage.style.width = '820px';
+      exportStage.style.transform = 'none';
+      exportSurface.appendChild(exportStage);
+      document.body.appendChild(exportSurface);
 
       try {
-        const dataUrl = await window.htmlToImage.toPng(stage, {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        const dataUrl = await window.htmlToImage.toPng(exportSurface, {
           backgroundColor: null,
           cacheBust: true,
           pixelRatio: 3,
-          width: 820,
-          height: stage.scrollHeight,
+          width: 832,
+          height: exportSurface.scrollHeight,
           style: {
             margin: '0',
             transform: 'none',
@@ -721,13 +745,9 @@
         console.error(error);
         alert('PNG export failed. Please refresh the page and try again.');
       } finally {
-        stage.style.transform = originalTransform;
-        stage.style.position = originalPosition;
-        stage.style.left = originalLeft;
-        stage.style.top = originalTop;
+        exportSurface.remove();
         document.body.classList.remove('exporting');
         exportButton.disabled = false;
-        render();
       }
     }
 
