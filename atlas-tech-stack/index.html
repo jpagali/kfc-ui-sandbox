@@ -428,18 +428,16 @@
       top: 0;
       left: -10000px;
       z-index: -1;
-      width: 832px;
-      padding: 0 8px 8px 0;
+      overflow: hidden;
       background: transparent;
     }
 
     .export-surface .stage {
-      position: static;
-      left: auto;
-      top: auto;
+      position: absolute;
+      top: 0;
+      left: 50%;
       width: 820px;
-      transform: none;
-      transform-origin: top left;
+      transform-origin: top center;
     }
 
     .byte-logo {
@@ -711,16 +709,22 @@
       const exportButton = document.getElementById('downloadPng');
       const exportSurface = document.createElement('div');
       const exportStage = stage.cloneNode(true);
+      const viewportRect = viewport.getBoundingClientRect();
+      const exportWidth = Math.ceil(viewportRect.width);
+      const exportHeight = Math.ceil(viewportRect.height);
+      const scrollOffset = isEmbedMode && !isContainMode ? window.scrollY : 0;
 
       exportButton.disabled = true;
       document.body.classList.add('exporting');
       exportSurface.className = 'export-surface';
+      exportSurface.style.width = `${exportWidth}px`;
+      exportSurface.style.height = `${exportHeight}px`;
       exportStage.removeAttribute('id');
-      exportStage.style.position = 'static';
-      exportStage.style.left = 'auto';
-      exportStage.style.top = 'auto';
+      exportStage.style.position = 'absolute';
+      exportStage.style.left = '50%';
+      exportStage.style.top = '0';
       exportStage.style.width = '820px';
-      exportStage.style.transform = 'none';
+      exportStage.style.transform = `translate(calc(-50% + ${state.x}px), ${state.y - scrollOffset}px) scale(${state.scale})`;
       exportSurface.appendChild(exportStage);
       document.body.appendChild(exportSurface);
 
@@ -730,11 +734,10 @@
           backgroundColor: null,
           cacheBust: true,
           pixelRatio: 3,
-          width: 832,
-          height: exportSurface.scrollHeight,
+          width: exportWidth,
+          height: exportHeight,
           style: {
             margin: '0',
-            transform: 'none',
           },
         });
         const link = document.createElement('a');
