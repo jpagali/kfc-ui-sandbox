@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Tech Stack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Zilla+Slab:ital,wght@1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #F3A0B2;
+      --red: #F5002B;
+      --ink: #101820;
+      --cream: #F7F7F2;
+      --white: #ffffff;
+      --stage-width: 820px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--ink);
+      background: var(--pink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      selection-background: var(--red);
+    }
+
+    .page {
+      min-height: 100vh;
+      background: var(--pink);
+      display: grid;
+      grid-template-rows: 1fr;
+      padding: 20px;
+    }
+
+    .viewport {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 40px);
+      overflow: hidden;
+      background: var(--pink);
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .viewport.is-dragging {
+      cursor: grabbing;
+    }
+
+    .stage {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: var(--stage-width);
+      transform-origin: top center;
+      will-change: transform;
+    }
+
+    .stack-layer {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .stack-layer.market {
+      color: var(--white);
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .stack-layer.brand {
+      color: var(--white);
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .stack-layer.core {
+      color: var(--ink);
+      background: var(--white);
+      border-color: var(--ink);
+    }
+
+    .layer-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .subtitle {
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      opacity: 0.7;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h2,
+    h3 {
+      font-family: "Zilla Slab", Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    h2 {
+      margin-top: 4px;
+      font-size: 24px;
+    }
+
+    .layer-copy {
+      max-width: 576px;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      opacity: 0.88;
+    }
+
+    .connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0;
+    }
+
+    .connector svg {
+      color: var(--ink);
+    }
+
+    .connector-label {
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: var(--white);
+      padding: 4px 16px;
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .commerce-panel,
+    .supporting-panel {
+      margin-top: 16px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: var(--cream);
+      padding: 12px;
+    }
+
+    .commerce-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .commerce-title h3 {
+      font-size: 18px;
+    }
+
+    .commerce-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .commerce-domain {
+      border: 1px solid var(--ink);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 6px 12px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .service {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 35px;
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: 2px 2px 0 rgba(16, 24, 32, 0.18);
+    }
+
+    .supporting-title {
+      margin-bottom: 12px;
+      color: rgba(16, 24, 32, 0.65);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .platform {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 31px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--white);
+      padding: 6px 12px;
+      box-shadow: 1px 1px 0 rgba(16, 24, 32, 0.18);
+      outline: none;
+      transition: transform 160ms ease;
+    }
+
+    .platform:hover,
+    .platform:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .platform svg.simple-icon {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+    }
+
+    .platform img {
+      height: 20px;
+      max-width: 94px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .platform img.wide {
+      height: 16px;
+      max-width: 108px;
+    }
+
+    .platform img.dark {
+      filter: brightness(0);
+    }
+
+    .platform-name {
+      white-space: nowrap;
+      text-align: left;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      padding: 0 4px;
+      color: var(--white);
+      font-size: 8px;
+      font-weight: 900;
+    }
+
+    .tooltip {
+      pointer-events: none;
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      z-index: 30;
+      width: 224px;
+      transform: translateX(-50%);
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      background: var(--white);
+      padding: 12px;
+      color: var(--ink);
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.35;
+      opacity: 0;
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: opacity 160ms ease;
+    }
+
+    .platform:hover .tooltip,
+    .platform:focus-visible .tooltip {
+      opacity: 1;
+    }
+
+    .byte-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 8px;
+      box-shadow: 3px 3px 0 var(--ink);
+      backdrop-filter: blur(8px);
+    }
+
+    .control-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .control-button:hover,
+    .control-button:focus-visible {
+      background: var(--red);
+      color: var(--white);
+      outline: none;
+    }
+
+    .zoom-readout {
+      min-width: 48px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        overflow: auto;
+      }
+
+      .page {
+        min-height: 100dvh;
+        padding: 12px;
+      }
+
+      .viewport {
+        height: calc(100dvh - 24px);
+      }
+
+      .controls {
+        top: auto;
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div id="viewport" class="viewport" aria-label="Atlas Tech Stack infographic canvas">
+      <main id="stage" class="stage" data-export-stage>
+        <section class="stack-layer market">
+          <div class="layer-header">
+            <div>
+              <div class="subtitle">Market-owned configuration and local experience</div>
+              <h2>Market Configured Experience</h2>
+            </div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+          </div>
+          <p class="layer-copy">The localized web and app experience customers interact with in each market.</p>
+        </section>
+
+        <div class="connector">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
+          <div class="connector-label">configured from global guardrails</div>
+        </div>
+
+        <section class="stack-layer brand">
+          <div class="layer-header">
+            <div>
+              <div class="subtitle">Brand Experience-owned product layer</div>
+              <h2>KFC Brand Experience Layer</h2>
+            </div>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.17a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.17a2 2 0 0 1-1.66 0L2 12.65"></path></svg>
+          </div>
+          <p class="layer-copy">Sets the standards and frameworks for the Atlas front-end experience.</p>
+        </section>
+
+        <div class="connector">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
+          <div class="connector-label">derived from</div>
+        </div>
+
+        <section class="stack-layer core">
+          <div class="layer-header">
+            <div>
+              <div class="subtitle">Byte shared experience foundation</div>
+              <h2>Helium Core</h2>
+            </div>
+            <img class="byte-logo" src="./assets/byte-logo.png" alt="Byte Products">
+          </div>
+
+          <div class="commerce-panel">
+            <div class="commerce-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5002B" stroke-width="2" aria-hidden="true"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+              <h3>Commerce</h3>
+            </div>
+            <div class="commerce-grid">
+              <div class="commerce-domain">Customer</div>
+              <div class="commerce-domain">Promotions</div>
+              <div class="commerce-domain">Payments</div>
+              <div class="commerce-domain">StoreMenu</div>
+              <div class="commerce-domain">Loyalty</div>
+              <div class="commerce-domain">Order</div>
+              <div class="commerce-domain">Recommendations</div>
+              <div class="commerce-domain">Cart</div>
+              <div class="commerce-domain">Tax</div>
+              <div class="commerce-domain">Delivery</div>
+            </div>
+          </div>
+
+          <div class="service-grid">
+            <div class="service">Portal</div>
+            <div class="service">Connect</div>
+            <div class="service">Menu</div>
+            <div class="service">POS</div>
+          </div>
+
+          <div class="supporting-panel" id="supporting-platforms">
+            <div class="supporting-title">Supporting platforms</div>
+            <div class="platforms">
+              <div class="platform" tabindex="0"><svg class="simple-icon" viewBox="0 0 24 24" fill="#000000" aria-hidden="true"><path d="M16.206 7.794C15.64 3.546 14.204 0 12 0 9.796 0 8.361 3.546 7.794 7.794 3.546 8.36 0 9.796 0 12c0 2.204 3.546 3.639 7.794 4.206C8.36 20.453 9.796 24 12 24c2.204 0 3.639-3.546 4.206-7.794C20.454 15.64 24 14.204 24 12c0-2.204-3.547-3.64-7.794-4.206Zm-8.55 7.174c-4.069-.587-6.44-1.932-6.44-2.969 0-1.036 2.372-2.381 6.44-2.969-.09.98-.137 1.98-.137 2.97 0 .99.047 1.99.137 2.968zM12 1.215c1.036 0 2.381 2.372 2.969 6.44a32.718 32.718 0 0 0-5.938 0c.587-4.068 1.932-6.44 2.969-6.44Zm4.344 13.753c-.2.03-1.022.126-1.23.146-.02.209-.117 1.03-.145 1.23-.588 4.068-1.933 6.44-2.97 6.44-1.036 0-2.38-2.372-2.968-6.44-.03-.2-.126-1.022-.147-1.23a31.833 31.833 0 0 1 0-6.23 31.813 31.813 0 0 1 7.46.146c4.068.587 6.442 1.933 6.442 2.969-.001 1.036-2.374 2.382-6.442 2.97z"/></svg><span class="platform-name">Temporal Cloud</span><span class="tooltip">Keeps long-running commerce workflows moving reliably, even when systems retry or pause.</span></div>
+              <div class="platform" tabindex="0"><svg class="simple-icon" viewBox="0 0 24 24" fill="#DC382D" aria-hidden="true"><path d="M22.71 13.145c-1.66 2.092-3.452 4.483-7.038 4.483-3.203 0-4.397-2.825-4.48-5.12.701 1.484 2.073 2.685 4.214 2.63 4.117-.133 6.94-3.852 6.94-7.239 0-4.05-3.022-6.972-8.268-6.972-3.752 0-8.4 1.428-11.455 3.685C2.59 6.937 3.885 9.958 4.35 9.626c2.648-1.904 4.748-3.13 6.784-3.744C8.12 9.244.886 17.05 0 18.425c.1 1.261 1.66 4.648 2.424 4.648.232 0 .431-.133.664-.365a100.49 100.49 0 0 0 5.54-6.765c.222 3.104 1.748 6.898 6.014 6.898 3.819 0 7.604-2.756 9.33-8.965.2-.764-.73-1.361-1.261-.73zm-4.349-5.013c0 1.959-1.926 2.922-3.685 2.922-.941 0-1.664-.247-2.235-.568 1.051-1.592 2.092-3.225 3.21-4.973 1.972.334 2.71 1.43 2.71 2.619z"/></svg><span class="platform-name">ElastiCache for Redis</span><span class="tooltip">Speeds up customer experiences by keeping frequently used data ready for fast access.</span></div>
+              <div class="platform" tabindex="0"><span class="badge" style="background:#FF9900">S3</span><span class="platform-name">Amazon S3</span><span class="tooltip">Stores files, exports and other shared assets securely at scale.</span></div>
+              <div class="platform" tabindex="0"><svg class="simple-icon" viewBox="0 0 24 24" fill="#4169E1" aria-hidden="true"><path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698z"/></svg><span class="platform-name">Amazon Aurora Postgres</span><span class="tooltip">Runs reliable relational data storage for structured platform and commerce data.</span></div>
+              <div class="platform" tabindex="0"><span class="badge" style="background:#4053D6">DDB</span><span class="platform-name">Amazon DynamoDB</span><span class="tooltip">Stores high-volume application data that needs fast, flexible access.</span></div>
+              <div class="platform" tabindex="0"><svg class="simple-icon" viewBox="0 0 24 24" fill="#632CA6" aria-hidden="true"><path d="M19.57 17.04l-1.997-1.316-1.665 2.782-1.937-.567-1.706 2.604.087.82 9.274-1.71-.538-5.794zm-8.649-2.498l1.488-.204c.241.108.409.15.697.223.45.117.97.23 1.741-.16.18-.088.553-.43.704-.625l6.096-1.106.622 7.527-10.444 1.882zM22.246 11.83l-.602.115L20.488 0 .789 2.285l2.427 19.693 2.306-.334c-.184-.263-.471-.581-.96-.989-.68-.564-.44-1.522-.039-2.127.53-1.022 3.26-2.322 3.106-3.956-.056-.594-.15-1.368-.702-1.898-.02.22.017.432.017.432s-.227-.289-.34-.683c-.112-.15-.2-.199-.319-.4-.085.233-.073.503-.073.503s-.186-.437-.216-.807c-.11.166-.137.48-.137.48s-.241-.69-.186-1.062c-.11-.323-.436-.965-.343-2.424.6.421 1.924.321 2.44-.439.171-.251.288-.939-.086-2.293-.24-.868-.835-2.16-1.066-2.651l-.028.02c.122.395.374 1.223.47 1.625.293 1.218.372 1.642.234 2.204-.116.488-.397.808-1.107 1.165-.71.358-1.653-.514-1.713-.562-.69-.55-1.224-1.447-1.284-1.883-.062-.477.275-.763.445-1.153-.243.07-.514.192-.514.192s.323-.334.722-.624c.165-.109.262-.178.436-.323a9.762 9.762 0 0 0-.456.003s.42-.227.855-.392c-.318-.014-.623-.003-.623-.003s.937-.419 1.678-.727c.509-.208 1.006-.147 1.286.257.367.53.752.817 1.569.996.501-.223.653-.337 1.284-.509.554-.61.99-.688.99-.688s-.216.198-.274.51c.314-.249.66-.455.66-.455s-.134.164-.259.426l.03.043c.366-.22.797-.394.797-.394s-.123.156-.268.358c.277-.002.838.012 1.056.037 1.285.028 1.552-1.374 2.045-1.55.618-.22.894-.353 1.947.68.903.888 1.609 2.477 1.259 2.833-.294.295-.874-.115-1.516-.916a3.466 3.466 0 0 1-.716-1.562 1.533 1.533 0 0 0-.497-.85s.23.51.23.96c0 .246.03 1.165.424 1.68-.039.076-.057.374-.1.43-.458-.554-1.443-.95-1.604-1.067.544.445 1.793 1.468 2.273 2.449.453.927.186 1.777.416 1.997.065.063.976 1.197 1.15 1.767.306.994.019 2.038-.381 2.685l-1.117.174c-.163-.045-.273-.068-.42-.153.08-.143.241-.5.243-.572l-.063-.111c-.348.492-.93.97-1.414 1.245-.633.359-1.363.304-1.838.156-1.348-.415-2.623-1.327-2.93-1.566 0 0-.01.191.048.234.34.383 1.119 1.077 1.872 1.56l-1.605.177.759 5.908c-.337.048-.39.071-.757.124-.325-1.147-.946-1.895-1.624-2.332-.599-.384-1.424-.47-2.214-.314l-.05.059a2.851 2.851 0 0 1 1.863.444c.654.413 1.181 1.481 1.375 2.124.248.822.42 1.7-.248 2.632-.476.662-1.864 1.028-2.986.237.3.481.705.876 1.25.95.809.11 1.577-.03 2.106-.574.452-.464.69-1.434.628-2.456l.714-.104.258 1.834 11.827-1.424z"/></svg><span class="platform-name">Datadog</span><span class="tooltip">Helps teams monitor platform health, performance and incidents in one place.</span></div>
+              <div class="platform" tabindex="0"><svg class="simple-icon" viewBox="0 0 24 24" fill="#FC6D26" aria-hidden="true"><path d="m23.6004 9.5927-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"/></svg><span class="platform-name">GitLab</span><span class="tooltip">Supports source control and delivery pipelines for building and releasing platform changes.</span></div>
+              <div class="platform" tabindex="0"><span class="badge" style="background:#36474F">CDC</span><span class="platform-name">Debezium CDC</span><span class="tooltip">Streams database changes so other systems can react without waiting for manual syncs.</span></div>
+              <div class="platform" tabindex="0"><img class="dark" src="./assets/platform-logos/marigold.svg" alt="Marigold logo"><span class="tooltip">Supports customer messaging and engagement programs across digital channels.</span></div>
+              <div class="platform" tabindex="0"><img src="./assets/platform-logos/punchh.png" alt="Punchh logo"><span class="platform-name">Punchh</span><span class="tooltip">Powers loyalty and customer engagement programs for restaurant brands.</span></div>
+              <div class="platform" tabindex="0"><img src="./assets/platform-logos/talon.svg" alt="Talon.One logo"><span class="tooltip">Manages promotion and incentive rules so offers can be controlled centrally.</span></div>
+              <div class="platform" tabindex="0"><img src="./assets/platform-logos/braze.png" alt="Braze logo"><span class="tooltip">Helps markets deliver personalized lifecycle messages to customers.</span></div>
+              <div class="platform" tabindex="0"><svg class="simple-icon" viewBox="0 0 24 24" fill="#E37400" aria-hidden="true"><path d="M22.84 2.9982v17.9987c.0086 1.6473-1.3197 2.9897-2.967 2.9984a2.9808 2.9808 0 01-.3677-.0208c-1.528-.226-2.6477-1.5558-2.6105-3.1V3.1204c-.0369-1.5458 1.0856-2.8762 2.6157-3.1 1.6361-.1915 3.1178.9796 3.3093 2.6158.014.1201.0208.241.0202.3619zM4.1326 18.0548c-1.6417 0-2.9726 1.331-2.9726 2.9726C1.16 22.6691 2.4909 24 4.1326 24s2.9726-1.3309 2.9726-2.9726-1.331-2.9726-2.9726-2.9726zm7.8728-9.0098c-.0171 0-.0342 0-.0513.0003-1.6495.0904-2.9293 1.474-2.891 3.1256v7.9846c0 2.167.9535 3.4825 2.3505 3.763 1.6118.3266 3.1832-.7152 3.5098-2.327.04-.1974.06-.3983.0593-.5998v-8.9585c.003-1.6474-1.33-2.9852-2.9773-2.9882z"/></svg><span class="platform-name">Google Analytics</span><span class="tooltip">Measures customer behavior so teams can understand performance and improve journeys.</span></div>
+              <div class="platform" tabindex="0"><img class="wide" src="./assets/platform-logos/mparticle.png" alt="mParticle logo"><span class="platform-name">mParticle</span><span class="tooltip">Unifies customer data so different marketing and analytics tools can work from a consistent view.</span></div>
+              <div class="platform" tabindex="0"><img class="wide" src="./assets/platform-logos/branch.svg" alt="Branch logo"><span class="tooltip">Connects links, apps and campaigns so customers land in the right digital experience.</span></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="controls" aria-label="Presentation controls">
+    <button class="control-button" type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14"></path></svg>
+    </button>
+    <div class="zoom-readout" id="zoomReadout">100%</div>
+    <button class="control-button" type="button" id="zoomIn" aria-label="Zoom in" title="Zoom in">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+    </button>
+    <button class="control-button" type="button" id="fit" aria-label="Reset and fit to screen" title="Reset / fit to screen">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+    </button>
+  </div>
+
+  <script>
+    const viewport = document.getElementById('viewport');
+    const stage = document.getElementById('stage');
+    const readout = document.getElementById('zoomReadout');
+    const state = { scale: 1, fitScale: 1, x: 0, y: 0, dragging: false, dragStartX: 0, dragStartY: 0, startX: 0, startY: 0 };
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function getFitScale() {
+      const viewportWidth = viewport.clientWidth;
+      const viewportHeight = viewport.clientHeight;
+      const stageHeight = stage.scrollHeight;
+      const widthScale = (viewportWidth - 40) / 820;
+      const heightScale = (viewportHeight - 24) / stageHeight;
+      return clamp(Math.min(widthScale, heightScale), 0.42, 1.78);
+    }
+
+    function centerForScale(scale) {
+      state.x = 0;
+      state.y = Math.max((viewport.clientHeight - stage.scrollHeight * scale) / 2, 0);
+    }
+
+    function render() {
+      stage.style.transform = `translate(calc(-50% + ${state.x}px), ${state.y}px) scale(${state.scale})`;
+      readout.textContent = `${Math.round(state.scale * 100)}%`;
+    }
+
+    function fit() {
+      state.fitScale = getFitScale();
+      state.scale = state.fitScale;
+      centerForScale(state.scale);
+      render();
+    }
+
+    function setZoom(nextScale) {
+      const previousScale = state.scale;
+      state.scale = clamp(nextScale, 0.42, 2.2);
+      if (state.scale <= state.fitScale + 0.01) {
+        centerForScale(state.scale);
+      } else {
+        const ratio = state.scale / previousScale;
+        state.x *= ratio;
+        state.y *= ratio;
+      }
+      render();
+    }
+
+    document.getElementById('zoomOut').addEventListener('click', () => setZoom(state.scale - 0.12));
+    document.getElementById('zoomIn').addEventListener('click', () => setZoom(state.scale + 0.12));
+    document.getElementById('fit').addEventListener('click', fit);
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (state.scale <= state.fitScale + 0.01) return;
+      state.dragging = true;
+      state.dragStartX = event.clientX;
+      state.dragStartY = event.clientY;
+      state.startX = state.x;
+      state.startY = state.y;
+      viewport.classList.add('is-dragging');
+      viewport.setPointerCapture(event.pointerId);
+    });
+
+    viewport.addEventListener('pointermove', (event) => {
+      if (!state.dragging) return;
+      state.x = state.startX + event.clientX - state.dragStartX;
+      state.y = state.startY + event.clientY - state.dragStartY;
+      render();
+    });
+
+    function stopDrag(event) {
+      if (!state.dragging) return;
+      state.dragging = false;
+      viewport.classList.remove('is-dragging');
+      if (event.pointerId) viewport.releasePointerCapture(event.pointerId);
+    }
+
+    viewport.addEventListener('pointerup', stopDrag);
+    viewport.addEventListener('pointercancel', stopDrag);
+    window.addEventListener('resize', fit);
+    window.addEventListener('load', fit);
+    fit();
+  </script>
+</body>
+</html>

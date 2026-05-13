@@ -25,6 +25,13 @@
 !fonts/Kentucky Fried Stripes/WOFF/
 !fonts/Kentucky Fried Stripes/WOFF/*.woff
 !fonts/Kentucky Fried Stripes/WOFF/*.woff2
+!atlas-tech-stack/
+!atlas-tech-stack/index.html
+!atlas-tech-stack/assets/
+!atlas-tech-stack/assets/byte-logo.png
+!atlas-tech-stack/assets/platform-logos/
+!atlas-tech-stack/assets/platform-logos/*.png
+!atlas-tech-stack/assets/platform-logos/*.svg
 node_modules/
 dist/
 build/
