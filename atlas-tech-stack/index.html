@@ -416,6 +416,12 @@
       opacity: 1;
     }
 
+    body.exporting .commerce-domain::after,
+    body.exporting .service::after,
+    body.exporting .tooltip {
+      display: none;
+    }
+
     .byte-logo {
       width: 32px;
       height: 32px;
@@ -595,8 +601,12 @@
     <button class="control-button" type="button" id="fit" aria-label="Reset and fit to screen" title="Reset / fit to screen">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
     </button>
+    <button class="control-button" type="button" id="downloadPng" aria-label="Download transparent PNG" title="Download transparent PNG">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+    </button>
   </div>
 
+  <script src="./assets/html-to-image.min.js"></script>
   <script>
     const viewport = document.getElementById('viewport');
     const stage = document.getElementById('stage');
@@ -672,9 +682,59 @@
       render();
     }
 
+    async function downloadTransparentPng() {
+      if (!window.htmlToImage) {
+        alert('PNG export is still loading. Please try again in a moment.');
+        return;
+      }
+
+      const exportButton = document.getElementById('downloadPng');
+      const originalTransform = stage.style.transform;
+      const originalPosition = stage.style.position;
+      const originalLeft = stage.style.left;
+      const originalTop = stage.style.top;
+
+      exportButton.disabled = true;
+      document.body.classList.add('exporting');
+      stage.style.transform = 'none';
+      stage.style.position = 'relative';
+      stage.style.left = '0';
+      stage.style.top = '0';
+
+      try {
+        const dataUrl = await window.htmlToImage.toPng(stage, {
+          backgroundColor: null,
+          cacheBust: true,
+          pixelRatio: 3,
+          width: 820,
+          height: stage.scrollHeight,
+          style: {
+            margin: '0',
+            transform: 'none',
+          },
+        });
+        const link = document.createElement('a');
+        link.download = 'atlas-tech-stack-transparent.png';
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.error(error);
+        alert('PNG export failed. Please refresh the page and try again.');
+      } finally {
+        stage.style.transform = originalTransform;
+        stage.style.position = originalPosition;
+        stage.style.left = originalLeft;
+        stage.style.top = originalTop;
+        document.body.classList.remove('exporting');
+        exportButton.disabled = false;
+        render();
+      }
+    }
+
     document.getElementById('zoomOut').addEventListener('click', () => setZoom(state.scale - 0.12));
     document.getElementById('zoomIn').addEventListener('click', () => setZoom(state.scale + 0.12));
     document.getElementById('fit').addEventListener('click', fit);
+    document.getElementById('downloadPng').addEventListener('click', downloadTransparentPng);
 
     viewport.addEventListener('pointerdown', (event) => {
       if (state.scale <= state.fitScale + 0.01) return;

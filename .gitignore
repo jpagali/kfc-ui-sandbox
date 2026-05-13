@@ -32,6 +32,7 @@
 !atlas-tech-stack/assets/platform-logos/
 !atlas-tech-stack/assets/platform-logos/*.png
 !atlas-tech-stack/assets/platform-logos/*.svg
+!atlas-tech-stack/assets/*.js
 node_modules/
 dist/
 build/
