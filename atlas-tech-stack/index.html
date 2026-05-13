@@ -59,11 +59,25 @@
     }
 
     body.embed-mode .page {
+      min-height: auto;
       padding: 0;
     }
 
     body.embed-mode .viewport {
+      height: var(--stage-height, 100vh);
+      min-height: 100vh;
+      overflow: visible;
+      cursor: default;
+      touch-action: auto;
+    }
+
+    body.embed-mode:not(.contain-mode) {
+      overflow-y: auto;
+    }
+
+    body.embed-mode.contain-mode .viewport {
       height: 100vh;
+      overflow: hidden;
     }
 
     body.embed-mode .controls {
@@ -528,6 +542,10 @@
       document.body.classList.add('embed-mode');
     }
 
+    if (isContainMode) {
+      document.body.classList.add('contain-mode');
+    }
+
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
     }
@@ -558,6 +576,11 @@
 
     function render() {
       stage.style.transform = `translate(calc(-50% + ${state.x}px), ${state.y}px) scale(${state.scale})`;
+      if (isEmbedMode && !isContainMode) {
+        viewport.style.setProperty('--stage-height', `${stage.scrollHeight * state.scale}px`);
+      } else {
+        viewport.style.removeProperty('--stage-height');
+      }
       readout.textContent = `${Math.round(state.scale * 100)}%`;
     }
 
