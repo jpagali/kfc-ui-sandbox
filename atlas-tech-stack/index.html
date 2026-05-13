@@ -521,6 +521,7 @@
     const readout = document.getElementById('zoomReadout');
     const params = new URLSearchParams(window.location.search);
     const isEmbedMode = params.get('embed') === '1';
+    const isContainMode = params.get('fit') === 'contain';
     const state = { scale: 1, fitScale: 1, x: 0, y: 0, dragging: false, dragStartX: 0, dragStartY: 0, startX: 0, startY: 0 };
 
     if (isEmbedMode) {
@@ -537,6 +538,9 @@
       const stageHeight = stage.scrollHeight;
       const widthScale = (viewportWidth - 40) / 820;
       if (isEmbedMode) {
+        if (isContainMode) {
+          return clamp(Math.min(viewportWidth / 820, viewportHeight / stageHeight), 0.42, 2.2);
+        }
         return clamp(viewportWidth / 820, 0.42, 2.2);
       }
       const heightScale = (viewportHeight - 24) / stageHeight;
@@ -546,7 +550,7 @@
     function centerForScale(scale) {
       state.x = 0;
       if (isEmbedMode) {
-        state.y = 0;
+        state.y = isContainMode ? Math.max((viewport.clientHeight - stage.scrollHeight * scale) / 2, 0) : 0;
         return;
       }
       state.y = Math.max((viewport.clientHeight - stage.scrollHeight * scale) / 2, 0);
