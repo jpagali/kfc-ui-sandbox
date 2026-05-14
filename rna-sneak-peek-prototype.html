@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="KFC Atlas" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="app-icon-180.png" />
   <title>RNA Sneak Peek Prototype</title>
   <style>
     @font-face {
@@ -99,6 +107,7 @@
     html, body {
       min-height: 100%;
       overflow-x: hidden;
+      overscroll-behavior: none;
       background:
         radial-gradient(circle at top left, rgba(228, 0, 43, 0.08), transparent 22%),
         radial-gradient(circle at bottom right, rgba(255, 191, 91, 0.08), transparent 20%),
@@ -140,6 +149,29 @@
       display: flex;
       align-items: center;
       gap: 14px;
+    }
+
+    .app-shell-toggle {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      z-index: 300;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.78);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 700;
+      font-style: normal;
+      letter-spacing: 0;
+      box-shadow: 0 14px 30px rgba(35, 24, 21, 0.18);
+      backdrop-filter: blur(12px);
     }
 
     .phone-wrap {
@@ -247,6 +279,70 @@
     .phone.is-more-active .status-bar::before {
       background: #000000;
       backdrop-filter: none;
+    }
+
+    body.app-shell-fullscreen {
+      background: #000000;
+      touch-action: manipulation;
+    }
+
+    body.app-shell-fullscreen .stage {
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0;
+      display: block;
+      background: #000000;
+    }
+
+    body.app-shell-fullscreen .shell-frame {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    body.app-shell-fullscreen .phone-wrap {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      aspect-ratio: auto;
+      border-radius: 0;
+      border: 0;
+      box-shadow: none;
+    }
+
+    body.app-shell-fullscreen .phone-wrap::before,
+    body.app-shell-fullscreen .status-bar,
+    body.app-shell-fullscreen .phone::after {
+      display: none;
+    }
+
+    body.app-shell-fullscreen .phone {
+      border-radius: 0;
+    }
+
+    body.app-shell-fullscreen .viewport {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    body.app-shell-fullscreen {
+      --status-safe-offset: max(18px, calc(env(safe-area-inset-top) + 14px));
+      --ios-bottom-safe-gap: max(16px, calc(env(safe-area-inset-bottom) + 10px));
+      --ios-home-indicator-bottom: max(8px, calc(env(safe-area-inset-bottom) + 8px));
+    }
+
+    body.app-shell-fullscreen.shell-debug .app-shell-toggle,
+    body.app-shell-framed .app-shell-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      body:not(.shell-debug) .app-shell-toggle {
+        display: none;
+      }
     }
 
     .viewport {
@@ -12826,6 +12922,7 @@
   </style>
 </head>
 <body>
+  <button class="app-shell-toggle" id="app-shell-toggle" type="button" aria-pressed="false">App view</button>
   <div class="stage">
     <div class="shell-frame">
       <div class="phone-wrap">
@@ -14907,6 +15004,7 @@
 
     const screens = document.querySelectorAll("[data-screen]");
     const homeRoots = document.querySelectorAll("[data-home-root]");
+    const appShellToggle = document.getElementById("app-shell-toggle");
     const phoneShell = document.querySelector(".phone");
     const morePage = document.getElementById("more-page");
     const preOcb = document.getElementById("pre-ocb");
@@ -15187,6 +15285,7 @@
     const nutritionPanel = document.getElementById("nutrition-panel");
     let menuToastTimer = null;
     let upsellStageTimer = null;
+    const appShellModeKey = "rna-sneak-peek-shell-mode-v1";
     const prototypeStateKey = "rna-sneak-peek-prototype-state-v1";
     const prototypeCookieKey = "rna_sneak_peek_state_v1";
     const persistedStateFields = [
@@ -15225,6 +15324,40 @@
 
     function authScreen(screen) {
       return screen === "auth-phone" || screen === "auth-otp" || screen === "auth-success";
+    }
+
+    function getStoredAppShellMode() {
+      try {
+        return window.localStorage.getItem(appShellModeKey) || "auto";
+      } catch (error) {
+        return "auto";
+      }
+    }
+
+    function setStoredAppShellMode(mode) {
+      try {
+        window.localStorage.setItem(appShellModeKey, mode);
+      } catch (error) {
+      }
+    }
+
+    function shouldUseFullscreenShell(mode) {
+      if (mode === "fullscreen") return true;
+      if (mode === "framed") return false;
+      return window.matchMedia("(max-width: 640px), (hover: none) and (pointer: coarse) and (max-width: 920px)").matches;
+    }
+
+    function applyAppShellMode() {
+      const params = new URLSearchParams(window.location.search);
+      const debugShell = params.get("shellDebug") === "1";
+      const mode = getStoredAppShellMode();
+      const fullscreen = shouldUseFullscreenShell(mode);
+      document.body.classList.toggle("app-shell-fullscreen", fullscreen);
+      document.body.classList.toggle("app-shell-framed", !fullscreen);
+      document.body.classList.toggle("shell-debug", debugShell);
+      document.body.classList.toggle("app-shell-standalone", window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches);
+      appShellToggle.textContent = fullscreen ? "Frame view" : "App view";
+      appShellToggle.setAttribute("aria-pressed", String(fullscreen));
     }
 
     function hiddenChromeScreen(screen) {
@@ -21314,6 +21447,7 @@
     }
 
     function render() {
+      applyAppShellMode();
       syncCartCount();
       const cartHasItems = hasCartItems();
       state.homeReturnPromptArmed = true;
@@ -23217,8 +23351,30 @@
       state.placedOrder.canceled = true;
       render();
     });
+    appShellToggle.addEventListener("click", () => {
+      const fullscreen = document.body.classList.contains("app-shell-fullscreen");
+      setStoredAppShellMode(fullscreen ? "framed" : "fullscreen");
+      applyAppShellMode();
+      resetHorizontalScrollState();
+    });
+    const appShellMediaQuery = window.matchMedia("(max-width: 640px), (hover: none) and (pointer: coarse) and (max-width: 920px)");
+    const handleAppShellMediaChange = () => {
+      if (getStoredAppShellMode() === "auto") {
+        applyAppShellMode();
+      }
+    };
+    if (typeof appShellMediaQuery.addEventListener === "function") {
+      appShellMediaQuery.addEventListener("change", handleAppShellMediaChange);
+    } else if (typeof appShellMediaQuery.addListener === "function") {
+      appShellMediaQuery.addListener(handleAppShellMediaChange);
+    }
 
     menuProductGrid.addEventListener("scroll", syncActiveMenuCategoryFromScroll, { passive: true });
+
+    applyAppShellMode();
+    if ("serviceWorker" in navigator && (window.location.protocol === "https:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      navigator.serviceWorker.register("prototype-sw.js").catch(() => {});
+    }
 
     clearPrototypeState();
     resetPrototypeSessionToEmpty();
