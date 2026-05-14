@@ -149,7 +149,7 @@
       height: auto;
       border-radius: 48px;
       padding: 0;
-      background: #ffffff;
+      background: #000000;
       box-shadow: var(--shadow);
       border: 1px solid rgba(66, 40, 30, 0.10);
     }
@@ -173,7 +173,7 @@
       height: 100%;
       overflow: hidden;
       border-radius: 48px;
-      background: #ffffff;
+      background: #000000;
     }
 
     .phone::after {
@@ -185,9 +185,17 @@
       height: 5px;
       transform: translateX(-50%);
       border-radius: 999px;
-      background: #000000;
+      background: #ffffff;
       z-index: 95;
       pointer-events: none;
+    }
+
+    .phone.is-checkout-active {
+      background: #000000;
+    }
+
+    .phone.is-checkout-active::after {
+      background: #ffffff;
     }
 
     .phone.is-more-active {
@@ -7252,6 +7260,7 @@
       min-width: 0;
       overflow-x: hidden;
       overscroll-behavior-x: none;
+      background: #000000;
     }
 
     .bottom-nav-wrap[hidden] {
@@ -7259,9 +7268,9 @@
     }
 
     .bottom-nav-wrap.pickup-footer-wrap {
-      background: #ffffff;
+      background: #000000;
       padding-top: 10px;
-      padding-bottom: var(--ios-bottom-safe-gap);
+      padding-bottom: 0;
       box-shadow: none;
       position: absolute;
     }
@@ -7271,8 +7280,9 @@
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 0 0 var(--ios-bottom-safe-gap);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.94) 18%, #ffffff 38%);
+      padding: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.94) 18%, #ffffff 38%, #ffffff calc(100% - 104px), #000000 calc(100% - 104px), #000000 100%);
       pointer-events: none;
     }
 
@@ -7299,7 +7309,7 @@
       right: 0;
       bottom: 0;
       height: 100%;
-      background: #ffffff;
+      background: linear-gradient(180deg, #ffffff 0%, #ffffff calc(100% - var(--ios-bottom-safe-gap)), #000000 calc(100% - var(--ios-bottom-safe-gap)), #000000 100%);
       z-index: -1;
     }
 
@@ -10914,8 +10924,7 @@
     }
 
     .phone.is-checkout-active .sheet-backdrop,
-    .phone.is-checkout-active .sheet,
-    .phone.is-checkout-active .bottom-nav-wrap {
+    .phone.is-checkout-active .sheet {
       display: none !important;
       pointer-events: none !important;
     }
@@ -11031,6 +11040,102 @@
 
     .postorder-flow.active {
       display: grid;
+    }
+
+    .postorder-screen.wip-locked .content,
+    .postorder-screen.wip-locked .postorder-footer-wrap {
+      filter: grayscale(1);
+      opacity: 0.28;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .postorder-wip-overlay {
+      position: absolute;
+      inset: 0 0 calc(88px + var(--ios-bottom-safe-gap)) 0;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--status-safe-offset) + 20px) 24px calc(var(--ios-bottom-safe-gap) + 24px);
+      background: rgba(244, 242, 239, 0.82);
+      backdrop-filter: blur(10px);
+      color: #231815;
+    }
+
+    .postorder-wip-blocker-card {
+      width: 100%;
+      min-height: 72%;
+      border-radius: 28px;
+      border: 1px solid rgba(35, 24, 21, 0.1);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(238, 235, 230, 0.92)),
+        #f4f2ef;
+      box-shadow: 0 28px 70px rgba(35, 24, 21, 0.22);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      padding: 34px 24px;
+      text-align: center;
+    }
+
+    .postorder-wip-blocker-pill {
+      align-self: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: rgba(35, 24, 21, 0.08);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(35, 24, 21, 0.72);
+    }
+
+    .postorder-wip-blocker-title {
+      font-family: var(--font-hero);
+      font-size: clamp(58px, 19vw, 96px);
+      line-height: 0.82;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #231815;
+    }
+
+    .postorder-wip-blocker-copy {
+      max-width: 280px;
+      margin: 0 auto;
+      font-family: var(--font-ui);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: rgba(35, 24, 21, 0.68);
+    }
+
+    .postorder-wip-blocker-home {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 8px;
+      background: var(--red);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-hero);
+      font-size: 24px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      transform: skewX(-4deg);
+      transform-origin: center;
+      box-shadow: 0 16px 24px rgba(228, 0, 43, 0.22);
     }
 
     .postorder-hero-card {
@@ -11760,7 +11865,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: calc(88px + var(--ios-bottom-safe-gap));
       z-index: 60;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255,255,255,0.92) 24%, #ffffff 44%, #ffffff 100%);
       padding-top: 10px;
@@ -12314,10 +12419,14 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 32px;
+      bottom: calc(88px + var(--ios-bottom-safe-gap));
       z-index: 12;
       padding: 16px;
       background: #ffffff;
+    }
+
+    .checkout-home-indicator {
+      display: none;
     }
 
     .checkout-select-payment-btn {
@@ -12338,7 +12447,7 @@
       width: 134px;
       height: 5px;
       border-radius: 999px;
-      background: #000000;
+      background: #ffffff;
       transform: translateX(-50%);
       z-index: 13;
     }
@@ -13329,7 +13438,7 @@
               </section>
 
               <section class="screen" data-screen="order-placed">
-                <div class="postorder-screen" id="postorder-screen">
+                <div class="postorder-screen wip-locked" id="postorder-screen">
                   <main class="content">
                     <section class="postorder-flow" id="postorder-delivery-screen">
                       <article class="postorder-hero-card postorder-map-hero">
@@ -13539,6 +13648,15 @@
                       </article>
                     </section>
                   </main>
+
+                  <div class="postorder-wip-overlay" role="dialog" aria-modal="true" aria-labelledby="postorder-wip-title">
+                    <div class="postorder-wip-blocker-card">
+                      <span class="postorder-wip-blocker-pill">Post-order screens pending</span>
+                      <div class="postorder-wip-blocker-title" id="postorder-wip-title">WIP</div>
+                      <p class="postorder-wip-blocker-copy">Delivery and pickup post-order designs are still being finalized.</p>
+                      <button class="postorder-wip-blocker-home" id="postorder-wip-home" type="button">Back home</button>
+                    </div>
+                  </div>
 
                   <div class="postorder-sheet-backdrop" id="postorder-sheet-backdrop"></div>
                   <div class="postorder-sheet" id="postorder-receipt-sheet" aria-hidden="true">
@@ -21215,8 +21333,7 @@
       preOcb.hidden = authScreen(state.screen) || hasContext || orderContextChromeHidden;
       ocb.hidden = authScreen(state.screen) || !hasContext || orderContextChromeHidden;
       const sheetOpen = state.activeSheet !== null;
-      const upsellOpen = state.activeSheet === "upsell";
-      bottomNav.hidden = authScreen(state.screen) || state.screen === "checkout" || upsellOpen || (chromeHiddenScreen && state.screen !== "product-detail");
+      bottomNav.hidden = false;
       const showPickupCta = state.screen === "pickup";
       const showDeliveryAddressCta = state.screen === "delivery-address";
       const showDeliveryResultsCta = state.screen === "delivery-results";
@@ -21240,13 +21357,7 @@
         && state.screen !== "secret-menu"
         && state.screen !== "bundle-customize"
         && (!hasContext || showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta);
-      const shouldShowBottomWrap = !authScreen(state.screen)
-        && state.screen !== "checkout"
-        && state.screen !== "menu-search"
-        && state.screen !== "secret-menu"
-        && state.screen !== "bundle-customize"
-        && state.screen !== "order-placed"
-        && !sheetOpen;
+      const shouldShowBottomWrap = true;
       bottomNavWrap.hidden = !shouldShowBottomWrap;
       bottomNavWrap.classList.toggle("pickup-footer-wrap", shouldShowBottomWrap && (showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta || showProductDetailCta || showSecretMenuCta || showBundleCustomizeCta || showCartCta || showMenuCartCta || showHomeCartCta));
       bottomNavWrap.classList.toggle("floating-start-order-wrap", shouldShowBottomWrap && showGlobalStartOrder && !showPickupCta && !showOrderSettingsCta && !showDeliveryAddressCta && !showDeliveryResultsCta && !showDeliveryMapCta && !showDeliveryStoreCta && !showProductDetailCta && !showCartCta && !showMenuCartCta && !showHomeCartCta);
@@ -23052,6 +23163,13 @@
       state.placedOrder.checkedIn = true;
       state.placedOrder.pickupStepIndex = Math.max(state.placedOrder.pickupStepIndex, 2);
       render();
+    });
+    document.getElementById("postorder-wip-home").addEventListener("click", () => {
+      state.placedOrder = null;
+      state.postOrderSheet = null;
+      state.activeSheet = null;
+      showScreen(getHomeScreen());
+      setActiveTab("home");
     });
     document.getElementById("postorder-help-button-delivery").addEventListener("click", () => {
       state.postOrderSheet = "help";
