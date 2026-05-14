@@ -19751,16 +19751,6 @@
         });
       }
 
-      if (unavailableItems.length) {
-        blockers.push({
-          type: "unavailable",
-          title: unavailableItems.length + " cart item" + (unavailableItems.length > 1 ? "s need" : " needs") + " attention",
-          body: "One or more selections are no longer available for the current store or setup. Edit or remove them before checkout.",
-          actionLabel: "Review items",
-          action: "review-unavailable"
-        });
-      }
-
       if (hasOrderContext() && state.fulfillmentType === "delivery" && pricing.subtotal > 0 && pricing.subtotal < deliveryMinimum) {
         blockers.push({
           type: "delivery-minimum",
@@ -21825,13 +21815,6 @@
           openOrderSettings();
           return;
         }
-        if (firstBlocker.action === "review-unavailable") {
-          const unavailableItem = state.cartItems.find((cartItem) => getCartItemResolvedSelection(cartItem).unavailable);
-          if (unavailableItem) {
-            openCartItemEditor(unavailableItem.id);
-          }
-          return;
-        }
         goToMenu();
         return;
       }
@@ -23043,12 +23026,6 @@
         if (action === "menu") {
           goToMenu();
           return;
-        }
-        if (action === "review-unavailable") {
-          const unavailableItem = state.cartItems.find((cartItem) => getCartItemResolvedSelection(cartItem).unavailable);
-          if (unavailableItem) {
-            openCartItemEditor(unavailableItem.id);
-          }
         }
         return;
       }
