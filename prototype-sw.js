@@ -1,4 +1,4 @@
-const CACHE_NAME = "kfc-atlas-prototype-v1";
+const CACHE_NAME = "kfc-atlas-prototype-v2";
 const CORE_ASSETS = [
   "./",
   "./rna-sneak-peek-prototype.html",

@@ -89,6 +89,7 @@
       --status-safe-offset: max(70px, calc(env(safe-area-inset-top) + 46px));
       --ios-bottom-safe-gap: max(28px, calc(env(safe-area-inset-bottom) + 28px));
       --ios-home-indicator-bottom: max(10px, calc(env(safe-area-inset-bottom) + 10px));
+      --bottom-nav-height: calc(72px + var(--ios-bottom-safe-gap));
     }
 
     * , *::before, *::after {
@@ -6893,7 +6894,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: var(--bottom-nav-height);
       width: 100%;
       max-width: 100%;
       min-width: 0;
@@ -11148,7 +11149,7 @@
 
     .postorder-wip-overlay {
       position: absolute;
-      inset: 0 0 calc(88px + var(--ios-bottom-safe-gap)) 0;
+      inset: 0 0 var(--bottom-nav-height) 0;
       z-index: 120;
       display: flex;
       align-items: center;
@@ -11961,7 +11962,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: calc(88px + var(--ios-bottom-safe-gap));
+      bottom: var(--bottom-nav-height);
       z-index: 60;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255,255,255,0.92) 24%, #ffffff 44%, #ffffff 100%);
       padding-top: 10px;
@@ -12515,7 +12516,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: calc(88px + var(--ios-bottom-safe-gap));
+      bottom: var(--bottom-nav-height);
       z-index: 12;
       padding: 16px;
       background: #ffffff;
