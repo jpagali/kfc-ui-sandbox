@@ -3442,6 +3442,7 @@
     }
 
     .menu-landing-screen {
+      --menu-pinned-height: calc(var(--status-safe-offset) + 62px);
       position: relative;
       height: 100%;
       display: flex;
@@ -3457,15 +3458,20 @@
 
     .menu-landing-pinned {
       position: absolute;
-      top: calc(var(--status-safe-offset) - 9px);
+      top: 0;
       left: 0;
       right: 0;
+      height: var(--menu-pinned-height);
       z-index: 22;
+      display: flex;
+      align-items: flex-end;
       background: #ffffff;
+      overflow: hidden;
     }
 
     .menu-landing-header {
       flex-shrink: 0;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -3556,7 +3562,7 @@
 
     .menu-landing-body {
       height: 100%;
-      padding: calc(var(--status-safe-offset) + 62px) 0 118px;
+      padding: var(--menu-pinned-height) 0 118px;
       overflow-y: auto;
       overflow-x: hidden;
       scrollbar-width: none;
@@ -3572,7 +3578,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: calc(var(--status-safe-offset) + 62px);
+      top: var(--menu-pinned-height);
       z-index: 21;
       display: none;
     }
@@ -3582,7 +3588,7 @@
     }
 
     .menu-landing-screen.has-secret-hero .menu-landing-body {
-      padding-top: calc(var(--status-safe-offset) + 62px + 204px);
+      padding-top: calc(var(--menu-pinned-height) + 204px);
     }
 
     .secret-menu-clue {
@@ -3939,7 +3945,7 @@
       display: flex;
       flex-direction: column;
       padding-top: 52px;
-      padding-bottom: 122px;
+      padding-bottom: 116px;
       position: relative;
       overflow-x: hidden;
     }
@@ -3962,7 +3968,7 @@
       height: 52px;
       padding: 0 20px;
       color: #ffffff;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 0;
       background: #050505;
     }
 
@@ -3989,14 +3995,17 @@
 
     .secret-menu-topcopy {
       font-family: var(--font-ui);
-      font-size: 12px;
-      line-height: 24px;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 16px;
       text-align: center;
       color: #ffffff;
     }
 
     .secret-menu-hero {
       background: #050505;
+      display: flex;
+      flex-direction: column;
     }
 
     .secret-menu-gallery {
@@ -4007,50 +4016,55 @@
 
     .secret-menu-gallery-slide {
       min-width: 100%;
-      padding: 26px 12px 0;
+      padding: 14px 0 0;
       flex-shrink: 0;
     }
 
     .secret-menu-poster {
       position: relative;
-      min-height: 386px;
-      background:
-        radial-gradient(circle at 50% 16%, rgba(228, 0, 43, 0.32), transparent 20%),
-        linear-gradient(180deg, #050505 0%, #090909 100%);
+      min-height: 320px;
+      background: #050505;
       overflow: hidden;
     }
 
-    .secret-menu-poster-copy {
+    .secret-menu-poster::before {
+      content: "";
       position: absolute;
-      top: 22px;
-      left: 16px;
-      color: #f5002b;
-      font-family: var(--font-stripes);
-      font-size: 34px;
-      line-height: 0.88;
-      text-transform: uppercase;
-      white-space: pre-line;
-      max-width: 200px;
+      left: 50%;
+      top: 24px;
+      width: min(82%, 306px);
+      height: 150px;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px 42px) repeat-x,
+        #e91c24;
+      clip-path: polygon(4% 0, 96% 0, 84% 100%, 16% 100%);
+      opacity: 0.96;
+    }
+
+    .secret-menu-poster-copy {
+      display: none;
     }
 
     .secret-menu-poster-art {
       position: absolute;
       left: 50%;
-      bottom: 8px;
+      bottom: 4px;
       transform: translateX(-50%);
-      width: 322px;
-      height: 310px;
+      width: min(94%, 352px);
+      height: 286px;
       background-repeat: no-repeat;
       background-position: center bottom;
       background-size: contain;
-      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.48));
     }
 
     .secret-menu-summary {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 12px;
-      padding: 22px 16px 18px;
+      order: 2;
+      padding: 18px 16px 0;
       background: #050505;
     }
 
@@ -4068,49 +4082,77 @@
 
     .secret-menu-body {
       display: grid;
-      gap: 14px;
-      padding: 0 16px 20px;
+      gap: 8px;
+      padding: 0 16px 10px;
       background: #050505;
     }
 
     .secret-menu-tag {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 24px;
+      width: 100%;
+      padding: 0;
+    }
+
+    .secret-product-tag-pill {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 4px;
       min-height: 22px;
       width: fit-content;
-      padding: 0 7px;
+      padding: 3px 7px 3px 6px;
       border-radius: 4px;
-      background: #e4002b;
-      color: #ffffff;
       font-family: var(--font-ui);
       font-size: 10px;
-      font-weight: 700;
-      line-height: 1;
+      font-weight: 400;
+      line-height: 14px;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .secret-product-tag-pill:first-child {
+      background: #f5002b;
+      color: #ffffff;
+    }
+
+    .secret-product-tag-pill:not(:first-child) {
+      background: #050505;
+      border: 1px solid #f5002b;
+      color: #f5002b;
+    }
+
+    .secret-product-tag-pill::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border: 1px dashed currentColor;
+      border-radius: 3px;
+      transform: rotate(10deg);
+      flex-shrink: 0;
     }
 
     .secret-menu-kicker {
       color: #f5002b;
-      font-family: var(--font-hero);
+      font-family: var(--font-display);
       font-style: italic;
-      font-size: 18px;
-      line-height: 1;
+      font-size: 14px;
+      line-height: 16px;
       font-weight: 900;
       text-transform: uppercase;
-      transform: skewX(-5deg);
-      transform-origin: left center;
     }
 
     .secret-menu-title {
       color: #ffffff;
-      font-family: var(--font-hero);
+      font-family: var(--font-display);
       font-style: italic;
-      font-size: 44px;
-      line-height: 0.9;
+      font-size: 28px;
+      line-height: 30px;
       font-weight: 900;
       text-transform: uppercase;
-      transform: skewX(-5deg);
-      transform-origin: left center;
       max-width: 320px;
     }
 
@@ -4122,6 +4164,7 @@
       color: rgba(255, 255, 255, 0.92);
       font-family: var(--font-ui);
       font-size: 16px;
+      font-weight: 300;
       line-height: 24px;
     }
 
@@ -4130,21 +4173,24 @@
     }
 
     .secret-menu-copy {
+      display: grid;
+      gap: 12px;
       color: rgba(255, 255, 255, 0.92);
       font-family: var(--font-ui);
       font-size: 16px;
+      font-weight: 300;
       line-height: 24px;
       max-width: 320px;
     }
 
     .secret-menu-actionbar {
-      position: absolute;
+      position: static;
       left: 0;
       right: 0;
       bottom: 0;
       z-index: 30;
-      padding: 12px 16px calc(18px + env(safe-area-inset-bottom));
-      background: linear-gradient(180deg, rgba(5, 5, 5, 0) 0%, rgba(5, 5, 5, 0.94) 24%, #050505 100%);
+      padding: 4px 16px 0;
+      background: #050505;
     }
 
     .secret-menu-order-btn {
@@ -4154,13 +4200,12 @@
       border-radius: 4px;
       background: #f5002b;
       color: #ffffff;
-      font-family: var(--font-hero);
+      font-family: var(--font-display);
       font-style: italic;
       font-size: 18px;
-      line-height: 1;
+      line-height: 18px;
       font-weight: 900;
-      text-transform: uppercase;
-      transform: skewX(-5deg);
+      text-transform: capitalize;
     }
 
     .menu-landing-grid {
@@ -4292,6 +4337,13 @@
       width: 320px;
       height: 154px;
       bottom: -12px;
+    }
+
+    .menu-landing-card[data-menu-landing-category="protein-picks"] .menu-landing-card-image {
+      width: 142px;
+      height: 100px;
+      bottom: 18px;
+      background-position: center bottom;
     }
 
     .menu-landing-card.is-secret-entry .menu-landing-card-image {
@@ -4933,7 +4985,7 @@
       row-gap: 18px;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 14px 16px 184px;
+      padding: 14px 16px var(--floating-cta-bottom-reserve);
       background: #ffffff;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
@@ -5334,7 +5386,7 @@
     }
 
     .product-detail-screen.is-secret-menu {
-      background: #ffffff;
+      background: #050505;
     }
 
     .screen[data-screen="product-detail"] {
@@ -5454,8 +5506,8 @@
     }
 
     .product-detail-carousel-slide--secret {
-      height: 340px;
-      padding: 0 12px;
+      height: 281px;
+      padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -5466,36 +5518,40 @@
       position: relative;
       width: 100%;
       height: 100%;
-      background:
-        radial-gradient(circle at 50% 18%, rgba(228, 0, 43, 0.34), transparent 20%),
-        linear-gradient(180deg, #060606 0%, #0b0b0b 100%);
+      background: #050505;
       overflow: hidden;
     }
 
-    .secret-product-poster-copy {
+    .secret-product-poster::before {
+      content: "";
       position: absolute;
-      top: 18px;
-      left: 16px;
-      font-family: var(--font-stripes);
-      font-size: 34px;
-      line-height: 0.88;
-      color: #e4002b;
-      text-transform: uppercase;
-      white-space: pre-line;
-      max-width: 180px;
+      left: 50%;
+      top: 6px;
+      width: 248px;
+      height: 150px;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0 2px, transparent 2px 42px) repeat-x,
+        #e91c24;
+      clip-path: polygon(6% 0, 94% 0, 82% 100%, 18% 100%);
+      opacity: 0.96;
+    }
+
+    .secret-product-poster-copy {
+      display: none;
     }
 
     .secret-product-poster-art {
       position: absolute;
       left: 50%;
-      bottom: 22px;
+      bottom: 4px;
       transform: translateX(-50%);
-      width: 264px;
-      height: 220px;
+      width: 310px;
+      height: 248px;
       background-repeat: no-repeat;
       background-position: center bottom;
       background-size: contain;
-      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.42));
+      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.48));
     }
 
     .product-detail-summary {
@@ -5524,8 +5580,8 @@
     }
 
     .product-detail-screen.is-secret-menu .product-detail-summary {
-      padding-top: 14px;
-      padding-bottom: 18px;
+      justify-content: flex-start;
+      padding: 0 16px 34px;
       background: #050505;
     }
 
@@ -5548,6 +5604,7 @@
 
     .product-detail-screen.is-secret-menu .product-detail-body {
       gap: 0;
+      background: #050505;
     }
 
     .product-detail-copy-block {
@@ -5563,39 +5620,34 @@
     }
 
     .product-detail-screen.is-secret-menu .product-detail-copy-block {
-      gap: 14px;
+      gap: 16px;
       padding: 0 16px 24px;
       background: #050505;
     }
 
     .product-detail-screen.is-secret-menu .product-detail-tag {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      min-height: 22px;
-      width: fit-content;
-      padding: 0 7px;
-      border-radius: 4px;
-      background: #e4002b;
-      color: #ffffff;
-      font-family: var(--font-ui);
-      font-style: normal;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1;
+      justify-content: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 24px;
+      width: 100%;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-tag::before {
+      content: none;
     }
 
     .product-detail-screen.is-secret-menu .product-detail-kicker {
       display: block;
       color: #f5002b;
-      font-family: var(--font-hero);
+      font-family: var(--font-display);
       font-style: italic;
-      font-size: 18px;
-      line-height: 1;
+      font-size: 14px;
+      line-height: 16px;
       font-weight: 900;
       text-transform: uppercase;
-      transform: skewX(-5deg);
-      transform-origin: left center;
     }
 
     .product-detail-title {
@@ -5613,12 +5665,10 @@
 
     .product-detail-screen.is-secret-menu .product-detail-title {
       color: #ffffff;
-      font-size: 44px;
-      line-height: 0.9;
-      font-family: var(--font-hero);
+      font-size: 28px;
+      line-height: 30px;
+      font-family: var(--font-display);
       max-width: 320px;
-      transform: skewX(-5deg);
-      transform-origin: left center;
     }
 
     .product-detail-title .product-detail-registered {
@@ -5643,6 +5693,8 @@
 
     .product-detail-screen.is-secret-menu .product-detail-copy {
       max-width: 320px;
+      font-size: 16px;
+      line-height: 24px;
     }
 
     .product-detail-screen.is-secret-menu .product-detail-context {
@@ -5695,6 +5747,12 @@
       color: #ffffff;
     }
 
+    .product-detail-screen.is-secret-menu .product-detail-modifier-list {
+      gap: 24px;
+      padding: 24px 0 28px;
+      background: #ffffff;
+    }
+
     .product-detail-size-list {
       display: none;
     }
@@ -5705,9 +5763,34 @@
       min-width: 0;
     }
 
-    .product-detail-screen.is-secret-menu .product-detail-display-title,
+    .product-detail-screen.is-secret-menu .product-detail-display-title {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      padding: 24px 0 0;
+      background: #050505;
+      color: #f5002b;
+      font-family: var(--font-stripes);
+      font-size: 72px;
+      line-height: 68px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-display-title::after {
+      content: " SECRET MENU SECRET MENU";
+    }
+
     .product-detail-screen.is-secret-menu .product-detail-footnote {
-      display: none;
+      display: block;
+      padding: 0 16px 40px;
+      background: #050505;
+      color: #ffffff;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 18px;
     }
 
     .product-detail-section {
@@ -5930,6 +6013,119 @@
       width: 14px;
       height: 14px;
       display: block;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section {
+      background: #ffffff;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section::before {
+      margin-top: 0;
+      margin-bottom: 12px;
+      background: #000000;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section-meta {
+      gap: 2px;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section-body {
+      padding-top: 8px;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section:not(.open)::after {
+      display: none;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section-title {
+      color: #000000;
+      font-size: 22px;
+      line-height: 26px;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 22px;
+      padding: 3px 6px;
+      font-weight: 400;
+      line-height: 14px;
+      text-transform: none;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-badge::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border: 1px dashed currentColor;
+      border-radius: 3px;
+      transform: rotate(10deg);
+      flex-shrink: 0;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-badge.light {
+      border-color: #000000;
+      color: #000000;
+      background: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-section-copy {
+      color: #7e7c77;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-option-row {
+      grid-template-columns: 76px minmax(0, 1fr) auto;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom-color: #eeebe7;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-option-thumb {
+      width: 76px;
+      height: 64px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-option-row.has-quantity {
+      grid-template-columns: 76px minmax(0, 1fr);
+      column-gap: 14px;
+      row-gap: 8px;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-option-row.has-quantity .product-detail-option-thumb {
+      width: 76px;
+      height: 54px;
+      margin-top: 0;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-native-toggle {
+      appearance: none;
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border: 1px solid #d7d4cf;
+      border-radius: 4px;
+      background: #ffffff;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-native-toggle:checked {
+      border-color: #f5002b;
+      background: #f5002b;
+    }
+
+    .product-detail-screen.is-secret-menu .product-detail-native-toggle:checked::after {
+      content: "";
+      width: 12px;
+      height: 7px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(-45deg) translate(1px, -1px);
     }
 
     .product-detail-stepper {
@@ -7379,7 +7575,7 @@
       bottom: 0;
       padding: 0;
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.94) 18%, #ffffff 38%, #ffffff calc(100% - 104px), #000000 calc(100% - 104px), #000000 100%);
+        linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.34) 18px, rgba(255, 255, 255, 0.88) 42px, #ffffff calc(100% - 104px), #000000 calc(100% - 104px), #000000 100%);
       pointer-events: none;
     }
 
@@ -7397,6 +7593,18 @@
 
     .bottom-nav-wrap.floating-start-order-wrap .bottom-nav {
       pointer-events: auto;
+    }
+
+    .bottom-nav-wrap.pdp-only-footer-wrap .bottom-nav {
+      display: none;
+    }
+
+    .bottom-nav-wrap.pdp-only-footer-wrap {
+      background: #000000;
+    }
+
+    .bottom-nav-wrap.secret-entry-footer-wrap .bottom-nav {
+      display: none;
     }
 
     .bottom-nav-wrap.pickup-footer-wrap::before {
@@ -7428,7 +7636,7 @@
       display: none;
       align-items: center;
       gap: 16px;
-      min-height: 84px;
+      min-height: 94px;
       padding: 12px 16px calc(12px + var(--ios-bottom-safe-gap));
       background: #000000;
       border-top: 0;
@@ -12920,6 +13128,721 @@
         grid-template-columns: 1fr;
       }
     }
+
+    body.app-shell-fullscreen {
+      --app-vw: 100vw;
+      --app-vh: 100dvh;
+      --mobile-gutter: clamp(14px, 4.1vw, 18px);
+      --mobile-tight-gutter: clamp(10px, 3.2vw, 14px);
+      --mobile-section-gap: clamp(14px, 2.2dvh, 22px);
+      --mobile-safe-bottom: max(14px, env(safe-area-inset-bottom));
+      --mobile-sticky-pad: calc(var(--mobile-safe-bottom) + 12px);
+      --mobile-sheet-max: calc(var(--app-vh) - var(--status-safe-offset) - var(--bottom-nav-height) - 12px);
+      --mobile-map-height: clamp(164px, 23dvh, 210px);
+      --mobile-delivery-map-height: clamp(292px, 43dvh, 392px);
+      --mobile-pdp-media-height: clamp(238px, 34dvh, 312px);
+      --mobile-card-media-ratio: 164 / 124;
+      min-height: var(--app-vh);
+    }
+
+    body.app-shell-fullscreen .stage,
+    body.app-shell-fullscreen .shell-frame,
+    body.app-shell-fullscreen .phone-wrap,
+    body.app-shell-fullscreen .phone,
+    body.app-shell-fullscreen .viewport {
+      width: var(--app-vw);
+      height: var(--app-vh);
+      min-height: var(--app-vh);
+      max-width: var(--app-vw);
+    }
+
+    body.app-shell-fullscreen .screen {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 24px);
+      max-height: var(--app-vh);
+    }
+
+    body.app-shell-fullscreen .screen[data-screen="pickup"],
+    body.app-shell-fullscreen .screen[data-screen="menu"],
+    body.app-shell-fullscreen .screen[data-screen="menu-landing"],
+    body.app-shell-fullscreen .screen[data-screen="menu-search"],
+    body.app-shell-fullscreen .screen[data-screen="product-detail"],
+    body.app-shell-fullscreen .screen[data-screen="bundle-customize"],
+    body.app-shell-fullscreen .screen[data-screen="cart"],
+    body.app-shell-fullscreen .screen[data-screen="checkout"],
+    body.app-shell-fullscreen .screen[data-screen="more"],
+    body.app-shell-fullscreen .screen[data-screen="secret-menu"],
+    body.app-shell-fullscreen .screen[data-screen="order-placed"] {
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+    }
+
+    body.app-shell-fullscreen .standalone-screen {
+      padding-bottom: calc(var(--mobile-sticky-pad) + 28px);
+    }
+
+    body.app-shell-fullscreen .home-atlas {
+      gap: var(--mobile-section-gap);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad));
+    }
+
+    body.app-shell-fullscreen .home-carousel,
+    body.app-shell-fullscreen .home-section-dark,
+    body.app-shell-fullscreen .home-order-rail {
+      width: calc(100% + (var(--mobile-gutter) * 2));
+      margin-left: calc(var(--mobile-gutter) * -1);
+    }
+
+    body.app-shell-fullscreen .home-carousel-track,
+    body.app-shell-fullscreen .home-offer-rail,
+    body.app-shell-fullscreen .home-order-rail {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+    }
+
+    body.app-shell-fullscreen .home-hero-card {
+      flex-basis: min(calc(var(--app-vw) - (var(--mobile-gutter) * 2)), 380px);
+      min-height: 0;
+      aspect-ratio: 343 / 457;
+    }
+
+    body.app-shell-fullscreen .home-hero-image {
+      width: clamp(218px, 62vw, 266px);
+      height: clamp(188px, 52vw, 230px);
+      right: clamp(-42px, -8vw, -22px);
+      bottom: clamp(28px, 5.2dvh, 42px);
+      background-size: contain;
+    }
+
+    body.app-shell-fullscreen .home-offer-card {
+      flex-basis: min(68vw, 270px);
+    }
+
+    body.app-shell-fullscreen .home-offer-media,
+    body.app-shell-fullscreen .home-feature-media,
+    body.app-shell-fullscreen .promo-card {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 253 / 337;
+    }
+
+    body.app-shell-fullscreen .home-feature-media,
+    body.app-shell-fullscreen .promo-card {
+      aspect-ratio: 343 / 212;
+    }
+
+    body.app-shell-fullscreen .menu-landing-body {
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 18px);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card {
+      height: auto;
+      min-height: clamp(132px, 18.4dvh, 154px);
+      aspect-ratio: 1 / 0.86;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-wide {
+      height: auto;
+      min-height: clamp(156px, 21dvh, 184px);
+      aspect-ratio: 2 / 0.92;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-view-all {
+      height: auto;
+      min-height: clamp(174px, 24dvh, 212px);
+      aspect-ratio: 2 / 1.02;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-secret-entry {
+      height: auto;
+      min-height: clamp(118px, 16dvh, 144px);
+      aspect-ratio: 2 / 0.66;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card-image {
+      width: clamp(112px, 34vw, 136px);
+      height: clamp(82px, 24vw, 98px);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-wide .menu-landing-card-image {
+      width: clamp(164px, 47vw, 196px);
+      height: clamp(128px, 36vw, 156px);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-view-all .menu-landing-card-image {
+      width: min(86vw, 340px);
+      height: clamp(140px, 39vw, 168px);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-secret-entry .menu-landing-card-image {
+      width: clamp(124px, 36vw, 154px);
+      height: clamp(96px, 27vw, 118px);
+    }
+
+    body.app-shell-fullscreen .plp-category-rail {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+      min-height: clamp(54px, 7.6dvh, 66px);
+    }
+
+    body.app-shell-fullscreen .plp-content {
+      column-gap: clamp(12px, 3.5vw, 16px);
+      row-gap: clamp(16px, 2.4dvh, 22px);
+      padding: 12px var(--mobile-gutter) var(--floating-cta-bottom-reserve);
+    }
+
+    body.app-shell-fullscreen .plp-card-media {
+      aspect-ratio: var(--mobile-card-media-ratio);
+      align-items: center;
+    }
+
+    body.app-shell-fullscreen .plp-card-media img {
+      object-fit: contain;
+    }
+
+    body.app-shell-fullscreen .plp-hero-row {
+      min-height: clamp(66px, 10dvh, 92px);
+    }
+
+    body.app-shell-fullscreen .plp-hero-text {
+      font-size: clamp(66px, 21vw, 92px);
+    }
+
+    body.app-shell-fullscreen .product-detail-carousel-slide {
+      height: var(--mobile-pdp-media-height);
+    }
+
+    body.app-shell-fullscreen .product-detail-carousel-slide--secret {
+      height: clamp(292px, 41dvh, 360px);
+    }
+
+    body.app-shell-fullscreen .product-detail-summary {
+      padding: clamp(14px, 2dvh, 24px) 16px;
+    }
+
+    body.app-shell-fullscreen .product-detail-body {
+      gap: clamp(24px, 4dvh, 40px);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 52px);
+    }
+
+    body.app-shell-fullscreen .product-detail-screen.is-secret-menu .product-detail-body {
+      gap: 0;
+    }
+
+    body.app-shell-fullscreen .product-detail-copy-block {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+    }
+
+    body.app-shell-fullscreen .sheet {
+      bottom: var(--bottom-nav-height);
+    }
+
+    body.app-shell-fullscreen .sheet-panel,
+    body.app-shell-fullscreen .checkout-payment-sheet,
+    body.app-shell-fullscreen .checkout-card-entry-sheet,
+    body.app-shell-fullscreen .checkout-coupon-sheet-panel,
+    body.app-shell-fullscreen .postorder-sheet {
+      max-height: var(--mobile-sheet-max);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+    }
+
+    body.app-shell-fullscreen .meal-size-option {
+      grid-template-columns: minmax(96px, 32vw) minmax(0, 1fr);
+      min-height: clamp(132px, 19.6dvh, 168px);
+      padding: clamp(12px, 2dvh, 18px);
+    }
+
+    body.app-shell-fullscreen .meal-size-option-visual {
+      height: clamp(82px, 14dvh, 110px);
+    }
+
+    body.app-shell-fullscreen .meal-size-sheet-cta {
+      min-height: clamp(56px, 9dvh, 82px);
+      font-size: clamp(24px, 8vw, 34px);
+    }
+
+    body.app-shell-fullscreen .map-panel {
+      height: var(--mobile-map-height);
+      min-height: var(--mobile-map-height);
+    }
+
+    body.app-shell-fullscreen .delivery-map-panel {
+      min-height: var(--mobile-delivery-map-height);
+    }
+
+    body.app-shell-fullscreen .delivery-map-card {
+      margin-left: var(--mobile-tight-gutter);
+      margin-right: var(--mobile-tight-gutter);
+    }
+
+    body.app-shell-fullscreen .delivery-store-body,
+    body.app-shell-fullscreen .delivery-results-section,
+    body.app-shell-fullscreen .delivery-saved-block,
+    body.app-shell-fullscreen .delivery-search-wrap {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+    }
+
+    body.app-shell-fullscreen .cart-screen {
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 32px);
+    }
+
+    body.app-shell-fullscreen .cart-screen .cart-figma-hero,
+    body.app-shell-fullscreen .cart-screen .cart-promo,
+    body.app-shell-fullscreen .cart-screen .cart-stack,
+    body.app-shell-fullscreen .cart-screen .cart-summary,
+    body.app-shell-fullscreen .cart-screen .cart-validation-stack {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+    }
+
+    body.app-shell-fullscreen .cart-screen .cart-card-top {
+      grid-template-columns: clamp(78px, 24vw, 96px) minmax(0, 1fr);
+    }
+
+    body.app-shell-fullscreen .cart-screen .cart-card-image,
+    body.app-shell-fullscreen .cart-screen .cart-card-image img {
+      width: clamp(78px, 24vw, 96px);
+      height: clamp(78px, 24vw, 96px);
+      max-width: clamp(78px, 24vw, 96px);
+      max-height: clamp(78px, 24vw, 96px);
+      object-fit: contain;
+    }
+
+    body.app-shell-fullscreen .checkout-scroll {
+      padding-left: var(--mobile-gutter);
+      padding-right: var(--mobile-gutter);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 24px);
+    }
+
+    body.app-shell-fullscreen .checkout-content {
+      gap: clamp(32px, 5.8dvh, 48px);
+    }
+
+    body.app-shell-fullscreen .checkout-footer {
+      padding: 14px var(--mobile-gutter) calc(var(--mobile-safe-bottom) + 14px);
+    }
+
+    body.app-shell-fullscreen .checkout-sheet-backdrop,
+    body.app-shell-fullscreen .checkout-coupon-sheet,
+    body.app-shell-fullscreen .postorder-sheet-backdrop,
+    body.app-shell-fullscreen .postorder-wip-overlay {
+      bottom: var(--bottom-nav-height);
+    }
+
+    body.app-shell-fullscreen .postorder-screen .content {
+      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 42px);
+    }
+
+    body.app-shell-fullscreen .postorder-map-hero {
+      min-height: clamp(232px, 34dvh, 304px);
+    }
+
+    body.app-shell-fullscreen .bottom-nav {
+      padding-bottom: var(--mobile-safe-bottom);
+    }
+
+    body.app-shell-fullscreen .pdp-cart-bar,
+    body.app-shell-fullscreen .menu-cart-bar,
+    body.app-shell-fullscreen .bottom-nav-wrap.pickup-footer-wrap {
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: var(--mobile-safe-bottom);
+    }
+
+    body.app-shell-fullscreen .start-order-btn.pickup-footer,
+    body.app-shell-fullscreen .start-order-btn.delivery-flow,
+    body.app-shell-fullscreen .postorder-floating-btn {
+      width: calc(100% - (var(--mobile-gutter) * 2));
+      margin-left: var(--mobile-gutter);
+      margin-right: var(--mobile-gutter);
+    }
+
+    @media (max-height: 740px) {
+      body.app-shell-fullscreen {
+        --mobile-section-gap: 12px;
+        --mobile-map-height: clamp(146px, 21dvh, 176px);
+        --mobile-delivery-map-height: clamp(244px, 38dvh, 308px);
+        --mobile-pdp-media-height: clamp(210px, 31dvh, 250px);
+        --mobile-sheet-max: calc(var(--app-vh) - var(--status-safe-offset) - var(--bottom-nav-height) - 6px);
+      }
+
+      body.app-shell-fullscreen .home-hero-card {
+        aspect-ratio: 343 / 418;
+      }
+
+      body.app-shell-fullscreen .home-hero-title {
+        font-size: clamp(32px, 10vw, 38px);
+        line-height: 0.92;
+      }
+
+      body.app-shell-fullscreen .menu-landing-card {
+        min-height: 124px;
+      }
+
+      body.app-shell-fullscreen .menu-landing-card.is-wide {
+        min-height: 144px;
+      }
+
+      body.app-shell-fullscreen .meal-size-option {
+        min-height: 124px;
+      }
+    }
+
+    @media (min-width: 420px) and (min-height: 880px) {
+      body.app-shell-fullscreen {
+        --mobile-gutter: 20px;
+        --mobile-tight-gutter: 14px;
+        --mobile-map-height: clamp(190px, 24dvh, 230px);
+        --mobile-delivery-map-height: clamp(340px, 43dvh, 420px);
+        --mobile-pdp-media-height: clamp(286px, 35dvh, 340px);
+      }
+
+      body.app-shell-fullscreen .home-hero-card {
+        flex-basis: min(calc(var(--app-vw) - 40px), 392px);
+      }
+
+      body.app-shell-fullscreen .menu-landing-card {
+        min-height: 156px;
+      }
+    }
+
+    body.app-shell-fullscreen .menu-landing-screen {
+      --menu-secret-hero-height: clamp(156px, 19.5dvh, 184px);
+      --menu-tile-height: clamp(166px, 21.4dvh, 194px);
+      --menu-wide-tile-height: clamp(178px, 22.4dvh, 208px);
+      --menu-view-all-tile-height: clamp(194px, 24.6dvh, 226px);
+      --menu-secret-entry-height: clamp(128px, 16.4dvh, 150px);
+      --menu-tile-title-size: clamp(21px, 5.6vw, 24px);
+      --menu-wide-title-size: clamp(31px, 8.2vw, 36px);
+      --menu-tile-art-width: clamp(150px, 42vw, 178px);
+      --menu-tile-art-height: clamp(112px, 30vw, 136px);
+      --menu-wide-art-width: clamp(190px, 50vw, 222px);
+      --menu-wide-art-height: clamp(150px, 38vw, 174px);
+      --menu-arrow-size: clamp(46px, 12vw, 54px);
+      --menu-body-bottom-reserve: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 116px);
+    }
+
+    body.app-shell-framed .menu-landing-screen {
+      --menu-secret-hero-height: 176px;
+      --menu-tile-height: 186px;
+      --menu-wide-tile-height: 198px;
+      --menu-view-all-tile-height: 220px;
+      --menu-secret-entry-height: 144px;
+      --menu-tile-title-size: 23px;
+      --menu-wide-title-size: 35px;
+      --menu-tile-art-width: 170px;
+      --menu-tile-art-height: 130px;
+      --menu-wide-art-width: 214px;
+      --menu-wide-art-height: 166px;
+      --menu-arrow-size: 52px;
+      --menu-body-bottom-reserve: calc(var(--bottom-nav-height) + 126px);
+    }
+
+    body.app-shell-fullscreen .menu-landing-secret-slot,
+    body.app-shell-framed .menu-landing-secret-slot {
+      height: var(--menu-secret-hero-height);
+    }
+
+    body.app-shell-fullscreen .menu-landing-screen.has-secret-hero .menu-landing-body,
+    body.app-shell-framed .menu-landing-screen.has-secret-hero .menu-landing-body {
+      padding-top: calc(var(--menu-pinned-height) + var(--menu-secret-hero-height));
+    }
+
+    body.app-shell-fullscreen .menu-landing-body,
+    body.app-shell-framed .menu-landing-body {
+      padding-bottom: var(--menu-body-bottom-reserve);
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue.is-clue,
+    body.app-shell-framed .secret-menu-clue.is-clue,
+    body.app-shell-fullscreen .secret-menu-clue.is-countdown,
+    body.app-shell-framed .secret-menu-clue.is-countdown,
+    body.app-shell-fullscreen .secret-menu-clue.is-success,
+    body.app-shell-framed .secret-menu-clue.is-success {
+      min-height: var(--menu-secret-hero-height);
+      height: var(--menu-secret-hero-height);
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue-shell,
+    body.app-shell-framed .secret-menu-clue-shell,
+    body.app-shell-fullscreen .secret-menu-clue.is-clue .secret-menu-clue-shell,
+    body.app-shell-framed .secret-menu-clue.is-clue .secret-menu-clue-shell {
+      min-height: var(--menu-secret-hero-height);
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue-word,
+    body.app-shell-framed .secret-menu-clue-word {
+      font-size: clamp(72px, 18vw, 86px);
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue-word--secret,
+    body.app-shell-framed .secret-menu-clue-word--secret {
+      font-size: clamp(50px, 13vw, 60px);
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue-marquee--top,
+    body.app-shell-framed .secret-menu-clue-marquee--top {
+      top: 14px;
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue-marquee--mid,
+    body.app-shell-framed .secret-menu-clue-marquee--mid {
+      top: calc(var(--menu-secret-hero-height) * 0.36);
+    }
+
+    body.app-shell-fullscreen .secret-menu-clue-marquee--bottom,
+    body.app-shell-framed .secret-menu-clue-marquee--bottom {
+      top: calc(var(--menu-secret-hero-height) * 0.66);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card,
+    body.app-shell-framed .menu-landing-card {
+      min-height: var(--menu-tile-height);
+      height: var(--menu-tile-height);
+      aspect-ratio: auto;
+      padding: 18px 16px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-wide,
+    body.app-shell-framed .menu-landing-card.is-wide {
+      min-height: var(--menu-wide-tile-height);
+      height: var(--menu-wide-tile-height);
+      aspect-ratio: auto;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-view-all,
+    body.app-shell-framed .menu-landing-card.is-view-all {
+      min-height: var(--menu-view-all-tile-height);
+      height: var(--menu-view-all-tile-height);
+      aspect-ratio: auto;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-secret-entry,
+    body.app-shell-framed .menu-landing-card.is-secret-entry {
+      min-height: var(--menu-secret-entry-height);
+      height: var(--menu-secret-entry-height);
+      aspect-ratio: auto;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card-title {
+      top: 18px;
+      left: 18px;
+      max-width: min(174px, calc(100% - 92px));
+      font-size: var(--menu-tile-title-size);
+      line-height: 0.9;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-wide .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card.is-wide .menu-landing-card-title,
+    body.app-shell-fullscreen .menu-landing-card.is-secret-entry .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card.is-secret-entry .menu-landing-card-title {
+      max-width: 270px;
+      font-size: var(--menu-wide-title-size);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card-image {
+      width: var(--menu-tile-art-width);
+      height: var(--menu-tile-art-height);
+      bottom: 22px;
+      background-position: center bottom;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-wide .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card.is-wide .menu-landing-card-image {
+      width: var(--menu-wide-art-width);
+      height: var(--menu-wide-art-height);
+      bottom: -8px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-view-all .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card.is-view-all .menu-landing-card-image {
+      width: min(92%, 374px);
+      height: calc(var(--menu-view-all-tile-height) - 42px);
+      bottom: -8px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card.is-secret-entry .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card.is-secret-entry .menu-landing-card-image {
+      width: calc(var(--menu-tile-art-width) * 1.04);
+      height: calc(var(--menu-tile-art-height) * 1.02);
+      bottom: 10px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="protein-picks"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="protein-picks"] .menu-landing-card-image {
+      width: calc(var(--menu-tile-art-width) * 1.1);
+      height: calc(var(--menu-tile-art-height) * 1.08);
+      bottom: 18px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="snack-hacks"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="snack-hacks"] .menu-landing-card-image,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="chicken"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="chicken"] .menu-landing-card-image {
+      width: calc(var(--menu-tile-art-width) * 0.92);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="shared-meals"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="shared-meals"] .menu-landing-card-image,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="everyday-value"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="everyday-value"] .menu-landing-card-image {
+      width: calc(var(--menu-tile-art-width) * 1.14);
+      height: calc(var(--menu-tile-art-height) * 1.08);
+    }
+
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="go-buckets-kids-meals"] .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="go-buckets-kids-meals"] .menu-landing-card-title,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="twisters-bowls"] .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="twisters-bowls"] .menu-landing-card-title,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="sides-desserts"] .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="sides-desserts"] .menu-landing-card-title,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="charity-donations"] .menu-landing-card-title,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="charity-donations"] .menu-landing-card-title {
+      max-width: min(190px, calc(100% - 28px));
+      font-size: calc(var(--menu-tile-title-size) - 2px);
+      line-height: 0.86;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="go-buckets-kids-meals"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="go-buckets-kids-meals"] .menu-landing-card-image,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="twisters-bowls"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="twisters-bowls"] .menu-landing-card-image,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="sides-desserts"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="sides-desserts"] .menu-landing-card-image,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="everyday-value"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="everyday-value"] .menu-landing-card-image,
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="charity-donations"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="charity-donations"] .menu-landing-card-image {
+      width: calc(var(--menu-tile-art-width) * 0.92);
+      height: calc(var(--menu-tile-art-height) * 0.86);
+      bottom: 12px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card[data-menu-landing-category="go-buckets-kids-meals"] .menu-landing-card-image,
+    body.app-shell-framed .menu-landing-card[data-menu-landing-category="go-buckets-kids-meals"] .menu-landing-card-image {
+      width: calc(var(--menu-tile-art-width) * 0.82);
+      height: calc(var(--menu-tile-art-height) * 0.78);
+      bottom: 10px;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card-arrow,
+    body.app-shell-framed .menu-landing-card-arrow {
+      right: 18px;
+      bottom: 22px;
+      width: var(--menu-arrow-size);
+      height: var(--menu-arrow-size);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body.app-shell-fullscreen .menu-landing-card-arrow svg,
+    body.app-shell-framed .menu-landing-card-arrow svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    body.app-shell-fullscreen .bottom-nav-wrap.floating-start-order-wrap .start-order-btn,
+    body.app-shell-framed .bottom-nav-wrap.floating-start-order-wrap .start-order-btn {
+      min-height: 54px;
+      margin-bottom: 14px;
+    }
+
+    :root {
+      --content-peek-height: 88px;
+      --content-bottom-reserve: max(96px, calc(var(--bottom-nav-height) - var(--content-peek-height)));
+      --content-cta-reserve: max(104px, calc(var(--bottom-nav-height) - 72px));
+      --floating-cta-peek-height: 128px;
+      --floating-cta-bottom-reserve: max(56px, calc(var(--bottom-nav-height) - var(--floating-cta-peek-height)));
+      --checkout-scroll-reserve: 108px;
+    }
+
+    body.app-shell-fullscreen {
+      --content-peek-height: clamp(88px, 10dvh, 108px);
+      --content-bottom-reserve: max(88px, calc(var(--bottom-nav-height) - var(--content-peek-height)));
+      --content-cta-reserve: max(96px, calc(var(--bottom-nav-height) - 82px));
+      --floating-cta-peek-height: clamp(128px, 15dvh, 152px);
+      --floating-cta-bottom-reserve: max(48px, calc(var(--bottom-nav-height) - var(--floating-cta-peek-height)));
+      --checkout-scroll-reserve: max(104px, calc(var(--bottom-nav-height) - 42px));
+    }
+
+    .screen[data-screen="home-guest"],
+    .screen[data-screen="home-auth"],
+    .screen[data-screen="order-settings"],
+    .screen[data-screen="delivery-address"],
+    .screen[data-screen="delivery-results"],
+    .screen[data-screen="delivery-map"],
+    .screen[data-screen="delivery-store"] {
+      padding-bottom: var(--content-cta-reserve);
+    }
+
+    .home-atlas {
+      padding-bottom: 24px;
+    }
+
+    .cards-track,
+    .delivery-store-list {
+      padding-bottom: var(--content-cta-reserve);
+    }
+
+    .delivery-address-body,
+    .delivery-results-body,
+    .delivery-store-body {
+      padding-bottom: var(--content-bottom-reserve);
+    }
+
+    .menu-landing-body,
+    body.app-shell-fullscreen .menu-landing-body,
+    body.app-shell-framed .menu-landing-body {
+      padding-bottom: var(--menu-body-bottom-reserve);
+    }
+
+    .menu-search-screen::after {
+      height: 72px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff 72%);
+    }
+
+    .menu-search-body {
+      padding-bottom: var(--floating-cta-bottom-reserve);
+    }
+
+    .product-detail-body,
+    body.app-shell-fullscreen .product-detail-body {
+      padding-bottom: var(--content-cta-reserve);
+    }
+
+    .cart-screen,
+    body.app-shell-fullscreen .cart-screen {
+      padding-bottom: var(--content-bottom-reserve);
+    }
+
+    .checkout-scroll,
+    body.app-shell-fullscreen .checkout-scroll {
+      padding-bottom: var(--checkout-scroll-reserve);
+    }
+
+    .more-page {
+      padding-bottom: var(--content-bottom-reserve);
+    }
+
+    .postorder-screen .content,
+    body.app-shell-fullscreen .postorder-screen .content {
+      padding-bottom: var(--content-bottom-reserve);
+    }
+
+    .postorder-footer-wrap {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.42) 18px, rgba(255, 255, 255, 0.9) 44px, #ffffff 100%);
+      box-shadow: 0 -14px 24px rgba(71, 47, 36, 0.06);
+    }
   </style>
 </head>
 <body>
@@ -13226,7 +14149,6 @@
 
                   <div class="secret-menu-hero">
                     <div class="secret-menu-gallery" id="secret-menu-gallery"></div>
-                    <div class="secret-menu-summary" id="secret-menu-summary"></div>
                   </div>
 
                   <div class="secret-menu-body">
@@ -13243,6 +14165,7 @@
                   <div class="secret-menu-actionbar">
                     <button class="secret-menu-order-btn" id="secret-menu-order-btn" type="button">Order Now</button>
                   </div>
+                  <div class="secret-menu-summary" id="secret-menu-summary"></div>
                 </div>
               </section>
 
@@ -13327,7 +14250,7 @@
                   <div class="checkout-scroll">
                     <div class="checkout-content">
                       <section class="checkout-hero">
-                        <div class="checkout-hero-name" id="checkout-hero-name">ALEX&rsquo;S</div>
+                        <div class="checkout-hero-name" id="checkout-hero-name">JUSTIN P&rsquo;S</div>
                         <h1 class="checkout-hero-title" id="checkout-hero-title">PICKUP<br>ORDER</h1>
                       </section>
 
@@ -14351,7 +15274,7 @@
 
                   <article class="account-card">
                     <div class="account-label">Member</div>
-                    <div class="account-value">Justin Gold</div>
+                    <div class="account-value">Justin P</div>
                     <p class="account-copy" style="margin-top:10px;">Pickup preferences, points, and saved stores stay available once signed in.</p>
                   </article>
 
@@ -14782,7 +15705,7 @@
     </div>
   </div>
 
-  <script src="kfc-au-menu-data.js"></script>
+  <script src="kfc-au-menu-data.js?v=12"></script>
   <script>
     const stores = {
       elizabeth: {
@@ -14976,6 +15899,7 @@
       secretMenuLaunchPending: false,
       secretMenuStage: "idle",
       secretMenuPlpIndex: 0,
+      secretMenuEntryIndex: 0,
       nutritionTab: "nutrition",
       timeLabel: "Select time",
       phoneValue: "",
@@ -15342,10 +16266,26 @@
       }
     }
 
+    function isStandaloneAppLaunch() {
+      return window.navigator.standalone === true ||
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.matchMedia("(display-mode: fullscreen)").matches;
+    }
+
     function shouldUseFullscreenShell(mode) {
+      if (isStandaloneAppLaunch()) return true;
       if (mode === "fullscreen") return true;
       if (mode === "framed") return false;
       return window.matchMedia("(max-width: 640px), (hover: none) and (pointer: coarse) and (max-width: 920px)").matches;
+    }
+
+    function updateAppViewportMetrics() {
+      const viewport = window.visualViewport;
+      const height = Math.max(560, Math.round(viewport ? viewport.height : window.innerHeight));
+      document.documentElement.style.setProperty("--app-vw", "100vw");
+      document.documentElement.style.setProperty("--app-vh", height + "px");
+      document.body.style.setProperty("--app-vw", "100vw");
+      document.body.style.setProperty("--app-vh", height + "px");
     }
 
     function applyAppShellMode() {
@@ -15353,10 +16293,11 @@
       const debugShell = params.get("shellDebug") === "1";
       const mode = getStoredAppShellMode();
       const fullscreen = shouldUseFullscreenShell(mode);
+      updateAppViewportMetrics();
       document.body.classList.toggle("app-shell-fullscreen", fullscreen);
       document.body.classList.toggle("app-shell-framed", !fullscreen);
       document.body.classList.toggle("shell-debug", debugShell);
-      document.body.classList.toggle("app-shell-standalone", window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches);
+      document.body.classList.toggle("app-shell-standalone", isStandaloneAppLaunch());
       appShellToggle.textContent = fullscreen ? "Frame view" : "App view";
       appShellToggle.setAttribute("aria-pressed", String(fullscreen));
     }
@@ -16351,13 +17292,16 @@
           headerTitle: item.title,
           bodyTitle: item.title,
           bodyCopy: item.description,
-          gallery: getSecretMenuItems().map((entry) => entry.image).filter(Boolean),
+          gallery: Array.isArray(config.gallery) && config.gallery.length
+            ? config.gallery.filter(Boolean)
+            : getSecretMenuItems().map((entry) => entry.image).filter(Boolean),
           baseEnergy: config.baseEnergy || 0,
           infoLabel: config.infoLabel || "Allergy & Nutritional Information",
           termsCopy: config.termsCopy || "",
           sections: config.sections || [],
           secretMenuMode: true,
-          tagLabel: config.tagLabel || "Product Tag",
+          tags: Array.isArray(config.tags) && config.tags.length ? config.tags : ["Secret", "Limited Time Only"],
+          tagLabel: config.tagLabel || "Secret",
           campaignLabel: config.campaignLabel || item.kicker || "Secret Menu",
           posterLabel: config.posterLabel || "SECRET\nMENU"
         };
@@ -17038,7 +17982,7 @@
       const pdpConfig = getAgencyPdpConfig(item);
       if (pdpConfig) {
         return pdpConfig.sections.reduce((acc, section) => {
-          acc[section.id] = !!pdpConfig.secretMenuMode;
+          acc[section.id] = typeof section.defaultOpen === "boolean" ? section.defaultOpen : !!pdpConfig.secretMenuMode;
           return acc;
         }, {});
       }
@@ -17433,7 +18377,7 @@
     function renderHomeOrderAgain() {
       const orders = [
         {
-          title: "Alex's usual",
+          title: "Justin P's usual",
           count: "6 items",
           lines: ["1x Mega Fill Up", "1x Zinger Fillet", "1x Large Chips"]
         },
@@ -17492,7 +18436,7 @@
       ];
 
       const welcome = signedIn
-        ? '<section class="home-welcome"><div class="home-welcome-title">Welcome back,<br><strong>Alex</strong></div></section>'
+        ? '<section class="home-welcome"><div class="home-welcome-title">Welcome back,<br><strong>Justin P</strong></div></section>'
         : "";
       const contextLead = signedIn && hasContext
         ? '<article class="home-push-card" style="background:#f5002b"><div><div class="home-push-title">Your local KFC menu is ready</div><button class="home-push-btn" style="background:#000" type="button" data-home-start>View menu</button></div><div class="home-push-image" style="background-image:url(\'' + sanitizeCssUrl(homeImageUrls.zinger) + '\')"></div></article>'
@@ -17913,6 +18857,18 @@
       return secretMenuCampaign.items.map((item) => ({ ...item }));
     }
 
+    function getSecretMenuTagLabels(config) {
+      const tags = config && Array.isArray(config.tags) ? config.tags : null;
+      const labels = tags && tags.length ? tags : ["Secret", "Limited Time Only"];
+      return labels.map((label) => String(label || "").trim()).filter(Boolean);
+    }
+
+    function renderSecretMenuTags(config) {
+      return getSecretMenuTagLabels(config).map((label) => (
+        '<span class="secret-product-tag-pill">' + escapeHtml(label) + '</span>'
+      )).join("");
+    }
+
     function isSecretMenuItem(item) {
       return !!(item && item.secretMenu);
     }
@@ -18044,6 +19000,7 @@
       const items = getSecretMenuItems();
       const nextIndex = Math.max(0, itemId ? getSecretMenuItemIndex(itemId) : state.secretMenuPlpIndex);
       state.secretMenuPlpIndex = nextIndex >= 0 ? nextIndex : 0;
+      state.secretMenuEntryIndex = 0;
       const current = items[state.secretMenuPlpIndex] || items[0];
       if (current) {
         state.selectedMenuItemId = current.id;
@@ -18636,7 +19593,7 @@
       const selections = ensureSelectedModifiers(item);
       return config.sections.map((section) => {
         const isOpen = state.pdpSectionOpen[section.id] === true;
-        const summary = getPdpSectionSummary(section, selections);
+        const summary = getPdpSectionSummary(section, selections) || section.summaryFallback || "";
         const rows = section.items.map((entry) => {
           const key = getBundleNestedKey("primary", section.id, entry.id);
           const optionImage = getModifierEntryImage(item, section.id, entry);
@@ -18695,7 +19652,7 @@
       const selections = ensureSelectedModifiers(item);
       return config.sections.map((section) => {
         const isOpen = state.pdpSectionOpen[section.id] === true;
-        const summary = getPdpSectionSummary(section, selections);
+        const summary = getPdpSectionSummary(section, selections) || section.summaryFallback || "";
         const rows = section.items.map((entry) => {
           const key = getAgencySelectionKey(section.id, entry.id);
           const optionImage = getModifierEntryImage(item, section.id, entry);
@@ -19315,15 +20272,38 @@
       return rebuiltPlpCategories.find((category) => category.id === categoryId) || rebuiltPlpCategories[0];
     }
 
+    function getRefinedProductTag(item) {
+      const title = item && item.title ? item.title : "";
+      const hasModifiers = !!(item && Array.isArray(item.modifierGroups) && item.modifierGroups.length);
+      const category = item && item.category ? item.category : "";
+      const isDrink = /(water|freeze|7up|mountain dew|pepsi|solo|sunkist|juice|tea)/i.test(title);
+      const isDessert = /(mousse|dessert|sundae|chocolate)/i.test(title);
+
+      if (/fill up/i.test(title)) return "Combo";
+      if (category === "shared-meals") return "Shared";
+      if (category === "protein-picks" && !/\bcombo\b/i.test(title)) return "Protein";
+      if (category === "go-buckets-kids-meals") {
+        if (/^kids meal/i.test(title)) return "Kids";
+        return "Go Bucket";
+      }
+      if (category === "everyday-value") return "Value";
+      if (category === "sides-desserts") return isDessert ? "Desserts" : "Sides";
+      if (category === "cold-drinks") return "Drink";
+      if (category === "charity-donations") return "Donation";
+      if (category === "snack-hacks") {
+        if (isDessert) return "Desserts";
+        if (isDrink) return "Drink";
+        return "Food";
+      }
+      if (/\bcombo\b/i.test(title)) return "Combo";
+      if (/\bbox\b/i.test(title)) return "Box";
+      if (!hasModifiers) return "Ala-Carte";
+      return "Ala-Carte";
+    }
+
     function buildPlpCardFromItem(item) {
       const firstSize = item.sizes && item.sizes[0];
       const sourceProfile = getKfcAuSourceProfile(item);
-      const tagByFamily = {
-        "ala-carte": "Ala Carte",
-        combo: "Combo",
-        box: "Box",
-        shared: "Shared"
-      };
       const energyByFamily = {
         "ala-carte": 1480,
         combo: 2140,
@@ -19333,7 +20313,7 @@
       return {
         menuItemId: item.id,
         title: item.title,
-        tag: tagByFamily[sourceProfile && sourceProfile.family] || item.pill || "",
+        tag: getRefinedProductTag(item),
         price: firstSize && typeof firstSize.price === "number" ? firstSize.price : 0,
         energy: energyByFamily[sourceProfile && sourceProfile.family] || 1480,
         description: item.description || "",
@@ -20363,7 +21343,7 @@
 
     function getCartHeroMarkup() {
       const orderType = state.fulfillmentType === "delivery" ? "DELIVERY" : "PICKUP";
-      const nameLine = state.isAuthenticated ? '<div class="cart-hero-name">ALEX&rsquo;S</div>' : "";
+      const nameLine = state.isAuthenticated ? '<div class="cart-hero-name">JUSTIN P&rsquo;S</div>' : "";
       return (
         '<div class="cart-hero-inner">' +
           nameLine +
@@ -21180,18 +22160,19 @@
       const pdpConfig = getAgencyPdpConfig(item);
       const isSecretMenuMode = !!(pdpConfig && pdpConfig.secretMenuMode);
       const totalEnergy = getCurrentProductEnergy(item);
-      const secretGalleryItems = isSecretMenuMode ? getSecretMenuItems() : [];
+      const secretMenuItems = isSecretMenuMode ? getSecretMenuItems() : [];
       const gallery = isSecretMenuMode
-        ? secretGalleryItems.map((entry) => entry.image).filter(Boolean)
+        ? (pdpConfig.gallery || [])
         : (pdpConfig ? pdpConfig.gallery : getProductDetailGallery(item));
+      const secretUsesItemCarousel = isSecretMenuMode && gallery.length === secretMenuItems.length;
       const secretIndex = isSecretMenuMode ? Math.max(0, getSecretMenuItemIndex(item)) : -1;
-      const activeIndex = gallery.length ? Math.max(0, Math.min(gallery.length - 1, isSecretMenuMode ? secretIndex : state.pdpCarouselIndex)) : 0;
+      const activeIndex = gallery.length ? Math.max(0, Math.min(gallery.length - 1, isSecretMenuMode && secretUsesItemCarousel ? secretIndex : state.pdpCarouselIndex)) : 0;
       state.pdpCarouselIndex = activeIndex;
       productDetailScreen.classList.toggle("is-secret-menu", isSecretMenuMode);
 
       productDetailImage.innerHTML = gallery.map((image, index) => {
         if (isSecretMenuMode) {
-          const secretItem = secretGalleryItems[index];
+          const secretItem = secretUsesItemCarousel ? secretMenuItems[index] : item;
           return (
             '<div class="product-detail-carousel-slide product-detail-carousel-slide--secret" data-pdp-slide-index="' + index + '">' +
               '<div class="secret-product-poster">' +
@@ -21212,9 +22193,11 @@
       productDetailTopcopy.textContent = pdpConfig
         ? pdpConfig.headerTitle
         : item.title;
-      productDetailTag.textContent = isSecretMenuMode
-        ? (pdpConfig.tagLabel || "Product Tag")
-        : ((item.sizes && item.sizes.length > 1 && selectedSize && selectedSize.label) ? selectedSize.label : "");
+      if (isSecretMenuMode) {
+        productDetailTag.innerHTML = renderSecretMenuTags(pdpConfig);
+      } else {
+        productDetailTag.textContent = (item.sizes && item.sizes.length > 1 && selectedSize && selectedSize.label) ? selectedSize.label : "";
+      }
       productDetailKicker.textContent = isSecretMenuMode
         ? (pdpConfig.campaignLabel || item.kicker || "")
         : (item.kicker || "");
@@ -21266,9 +22249,12 @@
       const currentIndex = Math.max(0, Math.min(items.length - 1, state.secretMenuPlpIndex));
       const item = items[currentIndex];
       const pdpConfig = getAgencyPdpConfig(item) || {};
+      const entryGallery = items.map((entry) => ({ image: entry.image, item: entry })).filter((entry) => entry.image);
+      const activeGalleryIndex = Math.max(0, Math.min(entryGallery.length - 1, currentIndex));
       const energy = getCurrentProductEnergy(item);
 
       state.secretMenuPlpIndex = currentIndex;
+      state.secretMenuEntryIndex = activeGalleryIndex;
       if (state.screen === "secret-menu") {
         state.selectedMenuItemId = item.id;
         state.selectedModifiers = {};
@@ -21276,25 +22262,29 @@
         ensureSelectedModifiers(item);
       }
 
-      secretMenuGallery.innerHTML = items.map((entry) => (
+      secretMenuGallery.innerHTML = entryGallery.map((entry) => (
         '<div class="secret-menu-gallery-slide">' +
           '<div class="secret-menu-poster">' +
-            '<div class="secret-menu-poster-copy">' + escapeHtml(((entry.secretPdp || {}).posterLabel) || "SECRET\nMENU") + '</div>' +
+            '<div class="secret-menu-poster-copy">' + escapeHtml(((entry.item.secretPdp || {}).posterLabel) || "SECRET\nMENU") + '</div>' +
             '<div class="secret-menu-poster-art" style="background-image:url(\'' + sanitizeCssUrl(entry.image) + '\');"></div>' +
           '</div>' +
         '</div>'
       )).join("");
-      secretMenuGallery.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-      secretMenuSummary.innerHTML = items.map((entry, index) => (
-        '<button class="secret-menu-dot' + (index === currentIndex ? ' active' : '') + '" data-secret-menu-dot-index="' + index + '" type="button" aria-label="View secret menu item ' + (index + 1) + '"></button>'
+      secretMenuGallery.style.transform = 'translateX(-' + (activeGalleryIndex * 100) + '%)';
+      secretMenuSummary.innerHTML = entryGallery.map((entry, index) => (
+        '<button class="secret-menu-dot' + (index === activeGalleryIndex ? ' active' : '') + '" data-secret-menu-dot-index="' + index + '" type="button" aria-label="View secret menu item ' + (index + 1) + '"></button>'
       )).join("");
 
-      secretMenuTag.textContent = pdpConfig.tagLabel || "Product Tag";
+      secretMenuTag.innerHTML = renderSecretMenuTags(pdpConfig);
       secretMenuKicker.textContent = pdpConfig.campaignLabel || item.kicker || "";
       secretMenuTitle.innerHTML = renderPdpTitle(item.title);
       secretMenuPrice.textContent = typeof getCurrentProductTotal(item) === "number" ? formatCurrency(getCurrentProductTotal(item)) : formatCurrency((item.sizes[0] || {}).price || 0);
       secretMenuContext.textContent = typeof energy === "number" ? Math.round(energy) + " kJ" : "";
-      secretMenuCopy.textContent = pdpConfig.bodyCopy || item.description;
+      const configuredEntryCopy = ((item.secretPdp || {}).entryCopy) || "";
+      const fallbackCopySource = String(pdpConfig.bodyCopy || item.description || "").trim();
+      const fallbackCopyMatch = fallbackCopySource.match(/^[^.!?]+[.!?]/);
+      const fallbackEntryCopy = fallbackCopyMatch ? fallbackCopyMatch[0] : fallbackCopySource;
+      secretMenuCopy.textContent = configuredEntryCopy || fallbackEntryCopy;
     }
 
     function hasOrderContext() {
@@ -21493,6 +22483,8 @@
       bottomNavWrap.hidden = !shouldShowBottomWrap;
       bottomNavWrap.classList.toggle("pickup-footer-wrap", shouldShowBottomWrap && (showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta || showProductDetailCta || showSecretMenuCta || showBundleCustomizeCta || showCartCta || showMenuCartCta || showHomeCartCta));
       bottomNavWrap.classList.toggle("floating-start-order-wrap", shouldShowBottomWrap && showGlobalStartOrder && !showPickupCta && !showOrderSettingsCta && !showDeliveryAddressCta && !showDeliveryResultsCta && !showDeliveryMapCta && !showDeliveryStoreCta && !showProductDetailCta && !showCartCta && !showMenuCartCta && !showHomeCartCta);
+      bottomNavWrap.classList.toggle("pdp-only-footer-wrap", shouldShowBottomWrap && (showProductDetailCta || showBundleCustomizeCta));
+      bottomNavWrap.classList.toggle("secret-entry-footer-wrap", shouldShowBottomWrap && state.screen === "secret-menu");
       startOrderBtn.hidden = !(showGlobalStartOrder) || showProductDetailCta;
       startOrderBtn.classList.toggle("pickup-footer", showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta || showProductDetailCta || showCartCta);
       startOrderBtn.classList.toggle("pdp-footer", showProductDetailCta);
@@ -22546,7 +23538,15 @@
       const button = event.target.closest("[data-pdp-dot-index]");
       if (!button) return;
       const nextIndex = Number(button.dataset.pdpDotIndex) || 0;
-      if (isSecretMenuItem(getSelectedMenuItem())) {
+      const currentItem = getSelectedMenuItem();
+      if (isSecretMenuItem(currentItem)) {
+        const config = getAgencyPdpConfig(currentItem);
+        const galleryCount = config && Array.isArray(config.gallery) ? config.gallery.length : 0;
+        if (galleryCount && galleryCount !== getSecretMenuItems().length) {
+          state.pdpCarouselIndex = Math.max(0, Math.min(galleryCount - 1, nextIndex));
+          render();
+          return;
+        }
         switchSecretMenuItem(nextIndex);
         return;
       }
@@ -22562,7 +23562,15 @@
       const deltaX = event.clientX - secretMenuSwipeStartX;
       secretMenuSwipeStartX = null;
       if (Math.abs(deltaX) < 40) return;
-      const currentIndex = getSecretMenuItemIndex(getSelectedMenuItem());
+      const currentItem = getSelectedMenuItem();
+      const config = getAgencyPdpConfig(currentItem);
+      const galleryCount = config && Array.isArray(config.gallery) ? config.gallery.length : 0;
+      if (galleryCount && galleryCount !== getSecretMenuItems().length) {
+        state.pdpCarouselIndex = Math.max(0, Math.min(galleryCount - 1, state.pdpCarouselIndex + (deltaX < 0 ? 1 : -1)));
+        render();
+        return;
+      }
+      const currentIndex = getSecretMenuItemIndex(currentItem);
       switchSecretMenuItem(currentIndex + (deltaX < 0 ? 1 : -1));
     });
     productDetailImage.addEventListener("pointercancel", () => {
@@ -22571,7 +23579,8 @@
     secretMenuSummary.addEventListener("click", (event) => {
       const button = event.target.closest("[data-secret-menu-dot-index]");
       if (!button) return;
-      state.secretMenuPlpIndex = Number(button.dataset.secretMenuDotIndex) || 0;
+      const nextIndex = Number(button.dataset.secretMenuDotIndex) || 0;
+      state.secretMenuPlpIndex = Math.max(0, Math.min(getSecretMenuItems().length - 1, nextIndex));
       renderSecretMenuScreen();
     });
     secretMenuGallery.addEventListener("pointerdown", (event) => {
@@ -23355,6 +24364,21 @@
     } else if (typeof appShellMediaQuery.addListener === "function") {
       appShellMediaQuery.addListener(handleAppShellMediaChange);
     }
+    let viewportMetricFrame = null;
+    const handleViewportMetricChange = () => {
+      if (viewportMetricFrame !== null) return;
+      viewportMetricFrame = window.requestAnimationFrame(() => {
+        viewportMetricFrame = null;
+        updateAppViewportMetrics();
+        resetHorizontalScrollState();
+      });
+    };
+    window.addEventListener("resize", handleViewportMetricChange, { passive: true });
+    window.addEventListener("orientationchange", handleViewportMetricChange, { passive: true });
+    if (window.visualViewport && typeof window.visualViewport.addEventListener === "function") {
+      window.visualViewport.addEventListener("resize", handleViewportMetricChange, { passive: true });
+      window.visualViewport.addEventListener("scroll", handleViewportMetricChange, { passive: true });
+    }
 
     menuProductGrid.addEventListener("scroll", syncActiveMenuCategoryFromScroll, { passive: true });
 
@@ -23380,8 +24404,25 @@
     }, 1000);
 
     buildTimeOptions();
-    render();
-    setActiveTab(state.currentTab || "home");
+    const launchParams = new URLSearchParams(window.location.search);
+    if (launchParams.get("secretPdp") === "1") {
+      state.secretMenuUnlocked = true;
+      state.secretMenuStage = "idle";
+      state.fulfillmentType = "pickup";
+      state.activeStoreId = "elizabeth";
+      state.confirmedStoreId = "elizabeth";
+      state.selectedStoreName = stores.elizabeth.name;
+      state.currentTab = "menu";
+      openProductDetail(secretMenuCampaign.entryItemId, { returnScreen: "secret-menu" });
+    } else if (launchParams.get("secretEntry") === "1") {
+      state.secretMenuUnlocked = true;
+      state.secretMenuStage = "idle";
+      state.currentTab = "menu";
+      goToSecretMenu(secretMenuCampaign.entryItemId);
+    } else {
+      render();
+      setActiveTab(state.currentTab || "home");
+    }
   </script>
 </body>
 </html>
