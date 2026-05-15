@@ -19,6 +19,15 @@
 !app-icon-192.png
 !app-icon-512.png
 !VIEW ALL MENU .jpg
+!assets/
+!assets/homepage/
+!assets/homepage/*.png
+!assets/homepage/*.svg
+!assets/menu-landing/
+!assets/menu-landing/*.png
+!assets/pickup/
+!assets/pickup/*.png
+!assets/*.png
 !fonts/
 !fonts/Kentucky Fried Sans/
 !fonts/Kentucky Fried Sans/WOFF/
