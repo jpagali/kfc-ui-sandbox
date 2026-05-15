@@ -1554,14 +1554,16 @@
       padding: 8px 0 0 18px;
     }
 
-    .home-stepper span {
+    .home-stepper button {
       width: 30px;
       height: 3px;
+      padding: 0;
+      border: 0;
       background: #000000;
       opacity: 0.34;
     }
 
-    .home-stepper span.active {
+    .home-stepper button.active {
       background: #f5002b;
       opacity: 1;
     }
@@ -18333,6 +18335,63 @@
       );
     }
 
+    function renderHomeCarouselStepper(count) {
+      return Array.from({ length: count }).map((_, index) => (
+        '<button class="' + (index === 0 ? 'active' : '') + '" type="button" data-home-carousel-pill="' + index + '" aria-label="View banner ' + (index + 1) + '"></button>'
+      )).join("");
+    }
+
+    function updateHomeCarouselStepper(carousel) {
+      const track = carousel && carousel.querySelector(".home-carousel-track");
+      const cards = track ? Array.from(track.querySelectorAll(".home-hero-card")) : [];
+      const pills = carousel ? Array.from(carousel.querySelectorAll("[data-home-carousel-pill]")) : [];
+      if (!track || !cards.length || !pills.length) return;
+
+      const firstOffset = cards[0].offsetLeft;
+      const scrollLeft = track.scrollLeft;
+      const activeIndex = cards.reduce((bestIndex, card, index) => {
+        const bestDistance = Math.abs((cards[bestIndex].offsetLeft - firstOffset) - scrollLeft);
+        const nextDistance = Math.abs((card.offsetLeft - firstOffset) - scrollLeft);
+        return nextDistance < bestDistance ? index : bestIndex;
+      }, 0);
+
+      pills.forEach((pill, index) => {
+        pill.classList.toggle("active", index === activeIndex);
+      });
+    }
+
+    function setupHomeCarouselSteppers(root) {
+      root.querySelectorAll(".home-carousel").forEach((carousel) => {
+        const track = carousel.querySelector(".home-carousel-track");
+        const cards = track ? Array.from(track.querySelectorAll(".home-hero-card")) : [];
+        if (!track || !cards.length) return;
+
+        let scrollFrame = null;
+        const requestStepperSync = () => {
+          if (scrollFrame !== null) return;
+          scrollFrame = window.requestAnimationFrame(() => {
+            scrollFrame = null;
+            updateHomeCarouselStepper(carousel);
+          });
+        };
+
+        track.addEventListener("scroll", requestStepperSync, { passive: true });
+        carousel.querySelectorAll("[data-home-carousel-pill]").forEach((pill) => {
+          pill.addEventListener("click", () => {
+            const index = Number(pill.dataset.homeCarouselPill) || 0;
+            const targetCard = cards[Math.max(0, Math.min(cards.length - 1, index))];
+            if (!targetCard) return;
+            track.scrollTo({
+              left: targetCard.offsetLeft - cards[0].offsetLeft,
+              behavior: "smooth"
+            });
+          });
+        });
+
+        updateHomeCarouselStepper(carousel);
+      });
+    }
+
     function renderHomeOffers() {
       const offers = [
         {
@@ -18465,7 +18524,7 @@
         contextLead +
         '<section class="home-carousel">' +
           '<div class="home-carousel-track">' + heroCards.map(renderHomeHeroCard).join("") + '</div>' +
-          '<div class="home-stepper"><span class="active"></span><span></span><span></span><span></span></div>' +
+          '<div class="home-stepper">' + renderHomeCarouselStepper(heroCards.length) + '</div>' +
         '</section>' +
         signInPrompt +
         offers +
@@ -18477,6 +18536,7 @@
 
       homeRoots.forEach((root) => {
         root.innerHTML = html;
+        setupHomeCarouselSteppers(root);
       });
     }
 
