@@ -46,6 +46,36 @@
     @font-face {
       font-family: "Kentucky Fried Serif";
       src:
+        url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-Light.woff2") format("woff2"),
+        url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-Light.woff") format("woff");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src:
+        url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-Italic.woff2") format("woff2"),
+        url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-Italic.woff") format("woff");
+      font-weight: 400;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src:
+        url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-LightItalic.woff2") format("woff2"),
+        url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-LightItalic.woff") format("woff");
+      font-weight: 300;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src:
         url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-HeavyItalic.woff2") format("woff2"),
         url("fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-HeavyItalic.woff") format("woff");
       font-weight: 900;
@@ -13768,7 +13798,7 @@
       display: grid;
       place-items: center;
       color: #001f5b;
-      font-family: Arial, sans-serif;
+      font-family: var(--font-ui);
       font-size: 15px;
       font-weight: 800;
     }
@@ -13913,7 +13943,7 @@
       place-items: center;
       background: #ffffff;
       color: #111111;
-      font-family: Arial, sans-serif;
+      font-family: var(--font-ui);
       font-size: 10px;
       font-weight: 800;
       box-shadow: inset 0 0 0 1px #d7d4cf;
@@ -13952,7 +13982,7 @@
       place-items: center;
       background: #ffffff;
       color: #000000;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      font-family: var(--font-ui);
       font-size: 24px;
       font-weight: 400;
       line-height: 1;
@@ -14734,6 +14764,323 @@
     .postorder-footer-wrap {
       background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.42) 18px, rgba(255, 255, 255, 0.9) 44px, #ffffff 100%);
       box-shadow: 0 -14px 24px rgba(71, 47, 36, 0.06);
+    }
+
+    :root {
+      --type-mega-size: 92px;
+      --type-mega-line: 92px;
+      --type-hero-xxl-size: 56px;
+      --type-hero-xxl-line: 56px;
+      --type-hero-xl-size: 36px;
+      --type-hero-xl-line: 36px;
+      --type-hero-size: 28px;
+      --type-hero-line: 28px;
+      --type-h1-size: 32px;
+      --type-h1-line: 32px;
+      --type-h2-size: 24px;
+      --type-h2-line: 24px;
+      --type-h3-size: 16px;
+      --type-h3-line: 20px;
+      --type-h4-size: 12px;
+      --type-h4-line: 16px;
+      --type-subtitle-1-size: 16px;
+      --type-subtitle-1-line: 24px;
+      --type-subtitle-2-size: 14px;
+      --type-subtitle-2-line: 20px;
+      --type-body-1-size: 16px;
+      --type-body-1-line: 24px;
+      --type-body-2-size: 14px;
+      --type-body-2-line: 20px;
+      --type-body-3-size: 12px;
+      --type-body-3-line: 16px;
+      --type-caption-size: 12px;
+      --type-caption-line: 16px;
+      --type-overline-size: 10px;
+      --type-overline-line: 12px;
+      --type-button-size: 14px;
+      --type-button-line: 18px;
+      --type-button-small-size: 10px;
+      --type-button-small-line: 12px;
+    }
+
+    .phone *,
+    .phone *::before,
+    .phone *::after {
+      letter-spacing: 0 !important;
+    }
+
+    .phone :is([class*="title"], [class*="heading"], [class*="headline"]) {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-h3-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-h3-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .phone :is([class*="copy"], [class*="description"], [class*="subtitle"], [class*="meta"], [class*="note"], [class*="hint"]) {
+      font-family: var(--font-ui) !important;
+      font-size: var(--type-body-2-size) !important;
+      font-weight: 300 !important;
+      font-style: normal !important;
+      line-height: var(--type-body-2-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+    }
+
+    .phone :is([class*="label"], [class*="kicker"], [class*="eyebrow"], [class*="overline"], [class*="badge"], [class*="pill"], [class*="tag"]) {
+      font-family: var(--font-ui) !important;
+      font-size: var(--type-overline-size) !important;
+      font-weight: 400 !important;
+      font-style: normal !important;
+      line-height: var(--type-overline-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .phone :is([class*="btn"], [class*="button"], [class*="cta"]) {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-button-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-button-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .home-logo,
+    .more-wordmark,
+    .plp-hero-text,
+    .product-detail-display-title,
+    .secret-menu-clue-word,
+    .secret-menu-clue-word--secret {
+      font-family: var(--font-stripes) !important;
+      font-size: var(--type-mega-size) !important;
+      font-weight: 900 !important;
+      font-style: normal !important;
+      line-height: var(--type-mega-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .screen-title,
+    .card-title-display,
+    .bundle-customize-title {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-hero-xl-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-hero-xl-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .hero-title,
+    .section-title,
+    .sheet-title,
+    .return-context-title,
+    .meal-size-sheet .sheet-title,
+    .members-pick-title,
+    .members-info-title,
+    .mini-customize-title,
+    .upsell-hero-title,
+    .upsell-section-title {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-hero-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-hero-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .promo-headline,
+    .reward-title,
+    .delivery-store-card-title,
+    .time-option-label,
+    .meal-size-option-title,
+    .upsell-row-title,
+    .cart-promo-title,
+    .cart-offer-title,
+    .cart-summary-link,
+    .home-feature-title,
+    .home-push-title,
+    .home-rewards-title,
+    .store-card-title,
+    .delivery-results-label {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-h2-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-h2-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .auth-rewards-title,
+    .rewards-benefit-title,
+    .rewards-card-title,
+    .members-hub-card-title,
+    .members-boost-title,
+    .members-quick-title,
+    .delivery-saved-title,
+    .selection-title,
+    .delivery-store-section-title,
+    .product-detail-choice-title,
+    .product-detail-option-title,
+    .bundle-component-title,
+    .bundle-pdp-choice-title,
+    .customize-focus-card-title,
+    .mini-customize-option-title,
+    .cart-message-title,
+    .cart-remove-subtitle {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-h3-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-h3-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .pickup-header-title,
+    .cart-header .screen-title,
+    .cart-screen .screen-title,
+    .upsell-topbar-title,
+    .checkout-sheet-title,
+    .checkout-payment-name,
+    .checkout-payment-edit,
+    .checkout-topbar-title,
+    .checkout-header-title,
+    .checkout-location-title,
+    .delivery-address-summary-text,
+    .settings-value,
+    .account-value {
+      font-family: var(--font-ui) !important;
+      font-size: var(--type-subtitle-1-size) !important;
+      font-weight: 300 !important;
+      font-style: normal !important;
+      line-height: var(--type-subtitle-1-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+      transform: none !important;
+    }
+
+    .screen-copy,
+    .helper-copy,
+    .card-copy,
+    .meta-line,
+    .promo-copy,
+    .points-label,
+    .reward-copy,
+    .account-copy,
+    .store-copy,
+    .map-copy,
+    .section-meta,
+    .members-pick-copy,
+    .members-info-copy,
+    .selection-copy,
+    .delivery-store-card-copy,
+    .delivery-store-card-services,
+    .delivery-store-card-status,
+    .delivery-result-copy,
+    .time-option-meta,
+    .time-sheet-hint,
+    .return-context-summary,
+    .cart-message-body,
+    .cart-message-action,
+    .cart-promo-copy,
+    .cart-offer-copy,
+    .cart-text-link,
+    .cart-progress-meta,
+    .product-detail-choice-note,
+    .mini-customize-copy,
+    .mini-customize-context,
+    .upsell-row-meta,
+    .checkout-payment-meta {
+      font-family: var(--font-ui) !important;
+      font-size: var(--type-body-2-size) !important;
+      font-weight: 300 !important;
+      font-style: normal !important;
+      line-height: var(--type-body-2-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+    }
+
+    .screen-kicker,
+    .promo-eyebrow,
+    .field-label,
+    .loyalty-tier,
+    .reward-pill,
+    .members-pick-badge,
+    .rewards-page-kicker,
+    .rewards-points-label,
+    .account-label,
+    .delivery-map-label,
+    .checkout-payment-section-head,
+    .bundle-component-label,
+    .meal-size-option-badge,
+    .cart-card-tag,
+    .upsell-row-kicker,
+    .return-context-kicker {
+      font-family: var(--font-ui) !important;
+      font-size: var(--type-overline-size) !important;
+      font-weight: 400 !important;
+      font-style: normal !important;
+      line-height: var(--type-overline-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .nav-btn-label,
+    .more-version,
+    .more-copyright,
+    .members-hub-card-meta,
+    .checkout-card-label,
+    .checkout-card-brand,
+    .checkout-payment-icon,
+    .checkout-key small {
+      font-family: var(--font-ui) !important;
+      font-size: var(--type-caption-size) !important;
+      font-weight: 300 !important;
+      font-style: normal !important;
+      line-height: var(--type-caption-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+    }
+
+    .start-order-btn,
+    .sheet-option,
+    .mini-customize-confirm,
+    .meal-size-sheet-cta,
+    .return-context-primary,
+    .return-context-secondary,
+    .home-order-review,
+    .reward-cta,
+    .rewards-primary-btn,
+    .pdp-cart-btn__price,
+    .pdp-cart-btn__label,
+    .menu-cart-total,
+    .menu-cart-label,
+    .postorder-floating-btn {
+      font-family: var(--font-display) !important;
+      font-size: var(--type-button-size) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: var(--type-button-line) !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .bottom-nav-wrap.floating-start-order-wrap .start-order-btn,
+    .members-pick-badge,
+    .reward-pill,
+    .checkout-card-brand,
+    .bundle-component-label,
+    .meal-size-option-badge {
+      font-size: var(--type-button-small-size) !important;
+      line-height: var(--type-button-small-line) !important;
     }
   </style>
 </head>

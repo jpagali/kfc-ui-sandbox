@@ -4,10 +4,57 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Atlas Tech Stack</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Zilla+Slab:ital,wght@1,700&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: "Kentucky Fried Sans";
+      src:
+        url("../fonts/Kentucky Fried Sans/WOFF/KentuckyFriedSans-Regular.woff2") format("woff2"),
+        url("../fonts/Kentucky Fried Sans/WOFF/KentuckyFriedSans-Regular.woff") format("woff");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Sans";
+      src:
+        url("../fonts/Kentucky Fried Sans/WOFF/KentuckyFriedSans-Light.woff2") format("woff2"),
+        url("../fonts/Kentucky Fried Sans/WOFF/KentuckyFriedSans-Light.woff") format("woff");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src:
+        url("../fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-Regular.woff2") format("woff2"),
+        url("../fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-Regular.woff") format("woff");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Serif";
+      src:
+        url("../fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-HeavyItalic.woff2") format("woff2"),
+        url("../fonts/Kentucky Fried Serif/WOFF/KentuckyFriedSerif-HeavyItalic.woff") format("woff");
+      font-weight: 900;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Kentucky Fried Stripes";
+      src:
+        url("../fonts/Kentucky Fried Stripes/WOFF/KentuckyFriedStripes-Heavy.woff2") format("woff2"),
+        url("../fonts/Kentucky Fried Stripes/WOFF/KentuckyFriedStripes-Heavy.woff") format("woff");
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --pink: transparent;
       --red: #F5002B;
@@ -15,6 +62,10 @@
       --cream: #F7F7F2;
       --white: #ffffff;
       --stage-width: 820px;
+      --font-display: "Kentucky Fried Serif", serif;
+      --font-body: "Kentucky Fried Serif", serif;
+      --font-ui: "Kentucky Fried Sans", sans-serif;
+      --font-hero: "Kentucky Fried Stripes", sans-serif;
     }
 
     * {
@@ -27,7 +78,7 @@
       min-height: 100%;
       color: var(--ink);
       background: transparent;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-ui);
     }
 
     body {
@@ -142,9 +193,9 @@
 
     h2,
     h3 {
-      font-family: "Zilla Slab", Georgia, serif;
+      font-family: var(--font-display);
       font-style: italic;
-      font-weight: 700;
+      font-weight: 900;
       text-transform: uppercase;
       line-height: 1;
     }
@@ -508,6 +559,64 @@
         right: 12px;
         bottom: 12px;
       }
+    }
+
+    :root {
+      --type-h2-size: 24px;
+      --type-h2-line: 24px;
+      --type-body-2-size: 14px;
+      --type-body-2-line: 20px;
+      --type-caption-size: 12px;
+      --type-caption-line: 16px;
+      --type-overline-size: 10px;
+      --type-overline-line: 12px;
+    }
+
+    * {
+      letter-spacing: 0 !important;
+    }
+
+    h2,
+    h3 {
+      font-family: var(--font-display);
+      font-size: var(--type-h2-size);
+      font-weight: 900;
+      font-style: italic;
+      line-height: var(--type-h2-line);
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .subtitle,
+    .connector-label,
+    .micro-label,
+    .brand-pill,
+    .controls button {
+      font-family: var(--font-ui);
+      font-size: var(--type-overline-size);
+      font-weight: 400;
+      line-height: var(--type-overline-line);
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .layer-copy,
+    .commerce-copy,
+    .platform-copy {
+      font-family: var(--font-ui);
+      font-size: var(--type-body-2-size);
+      font-weight: 300;
+      line-height: var(--type-body-2-line);
+      letter-spacing: 0;
+    }
+
+    .platform-label,
+    .callout-copy {
+      font-family: var(--font-ui);
+      font-size: var(--type-caption-size);
+      font-weight: 300;
+      line-height: var(--type-caption-line);
+      letter-spacing: 0;
     }
   </style>
 </head>
