@@ -2032,6 +2032,883 @@
       letter-spacing: 0.06em;
     }
 
+    .auth-rewards-optin {
+      margin-top: 18px;
+      padding: 14px;
+      border: 1px solid rgba(35, 24, 21, 0.14);
+      border-radius: 14px;
+      background: #fff8ef;
+    }
+
+    .auth-rewards-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .auth-rewards-title,
+    .rewards-benefit-title,
+    .rewards-card-title {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #231815;
+    }
+
+    .auth-rewards-copy,
+    .rewards-benefit-copy,
+    .rewards-card-points,
+    .rewards-status-copy {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 12px;
+      line-height: 18px;
+      color: rgba(35, 24, 21, 0.62);
+    }
+
+    .auth-rewards-check {
+      width: 22px;
+      height: 22px;
+      accent-color: #231815;
+      flex: 0 0 auto;
+    }
+
+    .auth-rewards-link {
+      display: inline-flex;
+      margin-top: 8px;
+      color: #231815;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .home-rewards-card {
+      min-height: 128px;
+      border-radius: 8px;
+      background: #231815;
+      color: #ffffff;
+      display: grid;
+      grid-template-columns: 1fr 88px;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .home-rewards-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 22px;
+      text-transform: uppercase;
+    }
+
+    .home-rewards-copy {
+      margin-top: 8px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 12px;
+      line-height: 17px;
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .home-rewards-btn {
+      margin-top: 12px;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 4px;
+      background: #f5002b;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .home-rewards-medal {
+      width: 86px;
+      height: 86px;
+      border: 2px dashed rgba(255, 255, 255, 0.42);
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .rewards-welcome,
+    .rewards-page {
+      display: grid;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .rewards-page {
+      gap: 22px;
+      padding-bottom: 0;
+      color: var(--text);
+    }
+
+    .members-hub-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 42px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(35, 24, 21, 0.1);
+    }
+
+    .members-hub-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 28px;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .members-hub-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .members-hub-icon-btn {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .members-hub-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .members-hub-card {
+      position: relative;
+      min-height: 115px;
+      display: grid;
+      align-content: space-between;
+      padding: 15px 14px 13px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #231815;
+      color: #ffffff;
+      text-align: left;
+      isolation: isolate;
+      box-shadow: 0 12px 26px rgba(35, 24, 21, 0.14);
+    }
+
+    .members-hub-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 86% 22%, rgba(255, 255, 255, 0.2), transparent 28%),
+        linear-gradient(135deg, rgba(245, 0, 43, 0.92), rgba(35, 24, 21, 0.96));
+    }
+
+    .members-hub-card.offers {
+      color: var(--text);
+      border: 1px solid rgba(35, 24, 21, 0.08);
+    }
+
+    .members-hub-card.offers::after {
+      background:
+        radial-gradient(circle at 92% 22%, rgba(245, 0, 43, 0.14), transparent 30%),
+        linear-gradient(135deg, #fff8ef, #ffffff);
+    }
+
+    .members-hub-card-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .members-hub-card.offers .members-hub-card-icon {
+      background: #ffe5e8;
+      color: var(--red);
+    }
+
+    .members-hub-card-title {
+      display: block;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 18px;
+    }
+
+    .members-hub-card-meta {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 16px;
+      color: currentColor;
+      opacity: 0.78;
+    }
+
+    .members-hub-section-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 26px;
+      color: var(--text);
+    }
+
+    .members-hub-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .members-boost-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 14px;
+      align-items: start;
+      min-height: 120px;
+      padding: 30px 22px 20px;
+      border: 1.5px solid rgba(228, 0, 43, 0.34);
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(35, 24, 21, 0.08);
+    }
+
+    .members-boost-card.accent {
+      color: #ffffff;
+      background:
+        linear-gradient(110deg, rgba(35, 24, 21, 0.96), rgba(80, 18, 22, 0.92)),
+        #231815;
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .members-boost-card.accent .members-boost-title,
+    .members-boost-card.accent .members-boost-copy {
+      color: #ffffff;
+    }
+
+    .members-boost-card.accent .rewards-status-copy {
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .members-boost-media,
+    .members-pick-media {
+      position: absolute;
+      right: -20px;
+      bottom: -28px;
+      width: 145px;
+      height: 126px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.2));
+    }
+
+    .members-boost-card > *:not(.members-boost-media),
+    .members-pick-card > *:not(.members-pick-media) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .members-boost-card.compact {
+      grid-template-columns: 58px 1fr auto;
+      min-height: 86px;
+      padding: 20px;
+      align-items: center;
+    }
+
+    .members-boost-icon {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: #ffe5e8;
+      color: var(--red);
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .members-boost-card.accent .members-boost-icon {
+      background: #ffffff;
+      color: var(--red);
+    }
+
+    .members-boost-title {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 21px;
+      color: var(--text);
+    }
+
+    .members-boost-copy {
+      margin-top: 8px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25px;
+      color: rgba(35, 24, 21, 0.76);
+    }
+
+    .members-outline-btn {
+      margin-top: 24px;
+      min-height: 44px;
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      background: var(--red);
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 24px;
+      text-transform: uppercase;
+      box-shadow: 0 12px 24px rgba(228, 0, 43, 0.2);
+    }
+
+    .members-chip {
+      justify-self: end;
+      padding: 5px 8px;
+      border-radius: 5px;
+      background: var(--red);
+      color: #ffffff;
+      font-family: var(--font-ui);
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .members-chip.light {
+      background: #fff2d2;
+      color: #8d5c00;
+      border: 1px solid rgba(242, 194, 92, 0.52);
+    }
+
+    .members-challenge-progress {
+      grid-column: 2 / 4;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .members-progress-track {
+      height: 7px;
+      border-radius: 999px;
+      background: #e8e8e8;
+      overflow: hidden;
+    }
+
+    .members-progress-fill {
+      width: 62%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--red);
+    }
+
+    .members-progress-count {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: rgba(35, 24, 21, 0.56);
+    }
+
+    .members-top-picks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding-bottom: 8px;
+    }
+
+    .members-pick-card {
+      position: relative;
+      min-height: 246px;
+      padding: 24px 18px 18px;
+      border: 1px solid rgba(35, 24, 21, 0.1);
+      border-radius: 8px;
+      background: #fff8ef;
+      display: grid;
+      align-content: space-between;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .members-pick-card.dark {
+      background: #231815;
+      color: #ffffff;
+      border-color: #231815;
+    }
+
+    .members-pick-card.dark .members-pick-title,
+    .members-pick-card.dark .members-pick-copy {
+      color: #ffffff;
+    }
+
+    .members-pick-media {
+      top: 52px;
+      right: -34px;
+      bottom: auto;
+      width: 160px;
+      height: 140px;
+      opacity: 0.96;
+      z-index: -1;
+    }
+
+    .members-pick-badge {
+      justify-self: start;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 0;
+      color: #ffffff;
+      background: var(--red);
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 12px;
+      text-transform: uppercase;
+    }
+
+    .members-pick-badge.dark {
+      background: #ffffff;
+      color: #231815;
+    }
+
+    .members-pick-title {
+      font-family: var(--font-ui);
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 28px;
+      color: var(--text);
+    }
+
+    .members-pick-copy {
+      margin-top: 14px;
+      font-family: var(--font-ui);
+      font-size: 15px;
+      color: #999999;
+      line-height: 20px;
+    }
+
+    .members-info-card {
+      position: relative;
+      display: grid;
+      gap: 20px;
+      min-height: 402px;
+      padding: 22px 22px 18px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid rgba(35, 24, 21, 0.1);
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(35, 24, 21, 0.08);
+    }
+
+    .members-info-art {
+      min-height: 178px;
+      border-radius: 8px;
+      background:
+        linear-gradient(145deg, rgba(228, 0, 43, 0.95), rgba(35, 24, 21, 0.94)),
+        #231815;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .members-info-art::before {
+      content: "";
+      position: absolute;
+      inset: 8px auto auto 16px;
+      width: 96px;
+      height: 100%;
+      background: repeating-linear-gradient(90deg, #ffffff 0 18px, transparent 18px 32px);
+      opacity: 0.9;
+    }
+
+    .members-info-art::after {
+      content: "";
+      position: absolute;
+      right: -16px;
+      bottom: -20px;
+      width: 190px;
+      height: 150px;
+      background: var(--members-info-image) center / contain no-repeat;
+      filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.24));
+    }
+
+    .members-info-title {
+      font-family: var(--font-ui);
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 30px;
+      color: var(--text);
+    }
+
+    .members-info-copy {
+      font-family: var(--font-ui);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 25px;
+      color: rgba(35, 24, 21, 0.62);
+    }
+
+    .members-info-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .members-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .members-quick-card {
+      min-height: 76px;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid rgba(35, 24, 21, 0.1);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(35, 24, 21, 0.08);
+    }
+
+    .members-quick-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: #ffe5e8;
+      color: var(--red);
+      font-size: 18px;
+    }
+
+    .members-quick-title {
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 18px;
+    }
+
+    .rewards-welcome {
+      min-height: 100%;
+      align-content: start;
+      padding-top: 4px;
+      padding-bottom: calc(var(--bottom-nav-height) + 28px);
+    }
+
+    .rewards-logo-card {
+      width: 196px;
+      min-height: 104px;
+      margin: 0 auto;
+      border: 2px solid #231815;
+      border-radius: 8px;
+      background: #ffffff;
+      display: grid;
+      place-items: center;
+      color: #231815;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      box-shadow: 8px 8px 0 #f5002b;
+    }
+
+    .rewards-welcome-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 29px;
+      text-align: center;
+      color: #231815;
+      text-transform: uppercase;
+    }
+
+    .rewards-bonus-ring {
+      width: 136px;
+      height: 136px;
+      margin: 0 auto;
+      border: 3px solid #231815;
+      border-radius: 999px;
+      background: #fff8ef;
+      display: grid;
+      place-items: center;
+      color: #231815;
+      font-family: var(--font-hero);
+      font-style: italic;
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: 0 0 0 8px rgba(245, 0, 43, 0.08);
+    }
+
+    .rewards-welcome-copy {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 21px;
+      color: #231815;
+    }
+
+    .rewards-benefit-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .rewards-benefit-card {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+      align-items: center;
+      min-height: 62px;
+      padding: 12px;
+      border: 1px solid rgba(35, 24, 21, 0.12);
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    .rewards-benefit-icon,
+    .rewards-card-icon {
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(245, 0, 43, 0.22);
+      border-radius: 6px;
+      background: #ffe5e8;
+      color: #231815;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-weight: 800;
+    }
+
+    .rewards-benefit-icon {
+      width: 38px;
+      height: 38px;
+      font-size: 16px;
+    }
+
+    .rewards-primary-btn,
+    .rewards-card-cta,
+    .rewards-secondary-btn {
+      min-height: 46px;
+      border-radius: 2px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .rewards-primary-btn {
+      position: sticky;
+      bottom: calc(var(--bottom-nav-height) + 14px);
+      z-index: 5;
+      width: 100%;
+      background: #f5002b;
+      color: #ffffff;
+      box-shadow: 0 10px 22px rgba(245, 0, 43, 0.22);
+    }
+
+    .rewards-page-hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 198px;
+      border-radius: 8px;
+      padding: 16px;
+      background:
+        radial-gradient(circle at 78% 28%, rgba(255, 255, 255, 0.26), transparent 26%),
+        linear-gradient(135deg, #f5002b 0%, #231815 100%);
+      color: #ffffff;
+    }
+
+    .rewards-page-kicker {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.76);
+    }
+
+    .rewards-page-title {
+      margin-top: 8px;
+      font-family: var(--font-hero);
+      font-style: italic;
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 32px;
+      text-transform: uppercase;
+    }
+
+    .rewards-points-display {
+      margin-top: 18px;
+      display: inline-grid;
+      min-width: 150px;
+      min-height: 78px;
+      align-content: center;
+      padding: 12px 18px;
+      border: 2px dashed rgba(255, 255, 255, 0.5);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .rewards-points-value {
+      font-family: var(--font-hero);
+      font-style: italic;
+      font-size: 40px;
+      font-weight: 900;
+      line-height: 36px;
+    }
+
+    .rewards-points-label {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 11px;
+      line-height: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .rewards-earn-card {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 8px;
+      background: #fff8ef;
+      border: 1px solid rgba(35, 24, 21, 0.08);
+    }
+
+    .rewards-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .rewards-catalog-card {
+      display: grid;
+      gap: 10px;
+      min-height: 168px;
+      padding: 14px;
+      border: 1px dashed rgba(35, 24, 21, 0.16);
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    .rewards-catalog-card.is-locked {
+      opacity: 0.55;
+    }
+
+    .rewards-catalog-card.is-redeemed {
+      border-color: rgba(21, 147, 75, 0.42);
+      background: #f2fbf5;
+    }
+
+    .rewards-card-icon {
+      width: 42px;
+      height: 42px;
+      font-size: 18px;
+    }
+
+    .rewards-card-cta {
+      width: 100%;
+      min-height: 36px;
+      border-radius: 4px;
+      background: #231815;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .rewards-card-cta:disabled {
+      background: rgba(35, 24, 21, 0.12);
+      color: rgba(35, 24, 21, 0.46);
+    }
+
+    .rewards-status-card {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid rgba(35, 24, 21, 0.08);
+    }
+
+    .rewards-status-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 20px;
+      color: #231815;
+      text-transform: uppercase;
+    }
+
+    .rewards-secondary-btn {
+      width: fit-content;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 4px;
+      background: #f5002b;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
     .account-stack {
       display: grid;
       gap: 14px;
@@ -10803,6 +11680,11 @@
       color: #231815;
     }
 
+    .checkout-coupon-browse {
+      margin-top: 10px;
+      width: 100%;
+    }
+
     .checkout-applied-coupon {
       display: flex;
       align-items: center;
@@ -13787,6 +14669,14 @@
       padding-bottom: var(--content-cta-reserve);
     }
 
+    .screen[data-screen="rewards"] {
+      padding: calc(var(--status-safe-offset) + 12px) 18px calc(var(--bottom-nav-height) + 36px);
+    }
+
+    .screen[data-screen="rewards-welcome"] {
+      padding-bottom: calc(var(--bottom-nav-height) + 28px);
+    }
+
     .home-atlas {
       padding-bottom: 24px;
     }
@@ -14299,6 +15189,27 @@
                         </div>
                         <div class="checkout-summary" id="checkout-summary-content"></div>
                       </section>
+
+                      <section class="checkout-section" id="checkout-coupon-section">
+                        <div class="checkout-section-head">
+                          <h2 class="checkout-section-title">PROMOS &amp; REWARDS</h2>
+                          <div class="checkout-section-line"></div>
+                        </div>
+                        <div class="checkout-coupon-panel">
+                          <div class="checkout-coupon-entry">
+                            <input class="checkout-input" id="checkout-coupon-input" type="text" placeholder="Add Coupon Code" autocomplete="off" />
+                            <button class="checkout-inline-btn primary" id="apply-checkout-coupon-btn" type="button">Apply</button>
+                          </div>
+                          <div class="checkout-applied-coupon" id="checkout-applied-coupon" hidden>
+                            <span class="checkout-applied-info">
+                              <span class="checkout-applied-name" id="checkout-applied-coupon-name"></span>
+                              <span class="checkout-applied-value" id="checkout-applied-coupon-value"></span>
+                            </span>
+                            <button class="checkout-text-btn" id="remove-checkout-coupon-btn" type="button">Remove</button>
+                          </div>
+                          <button class="checkout-inline-btn secondary checkout-coupon-browse" id="open-checkout-coupon-sheet-btn" type="button">View available offers</button>
+                        </div>
+                      </section>
                     </div>
                   </div>
 
@@ -14415,6 +15326,41 @@
                     <span class="checkout-key">⌫</span>
                   </div>
 
+                  <div class="checkout-coupon-sheet" id="checkout-coupon-sheet" aria-hidden="true">
+                    <div class="checkout-coupon-sheet-panel" role="dialog" aria-modal="true" aria-label="Available offers">
+                      <div class="checkout-coupon-sheet-handle" aria-hidden="true"></div>
+                      <div class="checkout-coupon-sheet-head">
+                        <h3 class="checkout-coupon-sheet-title">Available Offers</h3>
+                        <button class="checkout-sheet-close" id="close-checkout-coupon-sheet-btn" type="button" aria-label="Close available offers">
+                          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        </button>
+                      </div>
+                      <div class="checkout-coupon-list">
+                        <button class="checkout-coupon-card" type="button" data-checkout-coupon-code="BOX5" data-checkout-coupon-label="Box5" data-checkout-coupon-discount="5">
+                          <span>
+                            <span class="checkout-coupon-card-name">Box5</span>
+                            <span class="checkout-coupon-card-tag">Combo discount</span>
+                          </span>
+                          <span class="checkout-coupon-card-value">-$5.00</span>
+                        </button>
+                        <button class="checkout-coupon-card" type="button" data-checkout-coupon-code="WELCOME5" data-checkout-coupon-label="Welcome5" data-checkout-coupon-discount="5">
+                          <span>
+                            <span class="checkout-coupon-card-name">Welcome5</span>
+                            <span class="checkout-coupon-card-tag">New account offer</span>
+                          </span>
+                          <span class="checkout-coupon-card-value">-$5.00</span>
+                        </button>
+                        <button class="checkout-coupon-card" type="button" data-checkout-coupon-code="ZINGER10" data-checkout-coupon-label="Zinger10" data-checkout-coupon-discount="3.23">
+                          <span>
+                            <span class="checkout-coupon-card-name">Zinger10</span>
+                            <span class="checkout-coupon-card-tag">Fan favorite</span>
+                          </span>
+                          <span class="checkout-coupon-card-value">-$3.23</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="checkout-legacy-controls" aria-hidden="true">
                     <span id="checkout-count"></span>
                     <span id="checkout-store-name"></span>
@@ -14427,8 +15373,8 @@
                     <span id="checkout-tax-amount"></span>
                     <span id="checkout-discount-amount"></span>
                     <span id="checkout-grand-total-amount"></span>
-                    <input id="checkout-coupon-input" type="text" />
-                    <div id="checkout-applied-coupon"><span id="checkout-applied-coupon-name"></span><span id="checkout-applied-coupon-value"></span></div>
+                    <input id="legacy-checkout-coupon-input" type="text" />
+                    <div id="legacy-checkout-applied-coupon"><span id="legacy-checkout-applied-coupon-name"></span><span id="legacy-checkout-applied-coupon-value"></span></div>
                     <span id="checkout-payment-meta"></span>
                     <input id="checkout-cash-input" type="text" />
                     <span id="checkout-cash-tendered"></span>
@@ -14449,13 +15395,13 @@
                     <span id="checkout-footer-total"></span>
                     <span id="checkout-footer-method"></span>
                     <span id="checkout-footer-status"></span>
-                    <button id="open-checkout-coupon-sheet-btn" type="button"></button>
-                    <button id="close-checkout-coupon-sheet-btn" type="button"></button>
-                    <button id="apply-checkout-coupon-btn" type="button"></button>
-                    <button id="remove-checkout-coupon-btn" type="button"></button>
+                    <button id="legacy-open-checkout-coupon-sheet-btn" type="button"></button>
+                    <button id="legacy-close-checkout-coupon-sheet-btn" type="button"></button>
+                    <button id="legacy-apply-checkout-coupon-btn" type="button"></button>
+                    <button id="legacy-remove-checkout-coupon-btn" type="button"></button>
                     <button id="checkout-add-split-btn" type="button"></button>
                     <button id="checkout-fill-remaining-btn" type="button"></button>
-                    <div id="checkout-coupon-sheet"></div>
+                    <div id="legacy-checkout-coupon-sheet"></div>
                   </div>
                 </div>
               </section>
@@ -14806,6 +15752,17 @@
                   </div>
                 </div>
 
+                <label class="auth-rewards-optin" for="rewards-opt-in-input">
+                  <div class="auth-rewards-row">
+                    <div>
+                      <div class="auth-rewards-title">Join Rewards Program</div>
+                      <div class="auth-rewards-copy">Earn 200 points when you join and collect 10 points for every $1 spent.</div>
+                    </div>
+                    <input class="auth-rewards-check" id="rewards-opt-in-input" type="checkbox" checked />
+                  </div>
+                  <span class="auth-rewards-link">Terms &amp; Conditions</span>
+                </label>
+
                 <div class="auth-actions">
                   <button class="cta" id="phone-continue" type="button" disabled>Send code</button>
                   <button class="cta ghost" id="auth-cancel" type="button">Not now</button>
@@ -14851,6 +15808,33 @@
                   <div class="success-mark">✓</div>
                   <div class="card-title-display" style="font-size:28px;color:#231815;">Signed in</div>
                   <p class="screen-copy" style="margin-top:10px;">Even if auth started from More, success returns to home in this version.</p>
+                </div>
+              </section>
+
+              <section class="screen standalone-screen" data-screen="rewards-welcome">
+                <div class="rewards-welcome">
+                  <div class="rewards-logo-card">KFC Reward<br>Logo</div>
+                  <div class="rewards-welcome-title" id="rewards-welcome-title">Welcome to KFC rewards, Justin</div>
+                  <div class="rewards-bonus-ring">200</div>
+                  <p class="rewards-welcome-copy">We&rsquo;ve gifted you 200 points to get started!</p>
+                  <p class="rewards-welcome-copy">Remember:</p>
+                  <div class="rewards-benefit-list">
+                    <article class="rewards-benefit-card">
+                      <div class="rewards-benefit-icon">%</div>
+                      <div>
+                        <div class="rewards-benefit-title">Earn on Every Purchase</div>
+                        <div class="rewards-benefit-copy">Get 10 points for every dollar spent</div>
+                      </div>
+                    </article>
+                    <article class="rewards-benefit-card">
+                      <div class="rewards-benefit-icon">★</div>
+                      <div>
+                        <div class="rewards-benefit-title">Exclusive Perks</div>
+                        <div class="rewards-benefit-copy">Access members-only deals and early releases</div>
+                      </div>
+                    </article>
+                  </div>
+                  <button class="rewards-primary-btn" data-rewards-view type="button">View KFC Rewards</button>
                 </div>
               </section>
 
@@ -15265,6 +16249,10 @@
                   </div>
 
                 </div>
+              </section>
+
+              <section class="screen" data-screen="rewards">
+                <div class="rewards-page" id="rewards-screen-root"></div>
               </section>
 
               <section class="screen" data-screen="account">
@@ -15836,12 +16824,53 @@
       sauceTomato: "https://images.ctfassets.net/crbk84xktnsl/1J8cuucnXPg85XRtybaiqC/545271fab1f0d6de1009c0559f664c35/Sauce_Tomato.png?fm=webp&fit=fill"
     };
 
+    const rewardsCatalog = [
+      {
+        id: "twenty-off",
+        title: "20% Off",
+        points: 500,
+        icon: "%",
+        code: "REWARD20",
+        label: "20% Off",
+        discount: 5,
+        couponType: "discount",
+        description: "Use on your next eligible KFC order."
+      },
+      {
+        id: "free-item",
+        title: "Free Item",
+        points: 1000,
+        icon: "★",
+        code: "FREEITEM",
+        label: "Free Item",
+        discount: 0,
+        couponType: "reward-item",
+        description: "Redeem a member reward with your basket."
+      },
+      {
+        id: "vip-event",
+        title: "VIP Event",
+        points: 2500,
+        icon: "!",
+        locked: true,
+        description: "A higher-tier market activation placeholder."
+      },
+      {
+        id: "gift-card",
+        title: "Gift Card",
+        points: 5000,
+        icon: "$",
+        locked: true,
+        description: "Reserved for future high-value rewards."
+      }
+    ];
+
     const state = {
-      screen: "home-guest",
+      screen: "home-auth",
       activeSheet: null,
       moreComingSoonOpen: false,
       moreComingSoonFeature: "More",
-      isAuthenticated: false,
+      isAuthenticated: true,
       currentTab: "home",
       cartCount: 0,
       cartIsEmpty: true,
@@ -15858,7 +16887,7 @@
       confirmedTimeOption: "asap",
       draftTimeOption: "asap",
       expandedStoreId: "",
-      returnScreen: "home-guest",
+      returnScreen: "home-auth",
       zoomLevel: 1,
       pickupFlowMode: "initial",
       deliveryFlowMode: "initial",
@@ -15906,6 +16935,13 @@
       timeLabel: "Select time",
       phoneValue: "",
       otpValue: "",
+      rewardsJoinOptIn: true,
+      rewardsOptedIn: true,
+      rewardsIntroSeen: true,
+      rewardsPoints: 1200,
+      activeRewardId: "",
+      redeemedRewardId: "",
+      rewardRedeemMessage: "",
       menuChipScrollLock: false,
       upsellStage: "offer",
       menuScrollFramePending: false,
@@ -15963,6 +16999,8 @@
     const contextTimeText = document.getElementById("context-time-text");
     const phoneInput = document.getElementById("phone-input");
     const phoneContinue = document.getElementById("phone-continue");
+    const rewardsOptInInput = document.getElementById("rewards-opt-in-input");
+    const rewardsScreenRoot = document.getElementById("rewards-screen-root");
     const otpInput = document.getElementById("otp-input");
     const otpContinue = document.getElementById("otp-continue");
     const cartCountInline = document.getElementById("cart-count-inline");
@@ -16234,6 +17272,13 @@
       "activeDeliveryStoreId",
       "confirmedDeliveryStoreId",
       "timeLabel",
+      "rewardsJoinOptIn",
+      "rewardsOptedIn",
+      "rewardsIntroSeen",
+      "rewardsPoints",
+      "activeRewardId",
+      "redeemedRewardId",
+      "rewardRedeemMessage",
       "checkoutCoupon",
       "checkoutPickupOption",
       "checkoutPaymentMethod",
@@ -16305,7 +17350,7 @@
     }
 
     function hiddenChromeScreen(screen) {
-      return screen === "pickup" || screen === "order-settings" || screen === "delivery-address" || screen === "delivery-results" || screen === "delivery-confirm" || screen === "delivery-map" || screen === "delivery-store" || screen === "product-detail" || screen === "secret-menu" || screen === "bundle-customize" || screen === "menu-search" || screen === "order-placed";
+      return screen === "pickup" || screen === "order-settings" || screen === "delivery-address" || screen === "delivery-results" || screen === "delivery-confirm" || screen === "delivery-map" || screen === "delivery-store" || screen === "product-detail" || screen === "secret-menu" || screen === "bundle-customize" || screen === "menu-search" || screen === "order-placed" || screen === "rewards" || screen === "rewards-welcome";
     }
 
     function setActiveTab(tab) {
@@ -16446,7 +17491,7 @@
 
     function resetPrototypeSessionToEmpty() {
       state.activeSheet = null;
-      state.isAuthenticated = false;
+      state.isAuthenticated = true;
       state.currentTab = "home";
       state.cartCount = 0;
       state.cartIsEmpty = true;
@@ -16471,6 +17516,13 @@
       state.timeLabel = "Select time";
       state.phoneValue = "";
       state.otpValue = "";
+      state.rewardsJoinOptIn = true;
+      state.rewardsOptedIn = true;
+      state.rewardsIntroSeen = true;
+      state.rewardsPoints = 1200;
+      state.activeRewardId = "";
+      state.redeemedRewardId = "";
+      state.rewardRedeemMessage = "";
       state.upsellBaseItemId = "";
       state.upsellReady = false;
       state.selectedUpsellQuantities = {};
@@ -18468,6 +19520,206 @@
       );
     }
 
+    function formatPoints(value) {
+      return Number(value || 0).toLocaleString("en-AU");
+    }
+
+    function getRewardById(rewardId) {
+      return rewardsCatalog.find((reward) => reward.id === rewardId) || null;
+    }
+
+    function getActiveRewardTitle() {
+      const rewardId = state.redeemedRewardId || (state.checkoutCoupon && state.checkoutCoupon.rewardId) || "";
+      const reward = getRewardById(rewardId);
+      return reward ? reward.title : "Free Item";
+    }
+
+    function getRewardCoupon(reward) {
+      return {
+        code: reward.code,
+        label: reward.label,
+        discount: reward.discount,
+        type: reward.couponType,
+        rewardId: reward.id,
+        rewardCost: reward.points
+      };
+    }
+
+    function clearCheckoutCoupon(options = {}) {
+      const shouldRefund = options.refundReward !== false;
+      if (state.checkoutCoupon && state.checkoutCoupon.rewardId && shouldRefund) {
+        state.rewardsPoints += Number(state.checkoutCoupon.rewardCost) || 0;
+      }
+      state.checkoutCoupon = null;
+      state.activeRewardId = "";
+      state.redeemedRewardId = "";
+      state.rewardRedeemMessage = "";
+      if (options.renderAfter) render();
+    }
+
+    function joinRewards(options = {}) {
+      state.rewardsOptedIn = true;
+      state.rewardsIntroSeen = true;
+      if (state.rewardsPoints < 1200) {
+        state.rewardsPoints = 1200;
+      }
+      if (options.showWelcome) {
+        showScreen("rewards-welcome");
+        setActiveTab("rewards");
+        return;
+      }
+      render();
+    }
+
+    function applyReward(rewardId) {
+      const reward = getRewardById(rewardId);
+      if (!reward || reward.locked || !reward.code) return;
+      if (!state.rewardsOptedIn) {
+        joinRewards({ showWelcome: true });
+        return;
+      }
+      if (state.redeemedRewardId === reward.id) return;
+      if (state.rewardsPoints < reward.points) return;
+
+      if (state.checkoutCoupon && state.checkoutCoupon.rewardId) {
+        clearCheckoutCoupon({ refundReward: true });
+      } else if (state.checkoutCoupon) {
+        state.checkoutCoupon = null;
+      }
+
+      state.rewardsPoints -= reward.points;
+      state.checkoutCoupon = getRewardCoupon(reward);
+      state.activeRewardId = reward.id;
+      state.redeemedRewardId = reward.id;
+      state.rewardRedeemMessage = hasCartItems()
+        ? reward.title + " saved to cart."
+        : reward.title + " saved. Add items to use this reward.";
+      render();
+    }
+
+    function renderHomeRewardsOptIn() {
+      if (!state.isAuthenticated || state.rewardsOptedIn) return "";
+      return (
+        '<article class="home-rewards-card">' +
+          '<div>' +
+            '<div class="home-rewards-title">Opt in to access exclusive deals</div>' +
+            '<div class="home-rewards-copy">Join KFC Rewards to earn points, redeem member offers, and keep rewards visible from the Rewards tab.</div>' +
+            '<button class="home-rewards-btn" data-rewards-opt-in type="button">Opt in</button>' +
+          '</div>' +
+          '<div class="home-rewards-medal">200</div>' +
+        '</article>'
+      );
+    }
+
+    function renderRewardsCatalogCard(reward) {
+      const redeemed = state.redeemedRewardId === reward.id;
+      const locked = reward.locked || state.rewardsPoints < reward.points;
+      const unavailableBecauseSaved = state.redeemedRewardId && !redeemed;
+      const ctaLabel = redeemed
+        ? "Saved"
+        : reward.locked
+          ? "Locked"
+          : state.rewardsPoints < reward.points
+            ? "Need " + formatPoints(reward.points - state.rewardsPoints)
+            : unavailableBecauseSaved
+              ? "One saved"
+              : "Redeem";
+      const disabled = redeemed || locked || unavailableBecauseSaved;
+
+      return (
+        '<article class="rewards-catalog-card' + (redeemed ? ' is-redeemed' : '') + (locked ? ' is-locked' : '') + '">' +
+          '<div class="rewards-card-icon">' + escapeHtml(reward.icon) + '</div>' +
+          '<div>' +
+            '<div class="rewards-card-title">' + escapeHtml(reward.title) + '</div>' +
+            '<div class="rewards-card-points">' + formatPoints(reward.points) + ' pts</div>' +
+          '</div>' +
+          '<div class="rewards-status-copy">' + escapeHtml(reward.description) + '</div>' +
+          '<button class="rewards-card-cta" data-rewards-redeem="' + escapeAttr(reward.id) + '" type="button"' + (disabled ? ' disabled' : '') + '>' + escapeHtml(ctaLabel) + '</button>' +
+        '</article>'
+      );
+    }
+
+    function renderRewardsStatusCard() {
+      if (!state.redeemedRewardId) return "";
+      const reward = getRewardById(state.redeemedRewardId);
+      const actionLabel = hasCartItems() ? "View cart" : "Add items";
+      const actionAttr = hasCartItems() ? "data-rewards-cart" : "data-rewards-menu";
+      return (
+        '<section class="rewards-status-card">' +
+          '<div class="rewards-status-title">' + escapeHtml((reward && reward.title) || "Reward") + ' saved</div>' +
+          '<div class="rewards-status-copy">' + escapeHtml(state.rewardRedeemMessage || "Your reward is ready for this order.") + '</div>' +
+          '<button class="rewards-secondary-btn" ' + actionAttr + ' type="button">' + actionLabel + '</button>' +
+        '</section>'
+      );
+    }
+
+    function renderRewardsScreen() {
+      if (!rewardsScreenRoot) return;
+      const displayPoints = state.rewardsPoints || 1200;
+      rewardsScreenRoot.innerHTML = (
+        '<header class="members-hub-header">' +
+          '<div class="members-hub-title">KFC Rewards</div>' +
+          '<div class="members-hub-actions">' +
+            '<button class="members-hub-icon-btn" type="button" aria-label="Reward history">↺</button>' +
+            '<button class="members-hub-icon-btn" type="button" aria-label="Rewards help">?</button>' +
+          '</div>' +
+        '</header>' +
+        '<section class="members-hub-card-grid">' +
+          '<button class="members-hub-card" type="button">' +
+            '<span class="members-hub-card-icon">♙</span>' +
+            '<span><span class="members-hub-card-title">My Rewards</span><span class="members-hub-card-meta">3 New | ' + formatPoints(displayPoints) + ' Points ▲</span></span>' +
+          '</button>' +
+          '<button class="members-hub-card offers" type="button">' +
+            '<span class="members-hub-card-icon">◇</span>' +
+            '<span><span class="members-hub-card-title">Offers</span><span class="members-hub-card-meta">4 New</span></span>' +
+          '</button>' +
+        '</section>' +
+        '<section class="members-hub-stack">' +
+          '<h2 class="members-hub-section-title">Justin, time to boost your points!</h2>' +
+          '<article class="members-boost-card accent">' +
+            '<div class="members-boost-icon">⌁</div>' +
+            '<div><div class="members-boost-title">Extra 100 points on Sides</div><button class="members-outline-btn" type="button">Boost</button></div>' +
+            '<div class="members-boost-media" style="background-image:url(\'' + sanitizeCssUrl(homeImageUrls.chips) + '\')"></div>' +
+          '</article>' +
+          '<article class="members-boost-card">' +
+            '<div class="members-boost-icon">★</div>' +
+            '<div><div class="members-boost-title">Add Your Birthday</div><div class="members-boost-copy">Get a special reward during your birthday month! We&rsquo;ll send you a surprise gift to celebrate with you.</div><button class="members-outline-btn" type="button">Add</button></div>' +
+          '</article>' +
+          '<article class="members-boost-card compact">' +
+            '<div class="members-boost-icon">▣</div>' +
+            '<div><div class="members-boost-title">Challenge ready</div><div class="rewards-status-copy">Place 3 orders before 10 AM this week</div></div><span class="members-chip">New</span>' +
+          '</article>' +
+          '<article class="members-boost-card compact">' +
+            '<div class="members-boost-icon">▣</div>' +
+            '<div><div class="members-boost-title">Challenge in progress</div><div class="rewards-status-copy">Order 5 burgers this month to unlock bonus points</div></div><span class="members-chip light">600pts</span>' +
+            '<div class="members-challenge-progress"><div class="members-progress-track"><div class="members-progress-fill"></div></div><span class="members-progress-count">3/5</span></div>' +
+          '</article>' +
+        '</section>' +
+        '<section>' +
+          '<h2 class="members-hub-section-title">Top Picks for You</h2>' +
+          '<div class="members-top-picks">' +
+            '<article class="members-pick-card"><span class="members-pick-badge">Ending Soon</span><div class="members-pick-media" style="background-image:url(\'' + sanitizeCssUrl(homeImageUrls.heroBucket) + '\')"></div><div><div class="members-pick-title">Offer</div><div class="members-pick-copy">Family bucket bonus points</div></div></article>' +
+            '<article class="members-pick-card dark"><span class="members-pick-badge dark">Latest</span><div class="members-pick-media" style="background-image:url(\'' + sanitizeCssUrl(homeImageUrls.zinger) + '\')"></div><div><div class="members-pick-title">Reward</div><div class="members-pick-copy">New reward available</div></div></article>' +
+          '</div>' +
+        '</section>' +
+        '<section class="members-hub-stack">' +
+          '<h2 class="members-hub-section-title">Did you know?</h2>' +
+          '<article class="members-info-card" style="--members-info-image:url(\'' + sanitizeCssUrl(homeImageUrls.wings) + '\')">' +
+            '<div class="members-info-art"></div>' +
+            '<div><div class="members-info-title">Maximise your points</div><div class="members-info-copy">Ordering via the app on Tuesdays earns you 2X points on all side dishes. Stack your rewards for the ultimate feast.</div></div>' +
+            '<div class="members-info-foot"><span>Tap for next tip ↻</span><span>1/4</span></div>' +
+          '</article>' +
+        '</section>' +
+        '<section class="members-hub-stack">' +
+          '<h2 class="members-hub-section-title">Quick Links</h2>' +
+          '<div class="members-quick-grid">' +
+            '<button class="members-quick-card" type="button"><span class="members-quick-icon">♕</span><span class="members-quick-title">Referral</span></button>' +
+            '<button class="members-quick-card" type="button"><span class="members-quick-icon">?</span><span class="members-quick-title">Add receipt</span></button>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
     function renderHomeScreen() {
       const signedIn = state.isAuthenticated;
       const hasContext = hasOrderContext();
@@ -18522,6 +19774,7 @@
       const html = (
         welcome +
         contextLead +
+        renderHomeRewardsOptIn() +
         '<section class="home-carousel">' +
           '<div class="home-carousel-track">' + heroCards.map(renderHomeHeroCard).join("") + '</div>' +
           '<div class="home-stepper">' + renderHomeCarouselStepper(heroCards.length) + '</div>' +
@@ -20819,11 +22072,20 @@
 
     function getCheckoutCouponFromCode(code) {
       if (!code) return null;
-      if (code === "BOX5") return { code, label: "Box5", discount: 5 };
-      if (code === "FREEFRIES") return { code, label: "FreeFries", discount: 2.9 };
-      if (code === "ZINGER10" || code === "WELCOME5") return { code, label: code === "WELCOME5" ? "Welcome5" : "Zinger10", discount: code === "WELCOME5" ? 5 : 3.23 };
+      if (code === "BOX5") return { code, label: "Box5", discount: 5, type: "discount" };
+      if (code === "FREEFRIES" || code === "FREEITEM") return { code, label: code === "FREEITEM" ? "Free Item" : "FreeFries", discount: code === "FREEITEM" ? 0 : 2.9, type: "reward-item" };
+      if (code === "REWARD20") return { code, label: "20% Off", discount: 5, type: "discount" };
+      if (code === "ZINGER10" || code === "WELCOME5") return { code, label: code === "WELCOME5" ? "Welcome5" : "Zinger10", discount: code === "WELCOME5" ? 5 : 3.23, type: "discount" };
       if (code === "THRESHOLD") return { code, label: "Free Delivery", discount: 0, type: "threshold" };
       return null;
+    }
+
+    function applyCheckoutCouponCode(rawCode) {
+      const code = (rawCode || "").trim().toUpperCase();
+      clearCheckoutCoupon({ refundReward: true });
+      state.checkoutCoupon = getCheckoutCouponFromCode(code);
+      state.checkoutCouponSheetOpen = false;
+      render();
     }
 
     function getCheckoutTotal() {
@@ -20924,10 +22186,12 @@
     }
 
     function renderCheckoutCoupon() {
+      checkoutCouponSheet.classList.toggle("is-visible", !!state.checkoutCouponSheetOpen);
+      checkoutCouponSheet.setAttribute("aria-hidden", state.checkoutCouponSheetOpen ? "false" : "true");
       if (state.checkoutCoupon) {
         checkoutAppliedCoupon.hidden = false;
         checkoutAppliedCouponName.textContent = state.checkoutCoupon.label;
-        checkoutAppliedCouponValue.textContent = "-" + formatCurrency(state.checkoutCoupon.discount);
+        checkoutAppliedCouponValue.textContent = state.checkoutCoupon.discount ? "-" + formatCurrency(state.checkoutCoupon.discount) : "Applied";
         checkoutCouponInput.value = state.checkoutCoupon.code;
       } else {
         checkoutAppliedCoupon.hidden = true;
@@ -21022,7 +22286,7 @@
       if (cartShouldShowThreshold(validation)) {
         lines.push(state.fulfillmentType === "delivery" ? "Free delivery with your order" : "Basket reward redeemed");
       }
-      if (cartShouldShowReward()) lines.push("Free Large Chips redeemed");
+      if (cartShouldShowReward()) lines.push(getActiveRewardTitle() + " redeemed");
       return lines;
     }
 
@@ -21057,7 +22321,7 @@
           ? '<div class="checkout-summary-row discount"><span>Discount Coupon (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><strong>-' + formatCurrency(state.checkoutCoupon.discount) + '</strong></div>'
           : '',
         cartShouldShowReward()
-          ? '<div class="checkout-summary-row discount"><span>Free Zinger Burger</span><strong>-' + formatCurrency(14.9) + '</strong></div>'
+          ? '<div class="checkout-summary-row discount"><span>' + escapeHtml(getActiveRewardTitle()) + '</span><strong>-' + formatCurrency(14.9) + '</strong></div>'
           : '',
         cartShouldShowThreshold(validation) && isDelivery
           ? '<div class="checkout-summary-row discount"><span>Free Delivery</span><strong>-' + formatCurrency(pricing.deliveryFee || 4.99) + '</strong></div>'
@@ -21115,6 +22379,7 @@
 
       renderCheckoutFulfillmentDetails();
       renderCheckoutSummary(pricing, validation);
+      renderCheckoutCoupon();
       renderCheckoutPaymentSheet();
 
       checkoutCount.textContent = state.cartCount + " Item" + (state.cartCount === 1 ? "" : "s");
@@ -21300,6 +22565,9 @@
 
     function resetCheckoutState() {
       state.checkoutCoupon = null;
+      state.activeRewardId = "";
+      state.redeemedRewardId = "";
+      state.rewardRedeemMessage = "";
       state.checkoutPickupOption = "In Store";
       state.checkoutPaymentMethod = "saved-card";
       state.checkoutCashTendered = 0;
@@ -21389,12 +22657,12 @@
     }
 
     function cartShouldShowReward() {
-      return cartHasActivePromo() && state.checkoutCoupon.type !== "threshold";
+      return cartHasActivePromo() && state.checkoutCoupon.type === "reward-item";
     }
 
     function getCartSummaryOfferLines(validation) {
       const lines = [];
-      if (cartShouldShowReward()) lines.push("Free Zinger Burger");
+      if (cartShouldShowReward()) lines.push(getActiveRewardTitle());
       if (cartShouldShowThreshold(validation)) {
         lines.push(state.fulfillmentType === "delivery" ? "Free Delivery" : "Basket Reward");
       }
@@ -21427,7 +22695,7 @@
         '<section class="cart-reward-card">' +
           '<div class="cart-reward-copy">' +
             '<span class="cart-chip">Reward</span>' +
-            '<div class="cart-reward-title">FREE ZINGER BURGER</div>' +
+            '<div class="cart-reward-title">' + escapeHtml(getActiveRewardTitle()).toUpperCase() + '</div>' +
             '<div class="cart-reward-desc">Applied to this order.</div>' +
           '</div>' +
           '<div class="cart-reward-art"></div>' +
@@ -21613,7 +22881,7 @@
             '<div class="cart-summary-row"><span>Subtotal</span><span>' + formatCurrency(checkoutPricing.subtotal) + '</span></div>' +
             '<div class="cart-summary-row"><span>GST (included)</span><span></span></div>' +
             (state.checkoutCoupon && state.checkoutCoupon.discount ? '<div class="cart-summary-row discount"><span>Discount Coupon (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><span>-' + formatCurrency(state.checkoutCoupon.discount) + '</span></div>' : '') +
-            (cartShouldShowReward() ? '<div class="cart-summary-row discount"><span>Free Zinger Burger</span><span>-' + formatCurrency(14.9) + '</span></div>' : '') +
+            (cartShouldShowReward() ? '<div class="cart-summary-row discount"><span>' + escapeHtml(getActiveRewardTitle()) + '</span><span>-' + formatCurrency(14.9) + '</span></div>' : '') +
             (isDelivery ? '<div class="cart-summary-row"><span>Delivery Fee</span><span>' + formatCurrency(checkoutPricing.deliveryFee || 4.99) + '</span></div>' : '') +
             (cartShouldShowThreshold(validation) && isDelivery ? '<div class="cart-summary-row discount"><span>Free Delivery</span><span>-' + formatCurrency(checkoutPricing.deliveryFee || 4.99) + '</span></div>' : '') +
           '</div>' +
@@ -22500,6 +23768,7 @@
       const cartHasItems = hasCartItems();
       state.homeReturnPromptArmed = true;
       renderHomeScreen();
+      renderRewardsScreen();
       screens.forEach((screen) => {
         screen.classList.toggle("active", screen.dataset.screen === state.screen);
       });
@@ -22538,6 +23807,8 @@
         && state.screen !== "product-detail"
         && state.screen !== "secret-menu"
         && state.screen !== "bundle-customize"
+        && state.screen !== "rewards"
+        && state.screen !== "rewards-welcome"
         && (!hasContext || showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta);
       const shouldShowBottomWrap = true;
       bottomNavWrap.hidden = !shouldShowBottomWrap;
@@ -22697,6 +23968,7 @@
       });
 
       phoneInput.value = state.phoneValue;
+      if (rewardsOptInInput) rewardsOptInInput.checked = !!state.rewardsJoinOptIn;
       otpInput.value = state.otpValue;
       phoneContinue.disabled = state.phoneValue.replace(/\D/g, "").length < 9;
       otpContinue.disabled = state.otpValue.length !== 6;
@@ -22782,6 +24054,27 @@
       if (state.homeReturnPromptArmed && hasOrderContext()) {
         openReturnContextPrompt();
       }
+    }
+
+    function goToRewards(options = {}) {
+      state.editingCartItemId = "";
+      state.productDetailReturnScreen = "menu";
+      state.activeSheet = null;
+      if (!state.isAuthenticated) {
+        state.returnScreen = "rewards";
+        beginAuth();
+        return;
+      }
+      if (!state.rewardsOptedIn) {
+        state.rewardsOptedIn = true;
+        state.rewardsIntroSeen = true;
+        if (state.rewardsPoints < 480) {
+          state.rewardsPoints = 480;
+        }
+      }
+      state.rewardsIntroSeen = true;
+      showScreen("rewards");
+      setActiveTab("rewards");
     }
 
     function goToMenuLanding() {
@@ -22978,6 +24271,10 @@
 
     function finishAuth() {
       state.isAuthenticated = true;
+      if (state.rewardsJoinOptIn) {
+        joinRewards({ showWelcome: true });
+        return;
+      }
       showScreen("auth-success");
       setTimeout(() => {
         goHome();
@@ -23955,6 +25252,13 @@
       render();
     });
 
+    if (rewardsOptInInput) {
+      rewardsOptInInput.addEventListener("change", () => {
+        state.rewardsJoinOptIn = rewardsOptInInput.checked;
+        render();
+      });
+    }
+
     otpInput.addEventListener("input", () => {
       state.otpValue = otpInput.value.replace(/\D/g, "").slice(0, 6);
       render();
@@ -23985,6 +25289,13 @@
       state.isAuthenticated = false;
       state.phoneValue = "";
       state.otpValue = "";
+      state.rewardsJoinOptIn = true;
+      state.rewardsOptedIn = false;
+      state.rewardsIntroSeen = false;
+      state.rewardsPoints = 0;
+      state.activeRewardId = "";
+      state.redeemedRewardId = "";
+      state.rewardRedeemMessage = "";
       state.fulfillmentType = "";
       state.selectedStoreName = "Select store";
       state.selectedAddressName = "";
@@ -24052,11 +25363,41 @@
         }
 
         if (tab === "rewards") {
-          goHome();
+          goToRewards();
           return;
         }
 
       });
+    });
+
+    document.addEventListener("click", (event) => {
+      const optIn = event.target.closest("[data-rewards-opt-in]");
+      if (optIn) {
+        joinRewards({ showWelcome: false });
+        goToRewards({ skipIntro: true });
+        return;
+      }
+
+      const viewRewards = event.target.closest("[data-rewards-view]");
+      if (viewRewards) {
+        goToRewards({ skipIntro: true });
+        return;
+      }
+
+      const redeemReward = event.target.closest("[data-rewards-redeem]");
+      if (redeemReward) {
+        applyReward(redeemReward.dataset.rewardsRedeem);
+        return;
+      }
+
+      if (event.target.closest("[data-rewards-cart]")) {
+        goToCart();
+        return;
+      }
+
+      if (event.target.closest("[data-rewards-menu]")) {
+        goToMenuLanding();
+      }
     });
 
     cartScreen.addEventListener("click", (event) => {
@@ -24101,16 +25442,14 @@
 
       const removeCoupon = event.target.closest("[data-cart-remove-coupon]");
       if (removeCoupon) {
-        state.checkoutCoupon = null;
-        render();
+        clearCheckoutCoupon({ refundReward: true, renderAfter: true });
         return;
       }
 
       const applyCoupon = event.target.closest("[data-cart-apply-coupon]");
       if (applyCoupon) {
         const cartCouponInput = document.getElementById("cart-coupon-input");
-        state.checkoutCoupon = getCheckoutCouponFromCode((cartCouponInput && cartCouponInput.value || "").trim().toUpperCase());
-        render();
+        applyCheckoutCouponCode(cartCouponInput && cartCouponInput.value);
         return;
       }
 
@@ -24185,10 +25524,12 @@
 
       const couponCard = event.target.closest("[data-checkout-coupon-code]");
       if (couponCard) {
+        clearCheckoutCoupon({ refundReward: true });
         state.checkoutCoupon = {
           code: couponCard.dataset.checkoutCouponCode,
           label: couponCard.dataset.checkoutCouponLabel,
-          discount: Number(couponCard.dataset.checkoutCouponDiscount)
+          discount: Number(couponCard.dataset.checkoutCouponDiscount),
+          type: "discount"
         };
         state.checkoutCouponSheetOpen = false;
         render();
@@ -24239,12 +25580,16 @@
       }
     });
     document.getElementById("apply-checkout-coupon-btn").addEventListener("click", () => {
-      state.checkoutCoupon = getCheckoutCouponFromCode(checkoutCouponInput.value.trim().toUpperCase());
-      render();
+      applyCheckoutCouponCode(checkoutCouponInput.value);
+    });
+    checkoutCouponInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        applyCheckoutCouponCode(checkoutCouponInput.value);
+      }
     });
     document.getElementById("remove-checkout-coupon-btn").addEventListener("click", () => {
-      state.checkoutCoupon = null;
-      render();
+      clearCheckoutCoupon({ refundReward: true, renderAfter: true });
     });
     checkoutCashInput.addEventListener("change", () => {
       state.checkoutCashTendered = parseCurrencyInput(checkoutCashInput.value);

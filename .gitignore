@@ -8,6 +8,7 @@
 !.github/workflows/deploy-gh-pages.yml
 !.gitignore
 !README.md
+!ROLLBACK-rewards-prototype-changes.md
 !index.html
 !rna-sneak-peek-prototype.html
 !kfc-au-menu-data.js
