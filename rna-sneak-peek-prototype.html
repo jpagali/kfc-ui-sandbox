@@ -8679,6 +8679,11 @@
       margin-bottom: 8px;
     }
 
+    .meal-size-sheet .sheet-head > div {
+      min-width: 0;
+      max-width: calc(100% - 54px);
+    }
+
     .meal-size-sheet .sheet-title {
       margin-top: 0;
       font-family: var(--font-ui);
@@ -8690,6 +8695,8 @@
       text-transform: none;
       transform: none;
       color: #111111;
+      max-width: 100%;
+      overflow-wrap: anywhere;
     }
 
     .meal-size-sheet .card-icon-btn {
@@ -8723,7 +8730,7 @@
     .meal-size-option {
       width: 100%;
       display: grid;
-      grid-template-columns: 118px minmax(0, 1fr);
+      grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
       gap: 14px;
       align-items: center;
       min-height: 168px;
@@ -8791,6 +8798,7 @@
       letter-spacing: -0.03em;
       text-transform: uppercase;
       color: #111111;
+      overflow-wrap: anywhere;
     }
 
     .meal-size-option.is-hero .meal-size-option-title {
@@ -8805,6 +8813,7 @@
       line-height: 1.18;
       letter-spacing: -0.02em;
       color: #6f6f6f;
+      overflow-wrap: anywhere;
     }
 
     .meal-size-sheet-cta {
@@ -13780,7 +13789,7 @@
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 32px 16px 116px;
+      padding: 32px 16px calc(104px + var(--ios-bottom-safe-gap));
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
       scrollbar-width: none;
@@ -14228,10 +14237,10 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: var(--bottom-nav-height);
-      z-index: 12;
-      padding: 16px;
-      background: #ffffff;
+      bottom: 0;
+      z-index: 90;
+      padding: 14px 16px calc(14px + var(--ios-bottom-safe-gap));
+      background: #000000;
     }
 
     .checkout-home-indicator {
@@ -14873,7 +14882,7 @@
     }
 
     body.app-shell-fullscreen .meal-size-option {
-      grid-template-columns: minmax(96px, 32vw) minmax(0, 1fr);
+      grid-template-columns: minmax(84px, 34%) minmax(0, 1fr);
       min-height: clamp(132px, 19.6dvh, 168px);
       padding: clamp(12px, 2dvh, 18px);
     }
@@ -14938,7 +14947,7 @@
     body.app-shell-fullscreen .checkout-scroll {
       padding-left: var(--mobile-gutter);
       padding-right: var(--mobile-gutter);
-      padding-bottom: calc(var(--bottom-nav-height) + var(--mobile-sticky-pad) + 24px);
+      padding-bottom: calc(104px + var(--mobile-safe-bottom));
     }
 
     body.app-shell-fullscreen .checkout-content {
