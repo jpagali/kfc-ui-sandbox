@@ -21370,10 +21370,37 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return window.matchMedia("(max-width: 640px), (hover: none) and (pointer: coarse) and (max-width: 920px)").matches;
     }
 
+    let stableShellWidth = 0;
+    let stableShellHeight = 0;
+    let stableShellOrientation = "";
+
+    function getViewportOrientation(width, height) {
+      return width >= height ? "landscape" : "portrait";
+    }
+
     function updateAppViewportMetrics() {
       const viewport = window.visualViewport;
-      const shellWidth = Math.max(1, Math.round(viewport ? viewport.width : window.innerWidth));
-      const shellHeight = Math.max(1, Math.round(viewport ? viewport.height : window.innerHeight));
+      const layoutWidth = Math.max(1, Math.round(window.innerWidth || document.documentElement.clientWidth || 1));
+      const layoutHeight = Math.max(1, Math.round(window.innerHeight || document.documentElement.clientHeight || 1));
+      const visualWidth = Math.max(1, Math.round(viewport ? viewport.width : layoutWidth));
+      const visualHeight = Math.max(1, Math.round(viewport ? viewport.height : layoutHeight));
+      const orientation = getViewportOrientation(layoutWidth, layoutHeight);
+      const activeElement = document.activeElement;
+      const authFieldFocused = activeElement && activeElement.matches && activeElement.matches(".auth-input, .auth-otp-input, .auth-select");
+      const heightShrankFromStable = stableShellHeight > 0
+        && stableShellOrientation === orientation
+        && stableShellHeight - layoutHeight > 120;
+      const keyboardLikelyOpen = (viewport && (layoutHeight - visualHeight > 120 || viewport.offsetTop > 0))
+        || (authFieldFocused && heightShrankFromStable);
+
+      if (!stableShellWidth || !stableShellHeight || stableShellOrientation !== orientation || !keyboardLikelyOpen) {
+        stableShellWidth = layoutWidth;
+        stableShellHeight = layoutHeight;
+        stableShellOrientation = orientation;
+      }
+
+      const shellWidth = keyboardLikelyOpen ? stableShellWidth : visualWidth;
+      const shellHeight = keyboardLikelyOpen ? stableShellHeight : visualHeight;
       const appRatio = 402 / 874;
       let appWidth = shellWidth;
       let appHeight = Math.round(appWidth / appRatio);
