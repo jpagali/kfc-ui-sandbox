@@ -1241,6 +1241,23 @@
       color: #000000;
     }
 
+    .auth-inline-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      margin-bottom: -4px;
+      background: transparent;
+      color: #000000;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 18px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
     .auth-copy,
     .auth-helper,
     .auth-label,
@@ -19662,6 +19679,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
                 </div>
 
                 <div class="auth-body">
+                  <button class="auth-inline-back" id="auth-account-inline-back" type="button">Back to verification</button>
                   <div class="auth-title">Create Account</div>
                   <p class="auth-copy">Fields marked with an asterisk (*) are required</p>
 
@@ -20986,6 +21004,16 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const accountContactEmailInput = document.getElementById("account-contact-email");
     const accountContactPhoneInput = document.getElementById("account-contact-phone");
     const accountCreateBtn = document.getElementById("account-create");
+    const accountFormControls = [
+      accountFirstNameInput,
+      accountLastNameInput,
+      accountMobileInput,
+      accountEmailInput,
+      accountDobInput,
+      accountTermsInput,
+      accountContactEmailInput,
+      accountContactPhoneInput
+    ].filter(Boolean);
     const cartCountInline = document.getElementById("cart-count-inline");
     const storeCards = Array.from(document.querySelectorAll(".store-card"));
     const searchInput = document.getElementById("search-input");
@@ -21403,13 +21431,44 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
     }
 
-    function accountFormValid() {
-      return state.accountFirstName.trim().length > 0
-        && state.accountLastName.trim().length > 0
-        && state.phoneValue.replace(/\D/g, "").length >= 9
-        && validEmail(state.accountEmail)
-        && state.accountTermsAccepted
-        && (state.accountContactEmail || state.accountContactPhone);
+    function getAccountFormValues() {
+      return {
+        firstName: accountFirstNameInput ? accountFirstNameInput.value : state.accountFirstName,
+        lastName: accountLastNameInput ? accountLastNameInput.value : state.accountLastName,
+        phone: accountMobileInput ? accountMobileInput.value : state.phoneValue,
+        email: accountEmailInput ? accountEmailInput.value : state.accountEmail,
+        dob: accountDobInput ? accountDobInput.value : state.accountDob,
+        termsAccepted: accountTermsInput ? accountTermsInput.checked : state.accountTermsAccepted,
+        contactEmail: accountContactEmailInput ? accountContactEmailInput.checked : state.accountContactEmail,
+        contactPhone: accountContactPhoneInput ? accountContactPhoneInput.checked : state.accountContactPhone
+      };
+    }
+
+    function syncAccountFormStateFromDom() {
+      const values = getAccountFormValues();
+      state.accountFirstName = values.firstName;
+      state.accountLastName = values.lastName;
+      state.phoneValue = values.phone;
+      state.accountEmail = values.email;
+      state.accountDob = values.dob;
+      state.accountTermsAccepted = values.termsAccepted;
+      state.accountContactEmail = values.contactEmail;
+      state.accountContactPhone = values.contactPhone;
+      return values;
+    }
+
+    function accountFormValid(values = getAccountFormValues()) {
+      return values.firstName.trim().length > 0
+        && values.lastName.trim().length > 0
+        && values.phone.replace(/\D/g, "").length >= 9
+        && validEmail(values.email)
+        && values.termsAccepted
+        && (values.contactEmail || values.contactPhone);
+    }
+
+    function refreshAccountCreateCta() {
+      const values = syncAccountFormStateFromDom();
+      if (accountCreateBtn) accountCreateBtn.disabled = !accountFormValid(values);
     }
 
     function syncAuthKeyboardState() {
@@ -28944,6 +29003,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function finishAuth() {
+      syncAccountFormStateFromDom();
       state.isAuthenticated = true;
       state.accountProfileName = [state.accountFirstName.trim(), state.accountLastName.trim()].filter(Boolean).join(" ");
       state.rewardsOptedIn = !!state.rewardsJoinOptIn || state.rewardsOptedIn;
@@ -30002,6 +30062,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     document.getElementById("auth-account-back").addEventListener("click", () => {
       showScreen("auth-otp");
     });
+    document.getElementById("auth-account-inline-back").addEventListener("click", () => {
+      showScreen("auth-otp");
+    });
 
     phoneInput.addEventListener("input", () => {
       state.phoneValue = phoneInput.value;
@@ -30034,47 +30097,17 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       showScreen("auth-create-account");
     });
 
-    accountFirstNameInput.addEventListener("input", () => {
-      state.accountFirstName = accountFirstNameInput.value;
-      render();
-    });
-
-    accountLastNameInput.addEventListener("input", () => {
-      state.accountLastName = accountLastNameInput.value;
-      render();
-    });
-
-    accountMobileInput.addEventListener("input", () => {
-      state.phoneValue = accountMobileInput.value;
-      render();
-    });
-
-    accountEmailInput.addEventListener("input", () => {
-      state.accountEmail = accountEmailInput.value;
-      render();
-    });
-
-    accountDobInput.addEventListener("change", () => {
-      state.accountDob = accountDobInput.value;
-      render();
-    });
-
-    accountTermsInput.addEventListener("change", () => {
-      state.accountTermsAccepted = accountTermsInput.checked;
-      render();
-    });
-
-    accountContactEmailInput.addEventListener("change", () => {
-      state.accountContactEmail = accountContactEmailInput.checked;
-      render();
-    });
-
-    accountContactPhoneInput.addEventListener("change", () => {
-      state.accountContactPhone = accountContactPhoneInput.checked;
-      render();
+    accountFormControls.forEach((control) => {
+      ["input", "change", "keyup", "blur"].forEach((eventName) => {
+        control.addEventListener(eventName, () => {
+          refreshAccountCreateCta();
+          persistPrototypeState();
+        });
+      });
     });
 
     document.getElementById("account-create").addEventListener("click", () => {
+      refreshAccountCreateCta();
       if (accountFormValid()) finishAuth();
     });
 
