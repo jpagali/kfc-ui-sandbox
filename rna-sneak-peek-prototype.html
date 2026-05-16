@@ -1534,6 +1534,13 @@
       padding-top: 0;
     }
 
+    body.auth-keyboard-open .screen[data-screen="auth-phone"] .auth-bottom-action,
+    body.auth-keyboard-open .screen[data-screen="auth-otp"] .auth-bottom-action {
+      position: static;
+      margin-top: 40px;
+      padding-top: 0;
+    }
+
     .auth-submit {
       min-height: 42px;
       border-radius: 2px;
@@ -21405,6 +21412,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         && (state.accountContactEmail || state.accountContactPhone);
     }
 
+    function syncAuthKeyboardState() {
+      const activeElement = document.activeElement;
+      const authFieldFocused = activeElement && activeElement.matches && activeElement.matches(".auth-input, .auth-otp-input, .auth-select");
+      const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+      const viewport = window.visualViewport;
+      const viewportReduced = viewport ? (window.innerHeight - viewport.height > 120 || viewport.offsetTop > 0) : false;
+      const shouldUseContentCta = authFieldFocused
+        && (state.screen === "auth-phone" || state.screen === "auth-otp")
+        && (coarsePointer || viewportReduced);
+      document.body.classList.toggle("auth-keyboard-open", !!shouldUseContentCta);
+    }
+
     function getActiveStore() {
       return stores[state.activeStoreId];
     }
@@ -28620,6 +28639,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       otpContinue.disabled = state.otpValue.length !== 6;
       if (accountCreateBtn) accountCreateBtn.disabled = !accountFormValid();
       syncOtpCells();
+      syncAuthKeyboardState();
       resetHorizontalScrollState();
       persistPrototypeState();
     }
@@ -30585,18 +30605,29 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     let viewportMetricFrame = null;
     const handleViewportMetricChange = () => {
       if (viewportMetricFrame !== null) return;
-      viewportMetricFrame = window.requestAnimationFrame(() => {
-        viewportMetricFrame = null;
-        updateAppViewportMetrics();
-        resetHorizontalScrollState();
-      });
-    };
+        viewportMetricFrame = window.requestAnimationFrame(() => {
+          viewportMetricFrame = null;
+          updateAppViewportMetrics();
+          syncAuthKeyboardState();
+          resetHorizontalScrollState();
+        });
+      };
     window.addEventListener("resize", handleViewportMetricChange, { passive: true });
     window.addEventListener("orientationchange", handleViewportMetricChange, { passive: true });
     if (window.visualViewport && typeof window.visualViewport.addEventListener === "function") {
       window.visualViewport.addEventListener("resize", handleViewportMetricChange, { passive: true });
       window.visualViewport.addEventListener("scroll", handleViewportMetricChange, { passive: true });
     }
+    document.addEventListener("focusin", (event) => {
+      if (event.target && event.target.matches && event.target.matches(".auth-input, .auth-otp-input, .auth-select")) {
+        syncAuthKeyboardState();
+      }
+    });
+    document.addEventListener("focusout", (event) => {
+      if (event.target && event.target.matches && event.target.matches(".auth-input, .auth-otp-input, .auth-select")) {
+        window.setTimeout(syncAuthKeyboardState, 80);
+      }
+    });
 
     menuProductGrid.addEventListener("scroll", syncActiveMenuCategoryFromScroll, { passive: true });
 
