@@ -15,6 +15,8 @@
 !kfc-au-menu-data.js
 !manifest.webmanifest
 !prototype-sw.js
+!i18n/
+!i18n/*.js
 !app-icon.svg
 !app-icon-180.png
 !app-icon-192.png
@@ -31,6 +33,8 @@
 !assets/menu-landing/*.png
 !assets/pickup/
 !assets/pickup/*.png
+!assets/splash/
+!assets/splash/*.png
 !assets/*.png
 !fonts/
 !fonts/Kentucky Fried Sans/

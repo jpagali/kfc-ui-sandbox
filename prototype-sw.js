@@ -1,7 +1,10 @@
-const CACHE_NAME = "kfc-atlas-prototype-v39";
+const CACHE_NAME = "kfc-atlas-prototype-v50";
 const CORE_ASSETS = [
   "./",
   "./rna-sneak-peek-prototype.html",
+  "./i18n/market-flags.js",
+  "./i18n/translations.js",
+  "./assets/splash/kfc-bucket-white.png",
   "./manifest.webmanifest",
   "./app-icon.svg",
   "./app-icon-180.png",
