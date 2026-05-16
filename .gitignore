@@ -9,6 +9,7 @@
 !.gitignore
 !README.md
 !ROLLBACK-rewards-prototype-changes.md
+!SIGN-IN-CREATE-ACCOUNT-JOURNEY-REQUIREMENTS.md
 !index.html
 !rna-sneak-peek-prototype.html
 !kfc-au-menu-data.js
@@ -20,6 +21,9 @@
 !app-icon-512.png
 !VIEW ALL MENU .jpg
 !assets/
+!assets/auth/
+!assets/auth/*.png
+!assets/auth/*.svg
 !assets/homepage/
 !assets/homepage/*.png
 !assets/homepage/*.svg
