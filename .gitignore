@@ -33,6 +33,7 @@
 !assets/menu-landing/*.png
 !assets/pickup/
 !assets/pickup/*.png
+!assets/pickup/*.svg
 !assets/splash/
 !assets/splash/*.png
 !assets/*.png

@@ -2145,6 +2145,24 @@
       line-height: 30px;
     }
 
+    .home-section-title[data-home-fit-title] {
+      max-width: 100%;
+    }
+
+    .home-title-line {
+      display: block;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      word-break: normal;
+      font: inherit;
+    }
+
+    .home-section-title.is-compact-title {
+      font-size: 28px;
+      line-height: 27px;
+    }
+
     .home-offer-rail,
     .home-order-rail {
       display: flex;
@@ -6735,6 +6753,16 @@
       letter-spacing: 0.08em;
     }
 
+    .nutrition-compliance-note {
+      margin: 0 0 14px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.35;
+      color: rgba(35, 24, 21, 0.58);
+    }
+
     .nutrition-name,
     .allergen-name {
       font-family: var(--font-ui);
@@ -7183,7 +7211,7 @@
     }
 
     .menu-product-info-link {
-      justify-self: start;
+      justify-self: center;
       padding: 0;
       background: transparent;
       border: 0;
@@ -8189,7 +8217,7 @@
       font-family: var(--font-display);
       font-style: italic;
       font-size: 16px;
-      font-weight: 900;
+      font-weight: 400;
       line-height: 18px;
       text-transform: uppercase;
     }
@@ -8381,7 +8409,7 @@
       font-family: var(--font-display);
       font-style: italic;
       font-size: 16px;
-      font-weight: 900;
+      font-weight: 400;
       line-height: 18px;
       text-transform: uppercase;
     }
@@ -8765,6 +8793,124 @@
     .sheet-option.delivery {
       background: #000000;
       opacity: 0.9;
+    }
+
+    .menu-filter-sheet {
+      display: grid;
+      gap: 18px;
+      padding-top: 16px;
+    }
+
+    .menu-filter-sheet .sheet-grabber {
+      display: none;
+    }
+
+    .menu-filter-sheet .sheet-head {
+      align-items: center;
+      margin-bottom: 0;
+    }
+
+    .menu-filter-sheet .sheet-kicker {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 14px;
+      text-transform: uppercase;
+    }
+
+    .menu-filter-sheet .sheet-title {
+      margin-top: 4px;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 27px;
+      font-weight: 500;
+      line-height: 1.08;
+      text-transform: none;
+      color: #111111;
+    }
+
+    .menu-filter-body {
+      display: grid;
+      gap: 18px;
+    }
+
+    .menu-filter-note {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 20px;
+      color: #666666;
+    }
+
+    .menu-filter-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .menu-filter-group-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 18px;
+      color: #111111;
+      text-transform: uppercase;
+    }
+
+    .menu-filter-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .menu-filter-chip {
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(17, 17, 17, 0.16);
+      border-radius: 999px;
+      background: #ffffff;
+      color: #111111;
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 16px;
+    }
+
+    .menu-filter-chip:disabled {
+      opacity: 1;
+    }
+
+    .menu-filter-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .menu-filter-secondary,
+    .menu-filter-primary {
+      min-height: 48px;
+      border-radius: 4px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 18px;
+      text-transform: uppercase;
+    }
+
+    .menu-filter-secondary {
+      border: 1px solid #111111;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .menu-filter-primary {
+      background: var(--red);
+      color: #ffffff;
     }
 
     .return-context-panel {
@@ -9410,10 +9556,15 @@
     }
 
     .sheet#upsell-sheet {
-      inset: 0 0 var(--bottom-nav-height) 0;
+      top: 0;
+      right: 0;
       bottom: var(--bottom-nav-height);
+      left: 0;
+      height: calc(100% - var(--bottom-nav-height));
+      max-height: calc(100% - var(--bottom-nav-height));
       transform: translateY(100%);
-      z-index: 50;
+      z-index: 55;
+      overflow: hidden;
     }
 
     .sheet#upsell-sheet.open {
@@ -9422,6 +9573,8 @@
 
     .upsell-sheet {
       height: 100%;
+      min-height: 100%;
+      max-height: 100%;
       display: flex;
       flex-direction: column;
       border-radius: 0;
@@ -9720,6 +9873,7 @@
     .upsell-actions {
       padding: 16px 16px calc(14px + env(safe-area-inset-bottom));
       background: #ffffff;
+      border-top: 1px solid rgba(17, 17, 17, 0.12);
       flex-shrink: 0;
     }
 
@@ -9842,14 +9996,14 @@
     }
 
     .cart-empty-state {
-      min-height: calc(100vh - 236px);
-      min-height: calc(100dvh - 236px);
+      min-height: calc(100vh - 53px);
+      min-height: calc(100dvh - 53px);
       display: grid;
-      align-content: center;
-      justify-items: center;
-      gap: 8px;
-      padding: 32px 16px 8px;
-      text-align: center;
+      align-content: start;
+      justify-items: start;
+      gap: 0;
+      padding: clamp(40px, 9dvh, 82px) 16px 32px;
+      text-align: left;
     }
 
     .cart-empty-state[hidden] {
@@ -9860,13 +10014,24 @@
       display: none;
     }
 
+    .cart-empty-hero {
+      width: 100%;
+      aspect-ratio: 343 / 456;
+      margin: 0 0 28px;
+      background-color: #f6f2eb;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
     .cart-empty-title {
-      max-width: 280px;
+      max-width: 100%;
+      margin: 0 0 24px;
       font-family: var(--font-body);
-      font-size: 18px;
+      font-size: clamp(28px, 8.4vw, 34px);
       font-style: italic;
       font-weight: 900;
-      line-height: 24px;
+      line-height: 0.94;
       letter-spacing: 0;
       text-transform: uppercase;
       color: #231815;
@@ -9884,8 +10049,8 @@
     }
 
     .cart-empty-cta {
-      width: calc(100% - 32px);
-      min-height: 42px;
+      width: min(284px, 100%);
+      min-height: 56px;
       padding: 0 16px;
       border-radius: 4px;
       background: var(--red);
@@ -9898,8 +10063,8 @@
       letter-spacing: 0;
       text-transform: uppercase;
       box-shadow: none;
-      align-self: end;
-      margin: auto 16px 0;
+      align-self: start;
+      margin: 0;
     }
 
     .cart-remove-sheet-panel {
@@ -10455,14 +10620,15 @@
     .cart-link-btn {
       padding: 0;
       background: transparent;
-      font-family: var(--font-ui);
+      font-family: var(--font-display);
       font-style: normal;
-      font-size: 12px;
+      font-size: 16px;
       font-weight: 300;
-      line-height: 1.45;
+      line-height: 18px;
       color: #231815;
       text-decoration: underline;
       text-underline-offset: 3px;
+      text-transform: none;
     }
 
     .cart-link-btn.danger {
@@ -11287,27 +11453,47 @@
 
     .cart-screen .cart-header::before,
     .cart-screen .cart-header::after {
+      display: none;
+    }
+
+    .cart-screen .cart-header::before {
+      content: none;
+    }
+
+    .cart-screen .cart-header::after {
+      content: none;
+    }
+
+    .cart-screen .cart-header-btn,
+    .phone .cart-screen .cart-header-btn {
       display: grid;
       place-items: center;
       width: 44px;
       height: 52px;
+      padding: 0;
+      border: 0;
+      background: transparent;
       color: #000000;
-      font-family: var(--font-ui);
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1;
+      font-family: var(--font-ui) !important;
+      font-size: 20px !important;
+      font-style: normal !important;
+      font-weight: 600 !important;
+      line-height: 1 !important;
+      text-transform: none !important;
     }
 
-    .cart-screen .cart-header::before {
-      content: "<";
+    .cart-screen .cart-header-btn.back,
+    .phone .cart-screen .cart-header-btn.back {
       grid-column: 1;
-      font-size: 15px;
+      font-size: 15px !important;
+      font-weight: 600 !important;
     }
 
-    .cart-screen .cart-header::after {
-      content: "x";
+    .cart-screen .cart-header-btn.close,
+    .phone .cart-screen .cart-header-btn.close {
       grid-column: 3;
-      font-size: 16px;
+      font-size: 16px !important;
+      font-weight: 700 !important;
     }
 
     .cart-screen .screen-kicker {
@@ -11782,18 +11968,21 @@
       gap: 12px;
     }
 
-    .cart-screen .cart-link-btn {
+    .cart-screen .cart-link-btn,
+    .phone .cart-screen .cart-link-btn {
       min-height: 0;
       padding: 0;
       border: 0;
       background: transparent;
       color: #000000;
-      font-family: var(--font-ui);
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 14px;
+      font-family: var(--font-display) !important;
+      font-size: 16px !important;
+      font-style: normal !important;
+      font-weight: 300 !important;
+      line-height: 18px !important;
       text-decoration: underline;
-      text-transform: none;
+      text-underline-offset: 3px;
+      text-transform: none !important;
     }
 
     .cart-screen .cart-qty {
@@ -14250,6 +14439,10 @@
       margin: 0;
     }
 
+    .checkout-screen [hidden] {
+      display: none !important;
+    }
+
     .checkout-section-head {
       display: grid;
       gap: 12px;
@@ -14472,35 +14665,17 @@
       gap: 24px;
     }
 
-    .checkout-summary-toggle {
+    .checkout-summary-heading {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       min-height: 36px;
-      background: transparent;
       color: #000000;
       font-family: var(--font-ui);
       font-size: 16px;
-      font-weight: 400;
+      font-weight: 700;
       line-height: 20px;
-      text-align: left;
-    }
-
-    .checkout-summary-chevron {
-      width: 20px;
-      height: 20px;
-      display: grid;
-      place-items: center;
-      transition: transform 0.18s var(--ease);
-    }
-
-    .checkout-summary-toggle[aria-expanded="true"] .checkout-summary-chevron {
-      transform: rotate(180deg);
     }
 
     .checkout-offers,
-    .checkout-items-list,
     .checkout-summary-rows,
     .checkout-total-row {
       display: grid;
@@ -14532,7 +14707,6 @@
       font-weight: 400;
     }
 
-    .checkout-items-list[hidden],
     .checkout-offers[hidden] {
       display: none;
     }
@@ -16088,6 +16262,19 @@
       text-transform: none !important;
     }
 
+    .cart-screen .cart-empty-title,
+    .phone .cart-screen .cart-empty-title {
+      font-family: var(--font-display) !important;
+      font-size: clamp(28px, 8.4vw, 34px) !important;
+      font-weight: 900 !important;
+      font-style: italic !important;
+      line-height: 0.94 !important;
+      letter-spacing: 0 !important;
+      text-transform: uppercase !important;
+      color: #000000 !important;
+      transform: none !important;
+    }
+
     .screen-kicker,
     .promo-eyebrow,
     .field-label,
@@ -17162,6 +17349,30 @@
       overflow-wrap: anywhere;
     }
 
+    .home-section-title[data-home-fit-title],
+    .phone .home-section-title[data-home-fit-title] {
+      font-size: var(--home-fit-font-size, clamp(42px, 12.2vw, 52px)) !important;
+      line-height: var(--home-fit-line-height, 0.96) !important;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .home-section-title[data-home-fit-title] .home-title-line,
+    .phone .home-section-title[data-home-fit-title] .home-title-line {
+      display: block;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow-wrap: normal;
+      word-break: normal;
+      font: inherit !important;
+    }
+
+    .home-section-title.is-compact-title,
+    .phone .home-section-title.is-compact-title {
+      font-size: var(--home-fit-font-size, clamp(36px, 10vw, 44px)) !important;
+      line-height: var(--home-fit-line-height, 0.96) !important;
+    }
+
     .home-offer-rail,
     .home-order-rail {
       gap: 4px;
@@ -17780,6 +17991,7 @@
     body.app-shell-framed .bottom-nav-wrap.floating-start-order-wrap .start-order-btn {
       width: calc(100% - 32px) !important;
       margin: 0 auto 16px !important;
+      display: flex !important;
       text-transform: capitalize !important;
     }
 
@@ -18192,12 +18404,24 @@
       height: 100% !important;
       min-height: 100% !important;
       overflow: hidden;
-      background-color: #f5f1e6;
-      background-image: var(--pickup-map-bg, none);
+      background-color: #f7f4ec;
+      background-image:
+        var(--pickup-map-bg, none),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(245, 240, 226, 0.18));
       background-repeat: no-repeat;
-      background-size: 2416px 1230px;
-      background-position: -1148px -221px;
+      background-size: 720px 960px, cover;
+      background-position: center -38px, center;
       border-radius: 0;
+    }
+
+    .screen[data-screen="pickup"] .map-panel[data-zoom-level="2"] {
+      background-size: 830px 1107px, cover;
+      background-position: center -92px, center;
+    }
+
+    .screen[data-screen="pickup"] .map-panel[data-zoom-level="3"] {
+      background-size: 940px 1253px, cover;
+      background-position: center -142px, center;
     }
 
     .screen[data-screen="pickup"] .map-panel::after,
@@ -18340,7 +18564,7 @@
 
     .screen[data-screen="pickup"] .location-cta {
       right: 16px;
-      bottom: calc(90px + 211px + 16px);
+      bottom: calc(90px + 176px + 12px);
       z-index: 24;
       width: 32px;
       height: 32px;
@@ -18350,7 +18574,7 @@
     }
 
     .screen[data-screen="pickup"]:has(.store-card.expanded) .location-cta {
-      bottom: calc(90px + 436px + 16px);
+      bottom: calc(90px + 356px + 12px);
     }
 
     .screen[data-screen="pickup"] .location-cta svg {
@@ -18386,7 +18610,7 @@
       width: max-content;
       min-width: 100%;
       height: auto;
-      padding: 16px;
+      padding: 12px 16px;
       overflow: visible;
       scroll-snap-type: x mandatory;
     }
@@ -18394,11 +18618,11 @@
     .screen[data-screen="pickup"] .store-card {
       flex: 0 0 288px;
       width: 288px;
-      min-height: 179px;
+      min-height: 152px;
       scroll-snap-align: start;
       border: 1px solid #eeebe7;
       border-radius: 4px;
-      padding: 20px;
+      padding: 16px;
       background: #ffffff;
       box-shadow: none;
       transition: border-color 0.18s var(--ease), min-height 0.18s var(--ease);
@@ -18408,16 +18632,30 @@
     .screen[data-screen="pickup"] .store-card.expanded {
       border: 1px solid #0e0d0c;
       background: #ffffff;
-      padding: 20px;
+      padding: 16px;
       box-shadow: none;
     }
 
     .screen[data-screen="pickup"] .store-card.expanded {
-      min-height: 404px;
+      min-height: 332px;
     }
 
     .screen[data-screen="pickup"] .store-card-title {
       max-width: 220px;
+      font-size: 15px !important;
+      line-height: 20px !important;
+    }
+
+    .screen[data-screen="pickup"] .store-address {
+      margin-top: 6px;
+      font-size: 11px !important;
+      line-height: 15px !important;
+    }
+
+    .screen[data-screen="pickup"] .store-copy {
+      margin-top: 6px;
+      font-size: 12px !important;
+      line-height: 15px !important;
     }
 
     .screen[data-screen="pickup"] .store-card-header .card-icon-btn {
@@ -18440,6 +18678,7 @@
     }
 
     .screen[data-screen="pickup"] .store-status {
+      margin-top: 8px;
       justify-content: flex-start;
       align-items: center;
       gap: 8px;
@@ -18473,44 +18712,44 @@
     }
 
     .screen[data-screen="pickup"] .store-details {
-      margin-top: 16px;
+      margin-top: 12px;
       padding-top: 0;
       border-top: 0;
     }
 
     .screen[data-screen="pickup"] .store-hours-label {
       font-family: var(--font-ui) !important;
-      font-size: 12px !important;
+      font-size: 11px !important;
       font-weight: 700 !important;
-      line-height: 16px !important;
+      line-height: 14px !important;
       color: #000000 !important;
     }
 
     .screen[data-screen="pickup"] .hours-grid {
-      width: 240px;
-      margin-top: 8px;
+      width: 256px;
+      margin-top: 6px;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 4px 10px;
-      font-size: 12px !important;
-      line-height: 16px !important;
+      gap: 2px 8px;
+      font-size: 11px !important;
+      line-height: 14px !important;
       color: #000000 !important;
     }
 
     .screen[data-screen="pickup"] .hours-grid span {
-      min-height: 16px;
+      min-height: 14px;
       white-space: nowrap;
     }
 
     .screen[data-screen="pickup"] .store-phone {
-      margin-top: 16px;
+      margin-top: 12px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       color: #000000 !important;
       font-family: var(--font-ui) !important;
-      font-size: 12px !important;
+      font-size: 11px !important;
       font-weight: 700 !important;
-      line-height: 16px !important;
+      line-height: 14px !important;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -18526,6 +18765,10 @@
     }
 
     .screen[data-screen="pickup"] .start-order-btn.pickup-footer.details-open {
+      margin-top: 0 !important;
+    }
+
+    .phone:has(.screen[data-screen="pickup"].active) .start-order-btn.pickup-footer {
       margin-top: 0 !important;
     }
 
@@ -18547,6 +18790,11 @@
       padding-top: 16px;
       padding-bottom: 32px;
       background: #ffffff !important;
+    }
+
+    .phone:has(.screen[data-screen="pickup"].active) .bottom-nav-wrap.pickup-footer-wrap {
+      padding-top: 12px;
+      padding-bottom: 22px;
     }
 
     .phone:has(.screen[data-screen="pickup"].active) .bottom-nav-wrap.pickup-footer-wrap::before,
@@ -18586,11 +18834,11 @@
       }
 
       .screen[data-screen="pickup"] .location-cta {
-        bottom: calc(82px + 211px + 12px);
+        bottom: calc(82px + 176px + 12px);
       }
 
       .screen[data-screen="pickup"]:has(.store-card.expanded) .location-cta {
-        bottom: calc(82px + 436px + 12px);
+        bottom: calc(82px + 356px + 12px);
       }
     }
 
@@ -18599,6 +18847,16 @@
       padding: 0 !important;
       background: #000000 !important;
       overflow: hidden;
+    }
+
+    .phone:has(.screen[data-screen="home-guest"].active):has(.bottom-nav-wrap.floating-start-order-wrap) .screen[data-screen="home-guest"],
+    .phone:has(.screen[data-screen="home-auth"].active):has(.bottom-nav-wrap.floating-start-order-wrap) .screen[data-screen="home-auth"] {
+      padding-bottom: 48px !important;
+    }
+
+    .phone:has(.screen[data-screen="home-guest"].active):has(.bottom-nav-wrap.floating-start-order-wrap) .home-atlas,
+    .phone:has(.screen[data-screen="home-auth"].active):has(.bottom-nav-wrap.floating-start-order-wrap) .home-atlas {
+      padding-bottom: 76px !important;
     }
 
     .phone:has(.screen[data-screen="home-guest"].active) .bottom-nav-wrap.floating-start-order-wrap .start-order-btn,
@@ -19545,20 +19803,22 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
               <section class="screen" data-screen="cart">
                 <div class="cart-screen" id="cart-screen">
                   <div class="cart-header">
+                    <button class="cart-header-btn back" id="cart-back-btn" type="button" aria-label="Back from cart">&lt;</button>
                     <div class="screen-kicker">Cart</div>
                     <div class="screen-title">Cart</div>
+                    <button class="cart-header-btn close" id="cart-close-btn" type="button" aria-label="Close cart">x</button>
                   </div>
 
                   <div class="cart-figma-hero" id="cart-figma-hero"></div>
                   <div class="cart-empty-state" id="cart-empty-state">
+                    <div class="cart-empty-hero" id="cart-empty-hero" aria-hidden="true"></div>
                     <div class="cart-empty-mark" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 8.5H17.5L16.4 18.1C16.3 19 15.54 19.68 14.63 19.68H9.87C8.96 19.68 8.2 19 8.1 18.1L7 8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
                         <path d="M9.5 8.5V7.4C9.5 6.08 10.58 5 11.9 5H12.1C13.42 5 14.5 6.08 14.5 7.4V8.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
                       </svg>
                     </div>
-                    <div class="cart-empty-title">Your cart is empty.</div>
-                    <p class="cart-empty-copy">Let’s start an order!</p>
+                    <div class="cart-empty-title">There&rsquo;s plenty to get your taste buds tingling</div>
                     <button class="cart-empty-cta" id="cart-empty-cta" type="button">View Menu</button>
                   </div>
 
@@ -19638,7 +19898,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
                           <h2 class="checkout-section-title">ORDER SUMMARY</h2>
                           <div class="checkout-section-line"></div>
                         </div>
-                        <div class="checkout-summary" id="checkout-summary-content"><button class="checkout-summary-toggle" type="button" data-checkout-toggle-summary="true" aria-expanded="false"><span>Items [0]</span><span class="checkout-summary-chevron" aria-hidden="true">⌄</span></button><div class="checkout-items-list" hidden=""></div><div class="checkout-summary-rows"><div class="checkout-summary-row"><span>Subtotal</span><strong>$0.00</strong></div><div class="checkout-summary-row"><span>GST (included)</span><strong></strong></div></div><div class="checkout-summary-divider"></div><div class="checkout-total-row"><div class="checkout-total-label"><strong>TOTAL</strong><small>GST included</small></div><div class="checkout-total-value">$0.00</div></div></div>
+                        <div class="checkout-summary" id="checkout-summary-content"><div class="checkout-summary-heading">Items [0]</div><div class="checkout-summary-rows"><div class="checkout-summary-row"><span>Subtotal</span><strong>$0.00</strong></div><div class="checkout-summary-row"><span>GST (included)</span><strong></strong></div></div><div class="checkout-summary-divider"></div><div class="checkout-total-row"><div class="checkout-total-label"><strong>TOTAL</strong><small>GST included</small></div><div class="checkout-total-value">$0.00</div></div></div>
                       </section>
 
                       <section class="checkout-section" id="checkout-coupon-section">
@@ -20763,6 +21023,65 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
               </section>
 
               <div class="sheet-backdrop" id="sheet-backdrop"></div>
+
+              <div class="sheet" id="menu-filter-sheet">
+                <div class="sheet-panel menu-filter-sheet">
+                  <div class="sheet-grabber"></div>
+                  <div class="sheet-head">
+                    <div>
+                      <div class="sheet-kicker">Placeholder</div>
+                      <div class="sheet-title">Filter menu</div>
+                    </div>
+                    <button class="card-icon-btn" id="close-menu-filter-sheet" type="button" aria-label="Close filters">
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 7L17 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                        <path d="M17 7L7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="menu-filter-body">
+                    <p class="menu-filter-note">Filter controls are shown for PLP review. Results are not narrowed yet.</p>
+                    <div class="menu-filter-group">
+                      <div class="menu-filter-group-title">Meal type</div>
+                      <div class="menu-filter-chip-row" aria-label="Meal type filters">
+                        <button class="menu-filter-chip" type="button" disabled>Combo</button>
+                        <button class="menu-filter-chip" type="button" disabled>Box meal</button>
+                        <button class="menu-filter-chip" type="button" disabled>A la carte</button>
+                        <button class="menu-filter-chip" type="button" disabled>Shared meal</button>
+                      </div>
+                    </div>
+                    <div class="menu-filter-group">
+                      <div class="menu-filter-group-title">Budget</div>
+                      <div class="menu-filter-chip-row" aria-label="Budget filters">
+                        <button class="menu-filter-chip" type="button" disabled>Under $10</button>
+                        <button class="menu-filter-chip" type="button" disabled>$10-$15</button>
+                        <button class="menu-filter-chip" type="button" disabled>$15+</button>
+                      </div>
+                    </div>
+                    <div class="menu-filter-group">
+                      <div class="menu-filter-group-title">Occasion</div>
+                      <div class="menu-filter-chip-row" aria-label="Occasion filters">
+                        <button class="menu-filter-chip" type="button" disabled>Quick snack</button>
+                        <button class="menu-filter-chip" type="button" disabled>Meal for one</button>
+                        <button class="menu-filter-chip" type="button" disabled>Sharing</button>
+                        <button class="menu-filter-chip" type="button" disabled>Kids</button>
+                      </div>
+                    </div>
+                    <div class="menu-filter-group">
+                      <div class="menu-filter-group-title">Availability</div>
+                      <div class="menu-filter-chip-row" aria-label="Availability filters">
+                        <button class="menu-filter-chip" type="button" disabled>Pickup</button>
+                        <button class="menu-filter-chip" type="button" disabled>Delivery</button>
+                        <button class="menu-filter-chip" type="button" disabled>Available now</button>
+                      </div>
+                    </div>
+                    <div class="menu-filter-actions">
+                      <button class="menu-filter-secondary" id="menu-filter-clear" type="button">Clear</button>
+                      <button class="menu-filter-primary" id="menu-filter-apply" type="button">Show menu</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div class="sheet" id="order-sheet">
                 <div class="sheet-panel">
@@ -22177,6 +22496,67 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     let defaultMenuItemId = "";
     let menuDataStatus = "idle";
     let menuDataPromise = null;
+    let catalogItemsWithAdditionsCacheKey = "";
+    let catalogItemsWithAdditionsCache = null;
+    let allCatalogItemsCacheKey = "";
+    let allCatalogItemsCache = null;
+    let menuItemsCacheKey = "";
+    let menuItemsCache = null;
+    let menuItemLookupCacheKey = "";
+    let menuItemLookupCache = null;
+    let catalogItemLookupCacheKey = "";
+    let catalogItemLookupCache = null;
+    let allDisplaySizesCacheKey = "";
+    let allDisplaySizesCache = null;
+    let upsellRecommendationsCacheKey = "";
+    let upsellRecommendationsCache = new Map();
+    let checkoutOffersCacheKey = "";
+    let checkoutOffersCache = null;
+    let checkoutCouponMarkupCacheKey = "";
+    let checkoutCouponMarkupCache = "";
+    let persistPrototypeStateFrame = null;
+
+    function getMenuRuntimeCacheKey() {
+      return [
+        menuDataStatus,
+        state.fulfillmentType || "",
+        state.confirmedStoreId || "",
+        state.activeStoreId || "",
+        state.confirmedDeliveryStoreId || "",
+        state.activeDeliveryStoreId || "",
+        state.secretMenuFullyUnlocked ? "secret" : "",
+        state.language || ""
+      ].join("|");
+    }
+
+    function resetMenuRuntimeCaches() {
+      catalogItemsWithAdditionsCacheKey = "";
+      catalogItemsWithAdditionsCache = null;
+      allCatalogItemsCacheKey = "";
+      allCatalogItemsCache = null;
+      menuItemsCacheKey = "";
+      menuItemsCache = null;
+      menuItemLookupCacheKey = "";
+      menuItemLookupCache = null;
+      catalogItemLookupCacheKey = "";
+      catalogItemLookupCache = null;
+      allDisplaySizesCacheKey = "";
+      allDisplaySizesCache = null;
+      upsellRecommendationsCacheKey = "";
+      upsellRecommendationsCache = new Map();
+      checkoutOffersCacheKey = "";
+      checkoutOffersCache = null;
+      checkoutCouponMarkupCacheKey = "";
+      checkoutCouponMarkupCache = "";
+    }
+
+    function schedulePrototypeStatePersist() {
+      if (persistPrototypeStateFrame !== null) return;
+      persistPrototypeStateFrame = requestAnimationFrame(() => {
+        persistPrototypeStateFrame = null;
+        persistPrototypeState();
+      });
+    }
 
     function isMenuDataReady() {
       return menuDataStatus === "ready" && Array.isArray(kfcAuCatalogItems) && kfcAuCatalogItems.length > 0;
@@ -22218,6 +22598,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (!state.selectedMenuItemId) {
         state.selectedMenuItemId = defaultMenuItemId || "";
       }
+      resetMenuRuntimeCaches();
     }
 
     function loadMenuData() {
@@ -22350,6 +22731,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       expandedCartItemIds: [],
       pendingCartRemoveItemId: "",
       editingCartItemId: "",
+      cartReturnScreen: "menu-landing",
       productDetailReturnScreen: "menu",
       fulfillmentType: "",
       activeStoreId: "elizabeth",
@@ -22466,6 +22848,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const menuCartBtn = document.getElementById("menu-cart-btn");
     const menuCartTotal = document.getElementById("menu-cart-total");
     const orderSheet = document.getElementById("order-sheet");
+    const menuFilterSheet = document.getElementById("menu-filter-sheet");
+    const closeMenuFilterSheetBtn = document.getElementById("close-menu-filter-sheet");
+    const menuFilterClearBtn = document.getElementById("menu-filter-clear");
+    const menuFilterApplyBtn = document.getElementById("menu-filter-apply");
     const timeSheet = document.getElementById("time-sheet");
     const mealSizeSheet = document.getElementById("meal-size-sheet");
     const miniCustomizeSheet = document.getElementById("mini-customize-sheet");
@@ -22563,6 +22949,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const cartScreen = document.getElementById("cart-screen");
     const cartFigmaHero = document.getElementById("cart-figma-hero");
     const cartEmptyState = document.getElementById("cart-empty-state");
+    const cartEmptyHero = document.getElementById("cart-empty-hero");
     const cartEmptyCta = document.getElementById("cart-empty-cta");
     const cartValidationStack = document.getElementById("cart-validation-stack");
     const cartPromo = document.getElementById("cart-promo");
@@ -22775,6 +23162,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const prototypeStateKey = "rna-sneak-peek-prototype-state-v2";
     const prototypeCookieKey = "rna_sneak_peek_state_v2";
     const DELIVERY_MINIMUM = 20;
+    const PICKUP_MINIMUM = 10;
     const FREE_DELIVERY_THRESHOLD = 40;
     const persistedStateFields = [
       "isAuthenticated",
@@ -23060,8 +23448,12 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return state.isAuthenticated ? "home-auth" : "home-guest";
     }
 
+    function getMarketCurrencySymbol() {
+      return ["france", "germany", "spain"].includes(state.marketId) ? "€" : "$";
+    }
+
     function formatCurrency(value) {
-      return "$" + Number(value).toFixed(2);
+      return getMarketCurrencySymbol() + Number(value).toFixed(2);
     }
 
     function formatSeconds(value) {
@@ -23153,6 +23545,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.expandedCartItemIds = [];
       state.nextCartItemId = 1;
       state.editingCartItemId = "";
+      state.cartReturnScreen = "menu-landing";
       state.productDetailReturnScreen = "menu";
       state.fulfillmentType = "";
       state.confirmedStoreId = "";
@@ -25345,7 +25738,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
     function getProductImage(item) {
       const lookupId = item && (item.sourceId || item.id);
-      const sourceItem = getCatalogItemsWithAdditions().find((entry) => entry.id === lookupId) || item;
+      const sourceItem = getCatalogItemWithAdditionsById(lookupId) || item;
       const sourceProfile = getKfcAuSourceProfile(item || sourceItem || lookupId);
       return productImageMap[lookupId]
         || (item && productImageMap[item.id])
@@ -25543,6 +25936,59 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       });
     }
 
+    function renderHomeSectionTitle(lines, options = {}) {
+      const className = ["home-section-title", options.className || ""].filter(Boolean).join(" ");
+      const attrs = options.fitTitle === false ? "" : ' data-home-fit-title="true"';
+      return (
+        '<div class="' + escapeAttr(className) + '"' + attrs + '>' +
+          lines.map((line) => '<span class="home-title-line">' + escapeHtml(line) + '</span>').join("") +
+        '</div>'
+      );
+    }
+
+    function fitHomeSectionTitles(root) {
+      const titles = Array.from(root.querySelectorAll("[data-home-fit-title]"));
+      titles.forEach((title) => {
+        title.classList.remove("is-compact-title");
+        title.style.removeProperty("--home-fit-font-size");
+        title.style.removeProperty("--home-fit-line-height");
+        const lines = Array.from(title.querySelectorAll(".home-title-line"));
+        const measureLines = () => lines.map((line) => {
+            const range = document.createRange();
+            range.selectNodeContents(line);
+            const textWidth = range.getBoundingClientRect().width;
+            range.detach();
+            return {
+              availableWidth: line.clientWidth,
+              textWidth
+            };
+          });
+        let measurements = measureLines();
+        const hasOverflow = () => measurements.some((measurement) => measurement.textWidth > measurement.availableWidth + 1);
+        const needsCompactTitle = hasOverflow();
+        if (needsCompactTitle) {
+          const currentFontSize = parseFloat(window.getComputedStyle(title).fontSize) || 42;
+          const scale = measurements.reduce((smallestScale, measurement) => {
+            if (!measurement.textWidth || measurement.textWidth <= measurement.availableWidth + 1) return smallestScale;
+            return Math.min(smallestScale, (measurement.availableWidth - 1) / measurement.textWidth);
+          }, 1);
+          title.style.setProperty("--home-fit-line-height", "0.96");
+          title.classList.add("is-compact-title");
+          let fittedFontSize = Math.max(30, Math.floor(currentFontSize * scale));
+          while (fittedFontSize >= 30) {
+            title.style.setProperty("--home-fit-font-size", fittedFontSize + "px");
+            measurements = measureLines();
+            if (!hasOverflow()) break;
+            fittedFontSize -= 2;
+          }
+          if (fittedFontSize < 30) {
+            title.style.setProperty("--home-fit-font-size", "30px");
+          }
+        }
+        title.classList.toggle("is-compact-title", needsCompactTitle);
+      });
+    }
+
     function renderHomeOffers() {
       const offers = [
         {
@@ -25575,7 +26021,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       return (
         '<section class="home-section-dark">' +
-          '<div class="home-section-title">Offers &amp;<br>Rewards</div>' +
+          renderHomeSectionTitle([translatePhrase("Offers") + " &", translatePhrase("Rewards")]) +
           '<div class="home-offer-rail">' +
             offers.map((offer) => (
               '<article class="home-offer-card">' +
@@ -25593,24 +26039,57 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       );
     }
 
+    function getHomeOrderLineCopy(line) {
+      if (typeof line === "string") {
+        const match = line.match(/^(\d+)x\s+(.+)$/i);
+        return match ? match[1] + "x " + translateMenuCopy(match[2]).replace(/\^/g, "") : translateMenuCopy(line).replace(/\^/g, "");
+      }
+      const quantity = Number(line && line.quantity);
+      const item = line && line.itemId ? getMenuItemById(line.itemId) : null;
+      const sourceLabel = line && line.preferLabel && line.label
+        ? line.label
+        : (item && item.title) || (line && line.label) || "";
+      const prefix = Number.isFinite(quantity) && quantity > 0 ? quantity + "x " : "";
+      return prefix + translateMenuCopy(sourceLabel).replace(/\^/g, "");
+    }
+
+    function getHomeOrderCountCopy(count) {
+      return count + " " + translatePhrase("Items");
+    }
+
     function renderHomeOrderAgain() {
       const orders = [
         {
           title: "Justin order",
-          count: "5 Items",
-          lines: ["1x Zinger Burger Combo", "1x 3 Wicked Wings", "1x Large Chips", "1x Potato & Gravy", "1x Pepsi Max"],
+          count: 5,
+          lines: [
+            { quantity: 1, itemId: "zinger-burger-combo", label: "Zinger Burger Combo" },
+            { quantity: 1, itemId: "3-wicked-wings", label: "3 Wicked Wings" },
+            { quantity: 1, itemId: "large-chips", label: "Large Chips" },
+            { quantity: 1, itemId: "regular-potato-gravy", label: "Potato & Gravy", preferLabel: true },
+            { quantity: 1, itemId: "pepsi-max", label: "Pepsi Max" }
+          ],
           favorite: true
         },
         {
           title: "Last order",
-          count: "3 Items",
-          lines: ["1x Original Crispy Burger", "1x Regular Chips", "1x Pepsi Max"],
+          count: 3,
+          lines: [
+            { quantity: 1, itemId: "original-crispy-burger", label: "Original Crispy Burger" },
+            { quantity: 1, itemId: "regular-chips", label: "Regular Chips" },
+            { quantity: 1, itemId: "pepsi-max", label: "Pepsi Max" }
+          ],
           favorite: false
         },
         {
           title: "Justin order",
-          count: "4 Items",
-          lines: ["1x 3 Piece Box", "1x Regular Potato & Gravy", "1x Dinner Roll", "1x Pepsi Max"],
+          count: 4,
+          lines: [
+            { quantity: 1, itemId: "3-piece-box", label: "3 Piece Box" },
+            { quantity: 1, itemId: "regular-potato-gravy", label: "Regular Potato & Gravy" },
+            { quantity: 1, itemId: "dinner-roll", label: "Dinner Roll" },
+            { quantity: 1, itemId: "pepsi-max", label: "Pepsi Max" }
+          ],
           favorite: true
         }
       ];
@@ -25623,13 +26102,13 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
             orders.map((order) => (
               '<article class="home-order-card">' +
                 '<div class="home-order-card-head">' +
-                  '<div class="home-order-time">▣ Last week</div>' +
+                  '<div class="home-order-time">▣ ' + escapeHtml(translatePhrase("Last week")) + '</div>' +
                   (order.favorite ? '<div class="home-order-heart">♥</div>' : '<div></div>') +
                 '</div>' +
-                '<div class="home-order-title">' + escapeHtml(order.title) + '</div>' +
-                '<div class="home-order-copy">' + escapeHtml(order.count) + '</div>' +
-                '<div class="home-order-copy muted">' + order.lines.map((line) => escapeHtml(line)).join("<br>") + '</div>' +
-                '<button class="home-order-review" type="button" data-home-start>Review order</button>' +
+                '<div class="home-order-title">' + escapeHtml(translatePhrase(order.title)) + '</div>' +
+                '<div class="home-order-copy">' + escapeHtml(getHomeOrderCountCopy(order.count)) + '</div>' +
+                '<div class="home-order-copy muted">' + order.lines.map((line) => escapeHtml(getHomeOrderLineCopy(line))).join("<br>") + '</div>' +
+                '<button class="home-order-review" type="button" data-home-start>' + escapeHtml(translatePhrase("Review order")) + '</button>' +
               '</article>'
             )).join("") +
           '</div>' +
@@ -25659,7 +26138,13 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.activeRewardId = "";
       state.redeemedRewardId = "";
       state.rewardRedeemMessage = "";
-      if (options.renderAfter) render();
+      if (options.renderAfter) {
+        if (state.screen === "cart" || state.screen === "checkout") {
+          refreshActiveOrderView();
+        } else {
+          render();
+        }
+      }
     }
 
     function joinRewards(options = {}) {
@@ -25947,6 +26432,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       homeRoots.forEach((root) => {
         root.innerHTML = html;
         setupHomeCarouselSteppers(root);
+        fitHomeSectionTitles(root);
         applyLazyBackgrounds(root);
       });
     }
@@ -25986,7 +26472,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function getResolvedMenuItem(itemOrId) {
       const itemId = typeof itemOrId === "string" ? itemOrId : itemOrId && itemOrId.id;
       if (!itemId) return null;
-      const sourceItem = getCatalogItemsWithAdditions().find((entry) => entry.id === itemId);
+      const sourceItem = getCatalogItemWithAdditionsById(itemId);
       if (!sourceItem) {
         const fallbackItem = typeof itemOrId === "string" ? null : itemOrId;
         if (!fallbackItem) return null;
@@ -26171,6 +26657,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function getUpsellRecommendations(baseItem) {
+      if (!baseItem) return [];
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (upsellRecommendationsCacheKey !== cacheKey) {
+        upsellRecommendationsCacheKey = cacheKey;
+        upsellRecommendationsCache = new Map();
+      }
+      const baseCacheKey = baseItem.id + "|" + (baseItem.category || "");
+      const cachedIds = upsellRecommendationsCache.get(baseCacheKey);
+      if (cachedIds) {
+        return cachedIds.map((itemId) => getResolvedMenuItem(itemId)).filter(Boolean);
+      }
+
       const allItems = getMenuItems().filter((item) => item.id !== baseItem.id && !isSecretMenuItem(item));
       const preferredCategories = baseItem.category === "desserts"
         ? ["drinks", "sides", "desserts", "chicken"]
@@ -26204,7 +26702,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         };
       });
 
-      return scoredItems
+      const recommendationIds = scoredItems
         .sort((a, b) => {
           for (let index = 0; index < a.score.length; index += 1) {
             if (a.score[index] !== b.score[index]) {
@@ -26214,7 +26712,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           return a.item.title.localeCompare(b.item.title);
         })
         .map((entry) => entry.item)
-        .slice(0, 8);
+        .slice(0, 8)
+        .map((item) => item.id);
+
+      upsellRecommendationsCache.set(baseCacheKey, recommendationIds);
+      return recommendationIds.map((itemId) => getResolvedMenuItem(itemId)).filter(Boolean);
     }
 
     function clearUpsellStageTimer() {
@@ -26250,9 +26752,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function getUpsellRecommendationsWithState(baseItem) {
       return getUpsellRecommendations(baseItem)
         .map((item, index) => {
-          const resolvedItem = getResolvedMenuItem(item);
-          if (!resolvedItem) return null;
-          return { item: resolvedItem, index };
+          if (!item) return null;
+          return { item, index };
         })
         .filter(Boolean);
     }
@@ -26308,7 +26809,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.upsellDraftQuantities = {};
       state.selectedUpsellSizes = {};
       state.upsellStage = stage;
-      openSheet("upsell");
+      state.activeSheet = "upsell";
+      if (isMenuDataReady()) renderUpsellSheet();
+      upsellSheet.classList.add("open");
+      sheetBackdrop.classList.add("open");
+      schedulePrototypeStatePersist();
+    }
+
+    function deferUpsellSheetOpen(stage = "offer") {
+      requestAnimationFrame(() => {
+        if (!hasCartItems()) return;
+        openUpsellSheet(stage);
+      });
     }
 
     function closeUpsellSheet() {
@@ -26825,21 +27337,72 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function getAllCatalogItems() {
-      return getCatalogItemsWithAdditions().concat(state.secretMenuFullyUnlocked ? getSecretMenuItems() : []);
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (allCatalogItemsCache && allCatalogItemsCacheKey === cacheKey) return allCatalogItemsCache;
+      allCatalogItemsCacheKey = cacheKey;
+      allCatalogItemsCache = getCatalogItemsWithAdditions().concat(state.secretMenuFullyUnlocked ? getSecretMenuItems() : []);
+      return allCatalogItemsCache;
     }
 
     function getCatalogItemsWithAdditions() {
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (catalogItemsWithAdditionsCache && catalogItemsWithAdditionsCacheKey === cacheKey) return catalogItemsWithAdditionsCache;
       const seen = new Set();
       const catalogItems = (getMenuCatalog().items || []).concat([createByobMenuItem()]);
-      return catalogItems.filter((item) => {
+      catalogItemsWithAdditionsCacheKey = cacheKey;
+      catalogItemsWithAdditionsCache = catalogItems.filter((item) => {
         if (seen.has(item.id)) return false;
         seen.add(item.id);
         return true;
       });
+      return catalogItemsWithAdditionsCache;
+    }
+
+    function getCatalogItemWithAdditionsById(itemId) {
+      if (!itemId) return null;
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (!catalogItemLookupCache || catalogItemLookupCacheKey !== cacheKey) {
+        catalogItemLookupCacheKey = cacheKey;
+        catalogItemLookupCache = new Map();
+        getCatalogItemsWithAdditions().forEach((item) => {
+          if (item && item.id && !catalogItemLookupCache.has(item.id)) {
+            catalogItemLookupCache.set(item.id, item);
+          }
+        });
+      }
+      return catalogItemLookupCache.get(itemId) || null;
     }
 
     function getMenuItems() {
-      return getCatalogItemsWithAdditions().map((item) => getDisplayMenuItem(item));
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (menuItemsCache && menuItemsCacheKey === cacheKey) return menuItemsCache;
+      menuItemsCacheKey = cacheKey;
+      menuItemsCache = getCatalogItemsWithAdditions().map((item) => getDisplayMenuItem(item));
+      return menuItemsCache;
+    }
+
+    function getMenuItemLookup() {
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (menuItemLookupCache && menuItemLookupCacheKey === cacheKey) return menuItemLookupCache;
+      menuItemLookupCacheKey = cacheKey;
+      menuItemLookupCache = new Map();
+      getAllCatalogItems().forEach((item) => {
+        const displayItem = getDisplayMenuItem(item);
+        const matches = menuItemLookupCache.get(displayItem.id) || [];
+        matches.push(displayItem);
+        menuItemLookupCache.set(displayItem.id, matches);
+      });
+      return menuItemLookupCache;
+    }
+
+    function getAllDisplaySizes() {
+      const cacheKey = getMenuRuntimeCacheKey();
+      if (allDisplaySizesCache && allDisplaySizesCacheKey === cacheKey) return allDisplaySizesCache;
+      allDisplaySizesCacheKey = cacheKey;
+      allDisplaySizesCache = Array.from(getMenuItemLookup().values()).flatMap((items) => (
+        items.flatMap((item) => item.sizes || [])
+      ));
+      return allDisplaySizesCache;
     }
 
     function getMenuCategories() {
@@ -26904,9 +27467,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function getMenuItemById(itemId) {
-      const matches = getAllCatalogItems()
-        .map((item) => getDisplayMenuItem(item))
-        .filter((item) => item.id === itemId);
+      const matches = getMenuItemLookup().get(itemId) || [];
       if (!matches.length) return null;
       return matches.find((item) => Array.isArray(item.sizes) && item.sizes.some((size) => size.id === state.selectedSizeId))
         || matches[0];
@@ -26923,10 +27484,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       }
 
       const selected = item.sizes.find((size) => size.id === state.selectedSizeId)
-        || getAllCatalogItems()
-          .map((entry) => getDisplayMenuItem(entry))
-          .flatMap((entry) => entry.sizes || [])
-          .find((size) => size.id === state.selectedSizeId)
+        || getAllDisplaySizes().find((size) => size.id === state.selectedSizeId)
         || item.sizes[0];
       state.selectedSizeId = selected.id;
       return selected;
@@ -27017,43 +27575,192 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         }));
     }
 
+    const euNutritionRegulationReference = "Regulation (EU) No 1169/2011";
+    const euRegulatedAllergens = Object.freeze([
+      Object.freeze({
+        label: "Cereals containing gluten",
+        matchers: Object.freeze(["cereals containing gluten", "wheat", "rye", "barley", "oats", "spelt", "kamut"])
+      }),
+      Object.freeze({
+        label: "Crustaceans and products thereof",
+        matchers: Object.freeze(["crustacea", "crustacean"])
+      }),
+      Object.freeze({
+        label: "Eggs and products thereof",
+        matchers: Object.freeze(["egg"])
+      }),
+      Object.freeze({
+        label: "Fish and products thereof",
+        matchers: Object.freeze(["fish"])
+      }),
+      Object.freeze({
+        label: "Peanuts and products thereof",
+        matchers: Object.freeze(["peanut"])
+      }),
+      Object.freeze({
+        label: "Soybeans and products thereof",
+        matchers: Object.freeze(["soybean", "soybeans", "soy"])
+      }),
+      Object.freeze({
+        label: "Milk and products thereof",
+        matchers: Object.freeze(["milk"])
+      }),
+      Object.freeze({
+        label: "Nuts and products thereof",
+        matchers: Object.freeze(["tree nuts", "almond", "hazelnut", "walnut", "cashew", "pecan", "brazil", "pistachio", "macadamia", "queensland"])
+      }),
+      Object.freeze({
+        label: "Celery and products thereof",
+        matchers: Object.freeze(["celery", "celeriac"])
+      }),
+      Object.freeze({
+        label: "Mustard and products thereof",
+        matchers: Object.freeze(["mustard"])
+      }),
+      Object.freeze({
+        label: "Sesame seeds and products thereof",
+        matchers: Object.freeze(["sesame"])
+      }),
+      Object.freeze({
+        label: "Sulphur dioxide and sulphites",
+        matchers: Object.freeze(["sulphur dioxide", "sulfur dioxide", "sulphite", "sulphites", "sulfite", "sulfites"])
+      }),
+      Object.freeze({
+        label: "Lupin and products thereof",
+        matchers: Object.freeze(["lupin"])
+      }),
+      Object.freeze({
+        label: "Molluscs and products thereof",
+        matchers: Object.freeze(["mollusc", "molluscs"])
+      })
+    ]);
+    const unavailableEuAllergenRows = Object.freeze(euRegulatedAllergens.map((allergen) => Object.freeze([allergen.label, "unavailable"])));
+    const euAllergenRowsBySource = new WeakMap();
+
+    function normalizeComplianceLookupValue(value) {
+      return String(value || "")
+        .toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/[^a-z0-9]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getAllergenStatus(entry) {
+      if (!entry) return "unavailable";
+      if (entry.isPresent) return "present";
+      if (entry.isTrace) return "trace";
+      return "na";
+    }
+
+    function getAllergenStatusRank(status) {
+      if (status === "present") return 3;
+      if (status === "trace") return 2;
+      if (status === "na") return 1;
+      return 0;
+    }
+
+    function getEuAllergenRows(sizeAllergens) {
+      if (!Array.isArray(sizeAllergens) || !sizeAllergens.length) {
+        return unavailableEuAllergenRows;
+      }
+
+      const cachedRows = euAllergenRowsBySource.get(sizeAllergens);
+      if (cachedRows) return cachedRows;
+
+      const sourceRows = sizeAllergens.map((entry) => ({
+        name: normalizeComplianceLookupValue(entry.allergenComponent),
+        status: getAllergenStatus(entry)
+      }));
+
+      const rows = euRegulatedAllergens.map((allergen) => {
+        let status = "unavailable";
+        allergen.matchers.forEach((matcher) => {
+          sourceRows.forEach((row) => {
+            if (!row.name.includes(matcher)) return;
+            if (getAllergenStatusRank(row.status) > getAllergenStatusRank(status)) {
+              status = row.status;
+            }
+          });
+        });
+        return [allergen.label, status];
+      });
+
+      euAllergenRowsBySource.set(sizeAllergens, rows);
+      return rows;
+    }
+
+    function getNutritionNumericValue(entry) {
+      if (!entry) return null;
+      if (entry.serveWiseValue != null) return Number(entry.serveWiseValue);
+      if (entry.gramWiseValue != null) return Number(entry.gramWiseValue);
+      return null;
+    }
+
+    function getNutritionValueByComponent(sizeNutrition, componentName) {
+      const normalizedComponentName = normalizeComplianceLookupValue(componentName);
+      const entry = sizeNutrition.find((nutritionEntry) =>
+        normalizeComplianceLookupValue(nutritionEntry.nutritionComponent) === normalizedComponentName
+      );
+      const value = getNutritionNumericValue(entry);
+      return Number.isFinite(value) ? value : null;
+    }
+
+    function getNutritionRows(sizeNutrition, currentEnergy) {
+      const rows = Array.isArray(sizeNutrition) && sizeNutrition.length
+        ? sizeNutrition.map((entry) => {
+          const numericValue = getNutritionNumericValue(entry);
+          const suffix = entry.nutritionUnit ? (" " + entry.nutritionUnit) : "";
+          return [
+            entry.nutritionComponent,
+            Number.isFinite(numericValue) ? (String(numericValue) + suffix) : "N/A"
+          ];
+        })
+        : [];
+
+      const energyKj = getNutritionValueByComponent(sizeNutrition, "Energy");
+      const sodiumMg = getNutritionValueByComponent(sizeNutrition, "Sodium");
+      const resolvedEnergyKj = energyKj != null ? energyKj : (typeof currentEnergy === "number" ? currentEnergy : null);
+
+      if (!rows.length && resolvedEnergyKj != null) {
+        rows.push(["Energy", String(Math.round(resolvedEnergyKj)) + " kJ"]);
+      }
+
+      if (resolvedEnergyKj != null && !rows.some((row) => normalizeComplianceLookupValue(row[0]) === "energy kcal")) {
+        rows.push(["Energy (kcal)", String(Math.round(resolvedEnergyKj * 0.239006)) + " kcal"]);
+      }
+
+      if (!rows.some((row) => normalizeComplianceLookupValue(row[0]) === "salt")) {
+        rows.push([
+          "Salt",
+          sodiumMg != null ? ((sodiumMg * 2.5 / 1000).toFixed(2).replace(/\.?0+$/, "") + " g") : "Unavailable"
+        ]);
+      }
+
+      rows.push(["EU declaration basis", euNutritionRegulationReference]);
+      return rows.length ? rows : [["Nutrition", "Detailed source values not provided for this selection"]];
+    }
+
     function getProductInfoData(item) {
       const selectedSize = ensureSelectedSize(item);
       const sizeNutrition = selectedSize && Array.isArray(selectedSize.nutrition) ? selectedSize.nutrition : [];
       const sizeAllergens = selectedSize && Array.isArray(selectedSize.allergens) ? selectedSize.allergens : [];
       const currentEnergy = getCurrentProductEnergy(item);
       const sizeLabel = selectedSize ? selectedSize.label : "Regular";
+      const subtitle = selectedSize && selectedSize.mealTitle ? selectedSize.mealTitle : (sizeLabel + " serving");
 
       if (sizeNutrition.length || sizeAllergens.length) {
         return {
-          subtitle: selectedSize && selectedSize.mealTitle ? selectedSize.mealTitle : (sizeLabel + " serving"),
-          nutrition: sizeNutrition.length
-            ? sizeNutrition.map((entry) => {
-              const numericValue = entry.serveWiseValue != null ? entry.serveWiseValue : entry.gramWiseValue;
-              const suffix = entry.nutritionUnit ? (" " + entry.nutritionUnit) : "";
-              return [
-                entry.nutritionComponent,
-                numericValue != null ? (String(numericValue) + suffix) : "N/A"
-              ];
-            })
-            : [["Nutrition", "Not provided in source menu data"]],
-          allergens: sizeAllergens.length
-            ? sizeAllergens.map((entry) => [entry.allergenComponent, entry.isPresent ? "present" : (entry.isTrace ? "trace" : "na")])
-            : [["Allergen information", "unavailable"]]
+          subtitle,
+          nutrition: getNutritionRows(sizeNutrition, currentEnergy),
+          allergens: getEuAllergenRows(sizeAllergens)
         };
       }
 
       return {
-        subtitle: selectedSize && selectedSize.mealTitle ? selectedSize.mealTitle : (sizeLabel + " serving"),
-        nutrition: typeof currentEnergy === "number"
-          ? [
-              ["Energy", String(Math.round(currentEnergy)) + " kJ"],
-              ["Nutrition", "Detailed source values not provided for this selection"]
-            ]
-          : [["Nutrition", "Detailed source values not provided for this selection"]],
-        allergens: [
-          ["Allergen information", "unavailable"]
-        ]
+        subtitle,
+        nutrition: getNutritionRows([], currentEnergy),
+        allergens: unavailableEuAllergenRows
       };
     }
 
@@ -27066,7 +27773,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
     function showMenuToast(message) {
       state.menuToastMessage = message;
-      render();
+      if (state.screen === "cart" || state.screen === "checkout") {
+        refreshActiveOrderView({ persist: false });
+      } else {
+        render();
+      }
 
       if (menuToastTimer) {
         clearTimeout(menuToastTimer);
@@ -27074,7 +27785,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       menuToastTimer = setTimeout(() => {
         state.menuToastMessage = "";
-        render();
+        if (state.screen === "cart" || state.screen === "checkout") {
+          refreshActiveOrderView({ persist: false });
+        } else {
+          render();
+        }
       }, 2200);
     }
 
@@ -28058,10 +28773,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       } else {
         goToMenu();
       }
-      openUpsellSheet("confirm");
+      deferUpsellSheetOpen("confirm");
     }
 
     function updateCartItemQuantity(cartItemId, delta) {
+      let removedTitle = "";
       state.cartItems = state.cartItems.reduce((nextItems, item) => {
         if (item.id !== cartItemId) {
           nextItems.push(item);
@@ -28072,13 +28788,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         if (nextQuantity > 0) {
           nextItems.push({ ...item, quantity: nextQuantity });
         } else {
-          showMenuToast(item.title + " removed from cart");
+          removedTitle = item.title;
         }
         return nextItems;
       }, []);
       state.expandedCartItemIds = state.expandedCartItemIds.filter((id) => state.cartItems.some((item) => item.id === id));
       syncCartCount();
-      render();
+      if (removedTitle) {
+        showMenuToast(removedTitle + " removed from cart");
+        schedulePrototypeStatePersist();
+        return;
+      }
+      refreshCartView();
     }
 
     function openCartRemoveDialog(cartItemId) {
@@ -28093,7 +28814,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (state.activeSheet === "cart-remove") {
         state.activeSheet = null;
       }
-      render();
+      refreshCartView();
     }
 
     function confirmCartRemoveDialog() {
@@ -28114,8 +28835,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       syncCartCount();
       if (removedItem) {
         showMenuToast(removedItem.title + " removed from cart");
+        schedulePrototypeStatePersist();
+        return;
       }
-      render();
+      refreshCartView();
     }
 
     function openCartItemEditor(cartItemId) {
@@ -28136,7 +28859,6 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.bundleCustomizeContext = null;
       state.miniCustomizeDraftOptionId = "";
       showScreen("product-detail");
-      render();
     }
 
     function addCartUpsellItem(itemId) {
@@ -28149,16 +28871,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       resetAgencyExtraDraftQuantities();
       ensureSelectedModifiers(item);
 
-      if (item.sizes.length > 1 || getModifierGroups(item).length) {
-        state.editingCartItemId = "";
-        state.pdpQuantity = 1;
-        openProductDetail(item.id);
-        return;
-      }
-
       appendCartItems([createCartItemFromCurrentSelection(item, 1)]);
       state.upsellBaseItemId = item.id;
-      openUpsellSheet("confirm");
+      refreshCartView();
+      deferUpsellSheetOpen("confirm");
     }
 
     function addCartThresholdRecoveryItem(itemId) {
@@ -28173,7 +28889,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       appendCartItems([createCartItemFromCurrentSelection(item, 1)]);
       state.upsellBaseItemId = item.id;
       showMenuToast(item.title + " added");
-      render();
+      schedulePrototypeStatePersist();
     }
 
     function buildRebuiltPlpCategories() {
@@ -28597,6 +29313,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       if (state.nutritionTab === "allergens") {
         nutritionPanel.innerHTML =
+          '<p class="nutrition-compliance-note">EU-regulated allergen checklist based on ' + escapeHtml(euNutritionRegulationReference) + '.</p>' +
           '<div class="allergen-legend">' +
             '<span><span class="allergen-dot present"></span>Present</span>' +
             '<span><span class="allergen-dot trace"></span>Trace</span>' +
@@ -28604,10 +29321,14 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
             '<span><span class="allergen-dot unavailable"></span>Unavailable</span>' +
           '</div>' +
           '<div class="nutrition-table">' +
+            '<div class="nutrition-row header">' +
+              '<div>EU-regulated allergen</div>' +
+              '<div>Status</div>' +
+            '</div>' +
             info.allergens.map((entry) =>
               '<div class="nutrition-row">' +
-                '<div class="allergen-name">' + entry[0] + '</div>' +
-                '<span class="allergen-status ' + entry[1] + '">' + (entry[1] === "present" ? "Present" : entry[1] === "trace" ? "Trace" : entry[1] === "unavailable" ? "Unavailable" : "N/A") + '</span>' +
+                '<div class="allergen-name">' + escapeHtml(entry[0]) + '</div>' +
+                '<span class="allergen-status ' + escapeAttr(entry[1]) + '">' + (entry[1] === "present" ? "Present" : entry[1] === "trace" ? "Trace" : entry[1] === "unavailable" ? "Unavailable" : "N/A") + '</span>' +
               '</div>'
             ).join("") +
           '</div>';
@@ -28615,15 +29336,16 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       }
 
       nutritionPanel.innerHTML =
+        '<p class="nutrition-compliance-note">Nutrition values include the EU declaration context from ' + escapeHtml(euNutritionRegulationReference) + ' where source values are available.</p>' +
         '<div class="nutrition-table">' +
           '<div class="nutrition-row header">' +
-            '<div>Nutrient</div>' +
+            '<div>Nutrition declaration</div>' +
             '<div>Per serve</div>' +
           '</div>' +
           info.nutrition.map((entry) =>
             '<div class="nutrition-row">' +
-              '<div class="nutrition-name">' + entry[0] + '</div>' +
-              '<div class="nutrition-value">' + entry[1] + '</div>' +
+              '<div class="nutrition-name">' + escapeHtml(entry[0]) + '</div>' +
+              '<div class="nutrition-value">' + escapeHtml(entry[1]) + '</div>' +
             '</div>'
           ).join("") +
         '</div>';
@@ -28688,7 +29410,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         const quantity = getUpsellVisibleQuantity(item.id);
         const selectedSizeId = state.selectedUpsellSizes[item.id] || (item.sizes[0] && item.sizes[0].id) || "";
         const selectedSize = item.sizes.find((size) => size.id === selectedSizeId) || item.sizes[0];
-        const priceText = selectedSize && typeof selectedSize.price === "number" ? formatCurrency(selectedSize.price) : "$0.00";
+        const priceText = selectedSize && typeof selectedSize.price === "number" ? formatCurrency(selectedSize.price) : formatCurrency(0);
         const energyValue = String(
           (selectedSize && typeof selectedSize.energy === "number")
             ? Math.round(selectedSize.energy)
@@ -28770,6 +29492,20 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       };
     }
 
+    function getOrderMinimum() {
+      if (state.fulfillmentType === "delivery") return DELIVERY_MINIMUM;
+      if (state.fulfillmentType === "pickup") return PICKUP_MINIMUM;
+      return 0;
+    }
+
+    function getOrderModeLabel() {
+      return state.fulfillmentType === "delivery" ? "Delivery" : "Pickup";
+    }
+
+    function isOrderMinimumBlocker(blocker) {
+      return blocker && (blocker.type === "delivery-minimum" || blocker.type === "pickup-minimum");
+    }
+
     function getCartValidation() {
       const pricing = getCartPricing();
       const blockers = [];
@@ -28794,15 +29530,17 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         });
       }
 
-      if (hasOrderContext() && state.fulfillmentType === "delivery" && pricing.subtotal > 0 && pricing.subtotal < DELIVERY_MINIMUM) {
-        const remaining = Number((DELIVERY_MINIMUM - pricing.subtotal).toFixed(2));
+      const orderMinimum = getOrderMinimum();
+      if (hasOrderContext() && orderMinimum > 0 && pricing.subtotal > 0 && pricing.subtotal < orderMinimum) {
+        const remaining = Number((orderMinimum - pricing.subtotal).toFixed(2));
+        const modeLabel = getOrderModeLabel();
         blockers.push({
-          type: "delivery-minimum",
+          type: state.fulfillmentType + "-minimum",
           title: "Add " + formatCurrency(remaining) + " more to checkout",
-          body: "Delivery orders need a " + formatCurrency(DELIVERY_MINIMUM) + " minimum before checkout.",
+          body: modeLabel + " orders need a " + formatCurrency(orderMinimum) + " minimum before checkout.",
           actionLabel: "Browse menu",
           action: "menu",
-          minimum: DELIVERY_MINIMUM,
+          minimum: orderMinimum,
           remaining
         });
       }
@@ -28834,7 +29572,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function getAvailableCheckoutOffers() {
-      return checkoutOfferConfigs.map((config) => {
+      const cacheKey = getMenuRuntimeCacheKey() + "|" + (state.selectedSizeId || "");
+      if (checkoutOffersCache && checkoutOffersCacheKey === cacheKey) return checkoutOffersCache;
+      checkoutOffersCacheKey = cacheKey;
+      checkoutOffersCache = checkoutOfferConfigs.map((config) => {
         const item = getMenuItemById(config.itemId);
         const price = getCheckoutOfferPrice(item);
         const discount = price ? Number((price * 0.5).toFixed(2)) : config.fallbackDiscount;
@@ -28853,6 +29594,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           energy: getCheckoutOfferEnergy(item)
         };
       });
+      return checkoutOffersCache;
     }
 
     function getCheckoutCouponFromCode(code) {
@@ -28879,14 +29621,15 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       clearCheckoutCoupon({ refundReward: true });
       state.checkoutCoupon = getCheckoutCouponFromCode(code);
       state.checkoutCouponSheetOpen = false;
-      render();
+      refreshActiveOrderView();
     }
 
-    function getCheckoutTotal() {
-      const cartPricing = getCartPricing();
+    function getCheckoutTotal(cartValidation) {
+      const validation = cartValidation || getCartValidation();
+      const cartPricing = validation.pricing || getCartPricing();
       const couponDiscount = state.checkoutCoupon ? state.checkoutCoupon.discount : 0;
       const rewardDiscount = cartShouldShowReward() ? 14.9 : 0;
-      const deliveryDiscount = cartShouldApplyFreeDelivery(getCartValidation()) ? cartPricing.deliveryFee : 0;
+      const deliveryDiscount = cartShouldApplyFreeDelivery(validation) ? cartPricing.deliveryFee : 0;
       const discount = couponDiscount + rewardDiscount + deliveryDiscount;
       return {
         subtotal: cartPricing.subtotal,
@@ -28915,14 +29658,14 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       }
     }
 
-    function getCheckoutMethodLabel() {
+    function getCheckoutMethodLabel(pricingOverride) {
       if (state.checkoutPaymentMethod === "cash") return "Cash";
       if (state.checkoutPaymentMethod === "saved-card") return "Credit Card";
       if (state.checkoutPaymentMethod === "card") return state.checkoutUsingNewCard ? "New Card" : "Credit Card";
       if (state.checkoutPaymentMethod === "applepay") return "Apple Pay";
       if (state.checkoutPaymentMethod === "paypal") return "PayPal";
       if (state.checkoutPaymentMethod === "split") return "Split Payment";
-      const pricing = getCheckoutTotal();
+      const pricing = pricingOverride || getCheckoutTotal();
       const voucherApplied = Math.min(state.checkoutVoucherBalance, pricing.total);
       const remaining = Math.max(0, pricing.total - voucherApplied);
       if (!remaining) return "Gift Voucher";
@@ -28980,12 +29723,17 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function getCheckoutCouponListMarkup() {
+      const cacheKey = getMenuRuntimeCacheKey() + "|" + (state.selectedSizeId || "");
+      if (checkoutCouponMarkupCacheKey === cacheKey) return checkoutCouponMarkupCache;
       const offers = getAvailableCheckoutOffers();
       if (!offers.length) {
-        return '<div class="checkout-coupon-empty">No offers available for this order yet.</div>';
+        checkoutCouponMarkupCacheKey = cacheKey;
+        checkoutCouponMarkupCache = '<div class="checkout-coupon-empty">No offers available for this order yet.</div>';
+        return checkoutCouponMarkupCache;
       }
 
-      return offers.map((offer) => (
+      checkoutCouponMarkupCacheKey = cacheKey;
+      checkoutCouponMarkupCache = offers.map((offer) => (
         '<button class="checkout-coupon-card" type="button" data-checkout-coupon-code="' + escapeAttr(offer.code) + '" data-checkout-coupon-label="' + escapeAttr(offer.label) + '" data-checkout-coupon-discount="' + escapeAttr(offer.discount) + '" data-checkout-coupon-type="' + escapeAttr(offer.type) + '">' +
           '<img class="checkout-coupon-card-image" src="' + escapeAttr(offer.image) + '" data-fallback-src="' + escapeAttr(offer.imageFallback) + '" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=this.dataset.fallbackSrc;" />' +
           '<span class="checkout-coupon-card-copy">' +
@@ -29002,12 +29750,15 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           '</span>' +
         '</button>'
       )).join("");
+      return checkoutCouponMarkupCache;
     }
 
     function renderCheckoutCoupon() {
       checkoutCouponSheet.classList.toggle("is-visible", !!state.checkoutCouponSheetOpen);
       checkoutCouponSheet.setAttribute("aria-hidden", state.checkoutCouponSheetOpen ? "false" : "true");
-      checkoutCouponList.innerHTML = getCheckoutCouponListMarkup();
+      if (state.checkoutCouponSheetOpen) {
+        checkoutCouponList.innerHTML = getCheckoutCouponListMarkup();
+      }
       if (state.checkoutCoupon) {
         checkoutAppliedCoupon.hidden = false;
         checkoutAppliedCouponName.textContent = state.checkoutCoupon.label;
@@ -29110,31 +29861,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return lines;
     }
 
-    function renderCheckoutItems(expanded) {
-      if (!expanded) return "";
-      return state.cartItems.map((cartItem, index) => {
-        const selection = getCartItemResolvedSelection(cartItem);
-        const title = selection.item ? selection.item.title : cartItem.title;
-        const quantity = Math.max(1, cartItem.quantity || 1);
-        const linePrice = typeof selection.linePrice === "number" ? formatCurrency(selection.linePrice) : "Pending";
-        const isDiscounted = state.checkoutCoupon && index === 0 && cartShouldShowReward();
-        return (
-          '<article class="checkout-summary-item">' +
-            '<div>' +
-              '<div class="checkout-summary-item-title">' + escapeHtml(title || "Product Name") + '</div>' +
-              '<div class="checkout-summary-item-meta">' + quantity + 'x ' + escapeHtml(selection.summary || "Quantity") + '</div>' +
-            '</div>' +
-            '<div class="checkout-summary-item-price' + (isDiscounted ? ' discounted' : '') + '">' +
-              (isDiscounted ? '-' + formatCurrency(14.9) + ' <s>' + linePrice + '</s>' : linePrice) +
-            '</div>' +
-          '</article>'
-        );
-      }).join("");
-    }
-
     function renderCheckoutSummary(pricing, validation) {
       const isDelivery = state.fulfillmentType === "delivery";
-      const expanded = !!state.checkoutSummaryExpanded;
       const offerLines = getCheckoutOfferLines(validation);
       const discountRows = [
         state.checkoutCoupon && state.checkoutCoupon.discount
@@ -29155,11 +29883,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
               offerLines.map((line) => '<div class="checkout-offer-line"><span>✓</span><span>' + escapeHtml(line) + '</span></div>').join("") +
             '</div>'
           : '') +
-        '<button class="checkout-summary-toggle" type="button" data-checkout-toggle-summary="true" aria-expanded="' + String(expanded) + '">' +
-          '<span>Items [' + state.cartCount + ']</span>' +
-          '<span class="checkout-summary-chevron" aria-hidden="true">⌄</span>' +
-        '</button>' +
-        '<div class="checkout-items-list"' + (expanded ? '' : ' hidden') + '>' + renderCheckoutItems(expanded) + '</div>' +
+        '<div class="checkout-summary-heading">Items [' + state.cartCount + ']</div>' +
         '<div class="checkout-summary-rows">' +
           '<div class="checkout-summary-row"><span>Subtotal</span><strong>' + formatCurrency(pricing.subtotal) + '</strong></div>' +
           '<div class="checkout-summary-row"><span>GST (included)</span><strong></strong></div>' +
@@ -29188,9 +29912,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function renderCheckout() {
       seedCheckoutState();
       syncCartCount();
-      const pricing = getCheckoutTotal();
       const validation = getCartValidation();
+      const pricing = getCheckoutTotal(validation);
       const isDelivery = state.fulfillmentType === "delivery";
+      const orderMinimumBlocker = getOrderMinimumBlocker(validation);
+      const methodLabel = getCheckoutMethodLabel(pricing);
 
       checkoutHeroName.hidden = !state.isAuthenticated;
       checkoutHeroTitle.innerHTML = (isDelivery ? "DELIVERY" : "PICKUP") + "<br>ORDER";
@@ -29212,12 +29938,14 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       checkoutDiscountAmount.textContent = "-" + formatCurrency(pricing.discount);
       checkoutGrandTotalAmount.textContent = formatCurrency(pricing.total);
       checkoutFooterTotal.textContent = formatCurrency(pricing.total);
-      checkoutFooterMethod.textContent = getCheckoutMethodLabel();
+      checkoutFooterMethod.textContent = methodLabel;
       checkoutFooterStatus.textContent = state.checkoutFulfillmentConfirmed ? "Ready" : (isDelivery ? "Confirm Address" : "Confirm Store");
-      checkoutPaymentMeta.textContent = getCheckoutMethodLabel();
+      checkoutPaymentMeta.textContent = methodLabel;
 
-      checkoutPayBtn.textContent = "SELECT PAYMENT";
-      checkoutPayBtn.disabled = !state.cartItems.length || !state.checkoutFulfillmentConfirmed;
+      checkoutPayBtn.textContent = orderMinimumBlocker
+        ? "ADD " + formatCurrency(orderMinimumBlocker.remaining) + " MORE"
+        : "SELECT PAYMENT";
+      checkoutPayBtn.disabled = !state.cartItems.length || !state.checkoutFulfillmentConfirmed || validation.blockers.length > 0;
     }
 
     const postorderDeliveryStepsData = [
@@ -29440,10 +30168,16 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         : null;
     }
 
+    function getOrderMinimumBlocker(validation) {
+      return validation && validation.blockers
+        ? validation.blockers.find((blocker) => isOrderMinimumBlocker(blocker)) || null
+        : null;
+    }
+
     function getCartPrimaryCta(validation) {
-      const deliveryMinimumBlocker = getDeliveryMinimumBlocker(validation);
-      if (deliveryMinimumBlocker) {
-        return { label: "Add " + formatCurrency(deliveryMinimumBlocker.remaining) + " more to checkout", disabled: true };
+      const orderMinimumBlocker = getOrderMinimumBlocker(validation);
+      if (orderMinimumBlocker) {
+        return { label: "Add " + formatCurrency(orderMinimumBlocker.remaining) + " more to checkout", disabled: true };
       }
       if (!hasCartItems() || !hasOrderContext() || validation.blockers.length) {
         return { label: "CHECKOUT", disabled: true };
@@ -29492,6 +30226,19 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           progress: freeDeliveryProgress,
           unlocked: freeDeliveryUnlocked,
           removable: true
+        };
+      }
+
+      if (state.fulfillmentType === "pickup" && subtotal < PICKUP_MINIMUM) {
+        const remaining = Number((PICKUP_MINIMUM - subtotal).toFixed(2));
+        return {
+          mode: "pickup-minimum",
+          title: "Almost there",
+          desc: "Pickup orders require a " + formatCurrency(PICKUP_MINIMUM) + " minimum.",
+          copy: "Add " + formatCurrency(remaining) + " more to checkout",
+          progress: PICKUP_MINIMUM > 0 ? Math.max(0, Math.min(1, subtotal / PICKUP_MINIMUM)) : 0,
+          unlocked: false,
+          removable: false
         };
       }
 
@@ -29812,7 +30559,6 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           '<button class="cart-customise-btn" data-cart-edit-id="' + cartItem.id + '" type="button">CUSTOMISE</button>' +
           '<div class="cart-card-footer">' +
             '<div class="cart-card-actions">' +
-              '<button class="cart-link-btn" data-cart-edit-id="' + cartItem.id + '" type="button">Edit</button>' +
               '<button class="cart-link-btn danger" data-cart-remove-id="' + cartItem.id + '" type="button">Remove</button>' +
             '</div>' +
             '<div class="cart-qty">' +
@@ -29865,12 +30611,12 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function renderCartSummary(validation, primaryCta) {
-      const checkoutPricing = getCheckoutTotal();
+      const checkoutPricing = getCheckoutTotal(validation);
       const offerLines = getCartSummaryOfferLines(validation);
       const couponCode = state.checkoutCoupon ? state.checkoutCoupon.code : "";
       const isDelivery = state.fulfillmentType === "delivery";
       const thresholdPromo = getCartThresholdPromo(validation);
-      const deliveryMinimumBlocker = getDeliveryMinimumBlocker(validation);
+      const orderMinimumBlocker = getOrderMinimumBlocker(validation);
       const signedOutBlock = !state.isAuthenticated
         ? (
           '<div class="cart-signin-block">' +
@@ -29879,8 +30625,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           '</div>'
         )
         : "";
-      const thresholdAlert = deliveryMinimumBlocker && thresholdPromo && thresholdPromo.mode === "delivery-minimum"
-        ? '<div class="cart-threshold-alert">' + escapeHtml("Add " + formatCurrency(deliveryMinimumBlocker.remaining) + " more to reach the " + formatCurrency(deliveryMinimumBlocker.minimum) + " delivery minimum.") + '</div>'
+      const thresholdAlert = orderMinimumBlocker && thresholdPromo && isOrderMinimumBlocker(orderMinimumBlocker)
+        ? '<div class="cart-threshold-alert">' + escapeHtml("Add " + formatCurrency(orderMinimumBlocker.remaining) + " more to reach the " + formatCurrency(orderMinimumBlocker.minimum) + " " + getOrderModeLabel().toLowerCase() + " minimum.") + '</div>'
         : "";
 
       return (
@@ -29937,7 +30683,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const cartHasItems = hasCartItems();
       const validation = getCartValidation();
       syncFreeDeliveryOptOut(validation);
-      const visibleBlockers = validation.blockers.filter((blocker) => blocker.type !== "delivery-minimum");
+      const visibleBlockers = validation.blockers.filter((blocker) => !isOrderMinimumBlocker(blocker));
       const primaryCta = getCartPrimaryCta(validation);
       if (cartHasItems && getDeliveryMinimumBlocker(validation) && !isMenuDataReady() && !cartRecoveryMenuDataRequested) {
         cartRecoveryMenuDataRequested = true;
@@ -29951,6 +30697,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           });
       }
       cartFigmaHero.innerHTML = cartHasItems ? getCartHeroMarkup() : "";
+      if (cartEmptyHero && !cartHasItems) {
+        cartEmptyHero.style.backgroundImage = "url('" + sanitizeCssUrl(homeImageUrls.figmaOfferIcecream) + "')";
+      }
       const cartValidationMarkup = cartHasItems
         ? renderCartMessages({ blockers: visibleBlockers, notices: [] })
         : "";
@@ -29972,6 +30721,38 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       cartSummary.hidden = !cartHasItems;
 
       return validation;
+    }
+
+    function refreshSharedCartChrome(validation = getCartValidation()) {
+      syncCartCount();
+      if (cartCountInline) cartCountInline.textContent = String(state.cartCount);
+      if (menuCartTotal) menuCartTotal.textContent = formatCurrency(validation.pricing.total);
+      if (menuToast) menuToast.hidden = !state.menuToastMessage;
+      if (menuToastCopy) menuToastCopy.textContent = state.menuToastMessage || "";
+      return validation;
+    }
+
+    function refreshCartView(options = {}) {
+      const shouldPersist = options.persist !== false;
+      const validation = state.screen === "cart" ? renderCart() : getCartValidation();
+      refreshSharedCartChrome(validation);
+      if (shouldPersist) schedulePrototypeStatePersist();
+      return validation;
+    }
+
+    function refreshCheckoutView(options = {}) {
+      const shouldPersist = options.persist !== false;
+      renderCheckout();
+      refreshSharedCartChrome(getCartValidation());
+      if (shouldPersist) schedulePrototypeStatePersist();
+    }
+
+    function refreshActiveOrderView(options = {}) {
+      if (state.screen === "checkout") {
+        refreshCheckoutView(options);
+        return;
+      }
+      refreshCartView(options);
     }
 
     function updateBundleCustomizeSectionToggle(sectionId) {
@@ -30943,7 +31724,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         nodes.push(screen);
       });
 
-      [orderSheet, returnContextSheet, timeSheet, mealSizeSheet, miniCustomizeSheet, nutritionSheet, upsellSheet, cartRemoveSheet].forEach((sheet) => {
+      [orderSheet, menuFilterSheet, returnContextSheet, timeSheet, mealSizeSheet, miniCustomizeSheet, nutritionSheet, upsellSheet, cartRemoveSheet].forEach((sheet) => {
         if (sheet) nodes.push(sheet);
       });
 
@@ -30963,7 +31744,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       syncCartCount();
       const cartHasItems = hasCartItems();
       state.homeReturnPromptArmed = true;
-      renderHomeScreen();
+      if (state.screen === "home-guest" || state.screen === "home-auth") {
+        renderHomeScreen();
+      }
       if (state.screen === "rewards" || state.screen === "rewards-welcome") {
         renderRewardsScreen();
       }
@@ -30990,7 +31773,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       preOcb.hidden = authScreen(state.screen) || hasContext || orderContextChromeHidden;
       ocb.hidden = authScreen(state.screen) || !hasContext || orderContextChromeHidden;
       const sheetOpen = state.activeSheet !== null;
-      bottomNav.hidden = authScreen(state.screen);
+      bottomNav.hidden = authScreen(state.screen) || state.screen === "cart";
       const showPickupCta = state.screen === "pickup";
       const showDeliveryAddressCta = state.screen === "delivery-address";
       const showDeliveryResultsCta = state.screen === "delivery-results";
@@ -31001,7 +31784,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const showSecretMenuCta = false;
       const showBundleCustomizeCta = state.screen === "bundle-customize";
       const showCartCta = false;
-      const productDetailBarState = getProductDetailBarState();
+      const productDetailBarState = showProductDetailCta
+        ? getProductDetailBarState()
+        : { price: "", label: "", showPrice: false };
       const cartValidation = state.screen === "cart" ? renderCart() : getCartValidation();
       const cartPrimaryCta = getCartPrimaryCta(cartValidation);
       const showHomeCartCta = (state.screen === "home-guest" || state.screen === "home-auth") && hasContext;
@@ -31016,7 +31801,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         && state.screen !== "rewards"
         && state.screen !== "rewards-welcome"
         && (!hasContext || showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta);
-      const shouldShowBottomWrap = !authScreen(state.screen);
+      const shouldShowBottomWrap = !authScreen(state.screen) && state.screen !== "cart";
       bottomNavWrap.hidden = !shouldShowBottomWrap;
       bottomNavWrap.classList.toggle("pickup-footer-wrap", shouldShowBottomWrap && (showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta || showProductDetailCta || showSecretMenuCta || showBundleCustomizeCta || showCartCta || showMenuCartCta || showHomeCartCta));
       bottomNavWrap.classList.toggle("floating-start-order-wrap", shouldShowBottomWrap && showGlobalStartOrder && !showPickupCta && !showOrderSettingsCta && !showDeliveryAddressCta && !showDeliveryResultsCta && !showDeliveryMapCta && !showDeliveryStoreCta && !showProductDetailCta && !showCartCta && !showMenuCartCta && !showHomeCartCta);
@@ -31055,6 +31840,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       phoneShell.style.setProperty("--bottom-nav-height", bottomChromeHeight + "px");
 
       orderSheet.classList.toggle("open", state.activeSheet === "order");
+      menuFilterSheet.classList.toggle("open", state.activeSheet === "menu-filter");
       returnContextSheet.classList.toggle("open", state.activeSheet === "return-context");
       timeSheet.classList.toggle("open", state.activeSheet === "time");
       mealSizeSheet.classList.toggle("open", state.activeSheet === "meal-size");
@@ -31075,7 +31861,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       pdpCartDivider.hidden = !productDetailBarState.showPrice;
       pdpCartPrice.hidden = !productDetailBarState.showPrice;
       mapPanel.dataset.zoomLevel = String(state.zoomLevel);
-      mapPanel.style.setProperty("--pickup-map-bg", state.screen === "pickup" ? "url('assets/pickup/melbourne-map.png')" : "none");
+      mapPanel.style.setProperty("--pickup-map-bg", state.screen === "pickup" ? "url('assets/pickup/country-agnostic-map.svg')" : "none");
       zoomInBtn.disabled = state.zoomLevel === 3;
       zoomOutBtn.disabled = state.zoomLevel === 1;
 
@@ -31353,7 +32139,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       setActiveTab("menu");
     }
 
+    function normalizeCartReturnScreen(screen) {
+      if (screen === "home-guest" || screen === "home-auth" || screen === "rewards" || screen === "more") return screen;
+      if (screen === "secret-menu") return "secret-menu";
+      return "menu-landing";
+    }
+
     function goToCart(options = {}) {
+      if (options.returnScreen) {
+        state.cartReturnScreen = normalizeCartReturnScreen(options.returnScreen);
+      } else if (state.screen !== "cart" && state.screen !== "checkout" && state.screen !== "product-detail") {
+        state.cartReturnScreen = normalizeCartReturnScreen(state.screen);
+      }
       state.selectedMealSheetItemId = "";
       state.editingCartItemId = "";
       state.productDetailReturnScreen = "cart";
@@ -31364,6 +32161,32 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       }
     }
 
+    function leaveCart(useExitRoute = false) {
+      state.activeSheet = null;
+      if (useExitRoute) {
+        goHome();
+        return;
+      }
+      const returnScreen = state.cartReturnScreen || "menu-landing";
+      if (returnScreen === "home-guest" || returnScreen === "home-auth") {
+        goHome();
+        return;
+      }
+      if (returnScreen === "rewards") {
+        goToRewards();
+        return;
+      }
+      if (returnScreen === "more") {
+        goToMore();
+        return;
+      }
+      if (returnScreen === "secret-menu") {
+        goToMenuLanding();
+        return;
+      }
+      goToMenuLanding();
+    }
+
     function goToCheckout() {
       state.selectedMealSheetItemId = "";
       state.editingCartItemId = "";
@@ -31372,6 +32195,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.checkoutCouponSheetOpen = false;
       state.checkoutPaymentSheetOpen = false;
       state.checkoutCardEntryOpen = false;
+      state.checkoutSummaryExpanded = false;
       if (!["saved-card", "card", "applepay", "paypal"].includes(state.checkoutPaymentMethod)) {
         state.checkoutPaymentMethod = "saved-card";
       }
@@ -31806,14 +32630,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     });
     menuPlpBack.addEventListener("click", goToMenuLanding);
     menuPlpTitle.addEventListener("click", openOrderSettings);
-    menuPlpFilter.addEventListener("click", () => {
-      state.menuChipScrollLock = true;
-      state.selectedMenuCategory = state.selectedMenuCategory || defaultMenuCategory || "featured";
-      renderMenu();
-      setTimeout(() => {
-        state.menuChipScrollLock = false;
-      }, 220);
-    });
+    menuPlpFilter.addEventListener("click", () => openSheet("menu-filter"));
+    closeMenuFilterSheetBtn.addEventListener("click", closeSheet);
+    menuFilterClearBtn.addEventListener("click", closeSheet);
+    menuFilterApplyBtn.addEventListener("click", closeSheet);
     menuPlpSearch.addEventListener("click", () => openMenuSearch("menu"));
     menuSearchBack.addEventListener("click", closeMenuSearch);
     menuSearchClose.addEventListener("click", closeMenuSearch);
@@ -32399,8 +33219,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     });
     upsellAddBtn.addEventListener("click", () => {
       addPendingUpsellsToCart();
+      clearUpsellStageTimer();
       resetUpsellSelections();
-      closeSheet();
+      state.upsellStage = "offer";
+      state.activeSheet = null;
       goToCart();
     });
     document.getElementById("upsell-back-btn").addEventListener("click", () => {
@@ -32408,6 +33230,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     });
     document.getElementById("checkout-back-btn").addEventListener("click", () => goToCart());
     checkoutCloseBtn.addEventListener("click", () => goToCart());
+    document.getElementById("cart-back-btn").addEventListener("click", () => leaveCart(false));
+    document.getElementById("cart-close-btn").addEventListener("click", () => leaveCart(true));
     productDetailInfoLink.addEventListener("click", () => openNutritionSheet(state.selectedMenuItemId, "nutrition"));
     bundleCustomizeInfoLink.addEventListener("click", () => openNutritionSheet(state.selectedMenuItemId, "nutrition"));
     miniCustomizeInfoLink.addEventListener("click", () => openNutritionSheet(state.selectedMenuItemId, "nutrition"));
@@ -32723,6 +33547,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.expandedCartItemIds = [];
       state.nextCartItemId = 1;
       state.editingCartItemId = "";
+      state.cartReturnScreen = "menu-landing";
       state.productDetailReturnScreen = "menu";
       state.upsellBaseItemId = "";
       state.upsellReady = false;
@@ -32841,7 +33666,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const toggleButton = event.target.closest("[data-cart-toggle-id]");
       if (toggleButton) {
         toggleCartItemExpanded(toggleButton.dataset.cartToggleId);
-        render();
+        refreshCartView();
         return;
       }
 
@@ -32886,7 +33711,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const removeFreeDelivery = event.target.closest("[data-cart-remove-free-delivery]");
       if (removeFreeDelivery) {
         state.freeDeliveryOptOut = true;
-        render();
+        refreshCartView();
         return;
       }
 
@@ -32926,7 +33751,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (confirmFulfillment) {
         state.checkoutFulfillmentConfirmed = true;
         state.checkoutSummaryExpanded = true;
-        render();
+        refreshCheckoutView();
         return;
       }
 
@@ -32945,30 +33770,23 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         return;
       }
 
-      const summaryToggle = event.target.closest("[data-checkout-toggle-summary]");
-      if (summaryToggle) {
-        state.checkoutSummaryExpanded = !state.checkoutSummaryExpanded;
-        render();
-        return;
-      }
-
       const paymentChoice = event.target.closest(".checkout-payment-choice[data-checkout-method]");
       if (paymentChoice) {
         state.checkoutPaymentMethod = paymentChoice.dataset.checkoutMethod;
-        render();
+        refreshCheckoutView();
         return;
       }
 
       if (event.target === checkoutPaymentSheet) {
         state.checkoutPaymentSheetOpen = false;
-        render();
+        refreshCheckoutView();
         return;
       }
 
       if (event.target === checkoutCardEntrySheet) {
         state.checkoutCardEntryOpen = false;
         checkoutScreen.classList.remove("keyboard-visible");
-        render();
+        refreshCheckoutView();
         return;
       }
 
@@ -32982,7 +33800,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           type: couponCard.dataset.checkoutCouponType || "discount"
         };
         state.checkoutCouponSheetOpen = false;
-        render();
+        refreshCheckoutView();
         return;
       }
 
@@ -32990,43 +33808,43 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (cashChip) {
         const pricing = getCheckoutTotal();
         state.checkoutCashTendered = Number((pricing.total + Number(cashChip.dataset.checkoutCashAmount)).toFixed(2));
-        render();
+        refreshCheckoutView();
         return;
       }
 
       const voucherChoice = event.target.closest("[data-checkout-voucher-method]");
       if (voucherChoice) {
         state.checkoutVoucherRemainingMethod = voucherChoice.dataset.checkoutVoucherMethod;
-        render();
+        refreshCheckoutView();
         return;
       }
 
       const pickupOption = event.target.closest("[data-checkout-pickup-option]");
       if (pickupOption) {
         state.checkoutPickupOption = pickupOption.dataset.checkoutPickupOption;
-        render();
+        refreshCheckoutView();
         return;
       }
 
       const paymentMethod = event.target.closest(".checkout-method-card[data-checkout-method]");
       if (paymentMethod) {
         state.checkoutPaymentMethod = paymentMethod.dataset.checkoutMethod;
-        render();
+        refreshCheckoutView();
       }
     });
 
     document.getElementById("open-checkout-coupon-sheet-btn").addEventListener("click", () => {
       state.checkoutCouponSheetOpen = true;
-      render();
+      refreshCheckoutView();
     });
     document.getElementById("close-checkout-coupon-sheet-btn").addEventListener("click", () => {
       state.checkoutCouponSheetOpen = false;
-      render();
+      refreshCheckoutView();
     });
     checkoutCouponSheet.addEventListener("click", (event) => {
       if (event.target === checkoutCouponSheet) {
         state.checkoutCouponSheetOpen = false;
-        render();
+        refreshCheckoutView();
       }
     });
     document.getElementById("apply-checkout-coupon-btn").addEventListener("click", () => {
@@ -33043,39 +33861,39 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     });
     checkoutCashInput.addEventListener("change", () => {
       state.checkoutCashTendered = parseCurrencyInput(checkoutCashInput.value);
-      render();
+      refreshCheckoutView();
     });
     checkoutVoucherInput.addEventListener("change", () => {
       const code = checkoutVoucherInput.value.trim().toUpperCase();
       state.checkoutVoucherBalance = code === "FAMILY10" ? 10 : code === "LUNCH5" ? 5 : 25;
-      render();
+      refreshCheckoutView();
     });
     checkoutToggleNewCardBtn.addEventListener("click", () => {
       state.checkoutUsingNewCard = !state.checkoutUsingNewCard;
-      render();
+      refreshCheckoutView();
     });
     checkoutUseSavedCardBtn.addEventListener("click", () => {
       state.checkoutUsingNewCard = false;
-      render();
+      refreshCheckoutView();
     });
     checkoutSplitStack.addEventListener("change", (event) => {
       const methodSelect = event.target.closest("[data-checkout-split-method-index]");
       if (methodSelect) {
         const index = Number(methodSelect.dataset.checkoutSplitMethodIndex);
         state.checkoutSplitRows[index].method = methodSelect.value;
-        render();
+        refreshCheckoutView();
         return;
       }
       const amountInput = event.target.closest("[data-checkout-split-amount-index]");
       if (amountInput) {
         const index = Number(amountInput.dataset.checkoutSplitAmountIndex);
         state.checkoutSplitRows[index].amount = parseCurrencyInput(amountInput.value);
-        render();
+        refreshCheckoutView();
       }
     });
     document.getElementById("checkout-add-split-btn").addEventListener("click", () => {
       state.checkoutSplitRows.push({ method: "voucher", amount: 0 });
-      render();
+      refreshCheckoutView();
     });
     document.getElementById("checkout-fill-remaining-btn").addEventListener("click", () => {
       if (!state.checkoutSplitRows.length) return;
@@ -33083,28 +33901,28 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const current = getCheckoutSplitSum();
       const remaining = Math.max(0, pricing.total - current);
       state.checkoutSplitRows[state.checkoutSplitRows.length - 1].amount = Number(((state.checkoutSplitRows[state.checkoutSplitRows.length - 1].amount || 0) + remaining).toFixed(2));
-      render();
+      refreshCheckoutView();
     });
     checkoutPayBtn.addEventListener("click", () => {
       if (checkoutPayBtn.disabled) return;
       state.checkoutPaymentSheetOpen = true;
       state.checkoutCardEntryOpen = false;
-      render();
+      refreshCheckoutView();
     });
     document.getElementById("close-checkout-payment-sheet").addEventListener("click", () => {
       state.checkoutPaymentSheetOpen = false;
-      render();
+      refreshCheckoutView();
     });
     document.getElementById("close-checkout-card-sheet").addEventListener("click", () => {
       state.checkoutCardEntryOpen = false;
       checkoutScreen.classList.remove("keyboard-visible");
-      render();
+      refreshCheckoutView();
     });
     checkoutPaymentContinue.addEventListener("click", () => {
       if (state.checkoutPaymentMethod === "card") {
         state.checkoutPaymentSheetOpen = false;
         state.checkoutCardEntryOpen = true;
-        render();
+        refreshCheckoutView();
         setTimeout(() => {
           if (checkoutCardNumberInput) checkoutCardNumberInput.focus();
         }, 30);
