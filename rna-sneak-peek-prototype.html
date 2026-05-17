@@ -23097,6 +23097,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     let secretPullSuppressClick = false;
     let secretMenuHoldPointerId = null;
     let secretMenuNudgeTimer = null;
+    let secretMenuNotInterestedTimer = null;
+    let secretMenuNotInterestedTimerStartedThisSession = false;
+    let secretMenuEngagedThisSession = false;
     let secretMenuNudgeSeenThisSession = false;
     const bundleCustomizeHero = document.getElementById("bundle-customize-hero");
     const bundleCustomizeTopcopy = document.getElementById("bundle-customize-topcopy");
@@ -23169,6 +23172,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const appShellModeKey = "rna-sneak-peek-shell-mode-v1";
     const prototypeStateKey = "rna-sneak-peek-prototype-state-v2";
     const prototypeCookieKey = "rna_sneak_peek_state_v2";
+    const secretMenuDispositionKey = "rna_sneak_peek_secret_menu_disposition_v1";
+    const SECRET_MENU_ELIGIBLE = "Eligible";
+    const SECRET_MENU_NOT_INTERESTED = "Not Interested";
+    const SECRET_MENU_NOT_INTERESTED_DELAY_MS = 10000;
     const DELIVERY_MINIMUM = 20;
     const PICKUP_MINIMUM = 10;
     const FREE_DELIVERY_THRESHOLD = 40;
@@ -23539,6 +23546,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       } catch (error) {
       }
       document.cookie = prototypeCookieKey + "=; path=/; max-age=0; SameSite=Lax";
+      clearSecretMenuDisposition();
     }
 
     function resetPrototypeSessionToEmpty() {
@@ -23588,6 +23596,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.secretMenuLaunchPending = false;
       state.secretMenuStage = "clue";
       state.secretMenuPlpIndex = 0;
+      clearSecretMenuDisposition();
       state.selectedUpsellQuantities = {};
       state.upsellDraftQuantities = {};
       state.selectedUpsellSizes = {};
@@ -26905,6 +26914,92 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return secretMenuCampaign.items.find((entry) => entry.id === secretMenuCampaign.entryItemId) || secretMenuCampaign.items[0] || null;
     }
 
+    function getSecretMenuDisposition() {
+      try {
+        return window.sessionStorage.getItem(secretMenuDispositionKey) || SECRET_MENU_ELIGIBLE;
+      } catch (error) {
+        return SECRET_MENU_ELIGIBLE;
+      }
+    }
+
+    function setSecretMenuDisposition(disposition) {
+      try {
+        window.sessionStorage.setItem(secretMenuDispositionKey, disposition);
+      } catch (error) {
+      }
+    }
+
+    function clearSecretMenuDisposition() {
+      clearSecretMenuNotInterestedTimer();
+      try {
+        window.sessionStorage.removeItem(secretMenuDispositionKey);
+      } catch (error) {
+      }
+      secretMenuNotInterestedTimerStartedThisSession = false;
+      secretMenuEngagedThisSession = false;
+    }
+
+    function isSecretMenuNotInterested() {
+      return getSecretMenuDisposition() === SECRET_MENU_NOT_INTERESTED;
+    }
+
+    function clearSecretMenuNotInterestedTimer() {
+      if (!secretMenuNotInterestedTimer) return;
+      clearTimeout(secretMenuNotInterestedTimer);
+      secretMenuNotInterestedTimer = null;
+    }
+
+    function markSecretMenuEngaged() {
+      secretMenuEngagedThisSession = true;
+      clearSecretMenuNotInterestedTimer();
+    }
+
+    function shouldStartSecretMenuNotInterestedTimer() {
+      return state.screen === "menu-landing"
+        && !state.secretMenuUnlocked
+        && !state.secretMenuFullyUnlocked
+        && !state.secretMenuHoldActive
+        && !secretMenuEngagedThisSession
+        && !secretMenuNotInterestedTimerStartedThisSession
+        && !isSecretMenuNotInterested()
+        && (state.secretMenuStage === "idle" || state.secretMenuStage === "clue");
+    }
+
+    function setSecretMenuNotInterested() {
+      clearSecretMenuNotInterestedTimer();
+      clearSecretMenuHoldTimer();
+      clearSecretMenuHoldPointer();
+      clearSecretMenuStageTimer();
+      if (secretMenuNudgeTimer) {
+        clearTimeout(secretMenuNudgeTimer);
+        secretMenuNudgeTimer = null;
+      }
+      setSecretMenuDisposition(SECRET_MENU_NOT_INTERESTED);
+      secretMenuNotInterestedTimerStartedThisSession = true;
+      state.secretMenuHoldActive = false;
+      state.secretMenuHoldStartedAt = 0;
+      state.secretMenuCountdown = secretMenuCampaign.holdSeconds;
+      state.secretMenuLaunchPending = false;
+      state.secretMenuStage = "clue";
+      secretMenuHoldRenderMode = "landing";
+      resetSecretPullGesture({ snap: false, cancelHold: false });
+      if (state.screen === "menu-landing") {
+        renderMenuLanding();
+      }
+    }
+
+    function scheduleSecretMenuNotInterestedTimer() {
+      if (!shouldStartSecretMenuNotInterestedTimer()) return;
+      secretMenuNotInterestedTimerStartedThisSession = true;
+      clearSecretMenuNotInterestedTimer();
+      secretMenuNotInterestedTimer = setTimeout(() => {
+        secretMenuNotInterestedTimer = null;
+        if (!secretMenuEngagedThisSession && !state.secretMenuUnlocked && !state.secretMenuFullyUnlocked) {
+          setSecretMenuNotInterested();
+        }
+      }, SECRET_MENU_NOT_INTERESTED_DELAY_MS);
+    }
+
     function getSecretMenuLandingTiles() {
       if (!state.secretMenuFullyUnlocked) return menuLandingTiles.slice();
       const entryItem = getCurrentSecretMenuItem();
@@ -26918,6 +27013,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function getSecretMenuClueMarkup() {
+      if (isSecretMenuNotInterested()) return "";
       if (state.secretMenuFullyUnlocked && state.secretMenuStage === "idle") return "";
       const elapsedMs = state.secretMenuHoldActive ? Math.max(0, Date.now() - state.secretMenuHoldStartedAt) : 0;
       const progress = Math.min(1, elapsedMs / (secretMenuCampaign.holdSeconds * 1000));
@@ -27024,7 +27120,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       menuLandingScreen.classList.toggle("is-secret-ready", mode === "ready");
       menuLandingScreen.classList.toggle("is-secret-snapping", mode === "snapping");
       if (menuLandingPullReveal) {
-        menuLandingPullReveal.setAttribute("aria-hidden", mode === "idle" ? "true" : "false");
+        menuLandingPullReveal.setAttribute("aria-hidden", mode === "idle" || isSecretMenuNotInterested() ? "true" : "false");
       }
     }
 
@@ -27049,6 +27145,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         && !state.secretMenuUnlocked
         && !state.secretMenuHoldActive
         && !state.activeSheet
+        && !secretMenuEngagedThisSession
+        && !isSecretMenuNotInterested()
         && !hasSeenSecretMenuNudge();
     }
 
@@ -27159,6 +27257,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function unlockSecretMenu(options = {}) {
+      markSecretMenuEngaged();
       clearSecretMenuHoldTimer();
       clearSecretMenuHoldPointer();
       clearSecretMenuStageTimer();
@@ -27203,7 +27302,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function startSecretMenuHold(options = {}) {
-      if (state.secretMenuUnlocked || state.secretMenuHoldActive || state.screen !== "menu-landing") return;
+      if (state.secretMenuUnlocked || state.secretMenuHoldActive || state.screen !== "menu-landing" || isSecretMenuNotInterested()) return;
+      markSecretMenuEngaged();
       secretMenuHoldRenderMode = options.renderMode || "landing";
       state.secretMenuHoldActive = true;
       state.secretMenuLaunchPending = false;
@@ -27241,7 +27341,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     }
 
     function beginSecretPullGesture(event) {
-      if (!menuLandingScreen || state.screen !== "menu-landing" || state.secretMenuUnlocked || state.activeSheet) return;
+      if (!menuLandingScreen || state.screen !== "menu-landing" || state.secretMenuUnlocked || state.activeSheet || isSecretMenuNotInterested()) return;
       if (event.target.closest("[data-secret-menu-clue]")) return;
       if (event.pointerType === "mouse" && event.button !== 0) return;
       if (menuLandingBody.scrollTop > 1) return;
@@ -27259,6 +27359,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const rawDistance = event.clientY - secretPullStartY;
       if (!secretPullActive && rawDistance > 8 && menuLandingBody.scrollTop <= 1) {
         secretPullActive = true;
+        markSecretMenuEngaged();
         secretPullSuppressClick = true;
         try {
           menuLandingScreen.setPointerCapture(event.pointerId);
@@ -29238,6 +29339,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       menuLandingSecretSlot.innerHTML = secretHeroMarkup;
       menuLandingScreen.classList.toggle("has-secret-hero", !!secretHeroMarkup);
       menuLandingScreen.classList.toggle("is-secret-hero-expanded", state.secretMenuStage === "countdown" || state.secretMenuStage === "success");
+      scheduleSecretMenuNotInterestedTimer();
       menuLandingGrid.innerHTML = landingTiles.map((category) => (
         '<button class="menu-landing-card ' + (category.className || "") + '" data-menu-landing-category="' + category.id + '" data-menu-landing-action="' + escapeAttr(category.action || "category") + '" type="button"' + (category.bg ? ' style="--menu-landing-bg:url(\'' + category.bg + '\');"' : '') + '>' +
           (category.note ? '<div class="menu-landing-card-note">' + escapeHtml(translateMenuCopy(category.note)) + '</div>' : '') +
