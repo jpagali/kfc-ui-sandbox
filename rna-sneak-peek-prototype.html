@@ -1066,11 +1066,17 @@
     }
 
     .more-language-copy,
+    .more-language-caveat,
     .more-market-label {
       color: rgba(255, 255, 255, 0.72);
       font-size: 12px;
       font-weight: 600;
       line-height: 16px;
+    }
+
+    .more-language-caveat {
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.58);
     }
 
     .more-market-label {
@@ -1182,12 +1188,31 @@
     }
 
     .more-social {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      transition: opacity 0.16s var(--ease), transform 0.16s var(--ease);
+    }
+
+    .more-social:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 4px;
+    }
+
+    .more-social:active {
+      opacity: 0.72;
+      transform: scale(0.94);
+    }
+
+    .more-social svg {
       width: 22px;
       height: 22px;
-      border-radius: 999px;
-      border: 1px solid #ffffff;
-      background: #000000;
-      color: #ffffff;
+      display: block;
+      fill: currentColor;
     }
 
     .more-copyright {
@@ -21224,6 +21249,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
                       <div>
                         <div class="more-language-title" id="more-language-title">Language</div>
                         <div class="more-language-copy" id="more-language-copy">Choose how customers see this prototype.</div>
+                        <div class="more-language-caveat" id="more-language-caveat">Prototype controls only. Market and language switching are included for review and are not a confirmed customer-facing feature.</div>
                       </div>
                       <div class="more-market-label" id="more-market-label">Market</div>
                     </div>
@@ -21239,14 +21265,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
                   </div>
 
                   <div class="more-version">Version 2510.0.6</div>
-                  <div class="more-socials" aria-label="Social links">
-                    <button class="more-social" type="button" data-more-action="Facebook" aria-label="Facebook"></button>
-                    <button class="more-social" type="button" data-more-action="Instagram" aria-label="Instagram"></button>
-                    <button class="more-social" type="button" data-more-action="TikTok" aria-label="TikTok"></button>
-                    <button class="more-social" type="button" data-more-action="YouTube" aria-label="YouTube"></button>
-                    <button class="more-social" type="button" data-more-action="X" aria-label="X"></button>
-                    <button class="more-social" type="button" data-more-action="LinkedIn" aria-label="LinkedIn"></button>
-                  </div>
+                  <div class="more-socials" id="more-socials" aria-label="Social links" data-i18n-skip></div>
                   <div class="more-copyright" id="more-copyright" data-i18n-skip>Copyright © KFC Australia. 2026. All Rights Reserved.</div>
                   <button class="more-sign-out" type="button" data-more-action="Sign Out">Sign Out</button>
                 </div>
@@ -21517,8 +21536,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     </div>
   </div>
 
-  <script src="i18n/market-flags.js?v=13"></script>
-  <script src="i18n/translations.js?v=13"></script>
+  <script src="i18n/market-flags.js?v=15"></script>
+  <script src="i18n/translations.js?v=14"></script>
   <script>
     const australiaStores = {
       elizabeth: {
@@ -22427,17 +22446,46 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       document.documentElement.lang = getCurrentLanguage();
     }
 
+    const socialIconSvg = {
+      facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.49-3.91 3.78-3.91 1.1 0 2.24.2 2.24.2V8.6H15.2c-1.24 0-1.63.78-1.63 1.57v1.89h2.77l-.44 2.91h-2.33V22C18.34 21.24 22 17.08 22 12.06Z"></path></svg>',
+      instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm8.2 1.9H8A4.1 4.1 0 0 0 3.9 8v8A4.1 4.1 0 0 0 8 20.1h8a4.1 4.1 0 0 0 4.1-4.1V8A4.1 4.1 0 0 0 16 3.9Zm-4 3.17A4.93 4.93 0 1 1 12 16.93a4.93 4.93 0 0 1 0-9.86Zm0 1.9a3.03 3.03 0 1 0 0 6.06 3.03 3.03 0 0 0 0-6.06Zm5.18-2.23a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3Z"></path></svg>',
+      tiktok: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.62 2c.34 2.47 1.7 3.94 4.05 4.1v3.08a7.02 7.02 0 0 1-4.02-1.22v6.01c0 4.55-2.47 7.41-6.33 7.41a5.58 5.58 0 0 1-5.99-5.58c0-3.58 2.92-6.07 6.69-5.58v3.3c-1.75-.28-3.23.53-3.23 2.16 0 1.3 1.02 2.25 2.44 2.25 1.72 0 2.72-1.02 2.72-3.4V2h3.67Z"></path></svg>',
+      youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.58 7.2a2.72 2.72 0 0 0-1.91-1.93C17.98 4.82 12 4.82 12 4.82s-5.98 0-7.67.45A2.72 2.72 0 0 0 2.42 7.2 28.28 28.28 0 0 0 2 12a28.28 28.28 0 0 0 .42 4.8 2.72 2.72 0 0 0 1.91 1.93c1.69.45 7.67.45 7.67.45s5.98 0 7.67-.45a2.72 2.72 0 0 0 1.91-1.93A28.28 28.28 0 0 0 22 12a28.28 28.28 0 0 0-.42-4.8ZM10 15.18V8.82L15.2 12 10 15.18Z"></path></svg>',
+      x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.88 10.47 21.22 2h-1.74l-6.37 7.35L8.03 2H2.16l7.7 11.12L2.16 22h1.74l6.73-7.76L16 22h5.87l-7.99-11.53Zm-2.38 2.75-.78-1.11-6.2-8.82H7.2l5 7.11.78 1.11 6.51 9.27h-2.68l-5.31-7.56Z"></path></svg>'
+    };
+
+    function renderMarketSocialLinks(market) {
+      if (!moreSocials) return;
+      const socialLinks = Array.isArray(market && market.socialLinks) ? market.socialLinks : [];
+      const validLinks = socialLinks.filter((link) => {
+        const platform = String(link && link.platform || "").toLowerCase();
+        const url = String(link && link.url || "");
+        return platform && /^https:\/\//.test(url) && socialIconSvg[platform];
+      });
+      moreSocials.hidden = !validLinks.length;
+      moreSocials.innerHTML = validLinks.map((link) => {
+        const platform = String(link.platform || "").toLowerCase();
+        const url = String(link.url || "");
+        const label = link.label || platform.toUpperCase();
+        const marketName = (market && market.name) || "KFC";
+        const ariaLabel = "KFC " + marketName + " on " + label;
+        return '<a class="more-social" href="' + escapeAttr(url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escapeAttr(ariaLabel) + '" title="' + escapeAttr(label) + '" data-social-platform="' + escapeAttr(platform) + '">' + socialIconSvg[platform] + '</a>';
+      }).join("");
+    }
+
     function renderLanguagePreference() {
       if (!languageSelect) return;
       const market = getMarketConfig(state.marketId);
       const languages = getMarketLanguages(state.marketId);
       moreLanguageTitle.textContent = translatePhrase("Language");
       moreLanguageCopy.textContent = translatePhrase("Choose how customers see this prototype.");
+      moreLanguageCaveat.textContent = translatePhrase("Prototype controls only. Market and language switching are included for review and are not a confirmed customer-facing feature.");
       moreMarketLabel.textContent = translatePhrase("Market") + ": " + (market.emoji || market.flag || market.name || state.marketId);
       const moreCopyright = document.getElementById("more-copyright");
       if (moreCopyright) {
         moreCopyright.textContent = getMarketCopyrightCopy(market);
       }
+      renderMarketSocialLinks(market);
       if (marketSwitchList) {
         marketSwitchList.innerHTML = getMarketEntries().map((entry) => (
           '<button class="more-market-option' + (entry.id === state.marketId ? ' active' : '') + '" data-market-switch="' + escapeAttr(entry.id) + '" type="button" aria-label="' + escapeAttr(translatePhrase("Market") + ": " + entry.name) + '">' +
@@ -22845,7 +22893,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const marketSwitchList = document.getElementById("more-market-switch");
     const moreLanguageTitle = document.getElementById("more-language-title");
     const moreLanguageCopy = document.getElementById("more-language-copy");
+    const moreLanguageCaveat = document.getElementById("more-language-caveat");
     const moreMarketLabel = document.getElementById("more-market-label");
+    const moreSocials = document.getElementById("more-socials");
     const preOcb = document.getElementById("pre-ocb");
     const ocb = document.getElementById("ocb");
     const bottomNavWrap = document.querySelector(".bottom-nav-wrap");
@@ -34222,8 +34272,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (typeof window.fetch !== "function") return Promise.resolve();
       const startupAssets = [
         "assets/splash/kfc-bucket-white.png",
-        "i18n/market-flags.js?v=13",
-        "i18n/translations.js?v=13",
+        "i18n/market-flags.js?v=15",
+        "i18n/translations.js?v=14",
         "manifest.webmanifest",
         "app-icon.svg",
         "app-icon-192.png",
