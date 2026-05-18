@@ -1,4 +1,4 @@
-const CACHE_NAME = "kfc-atlas-prototype-v50";
+const CACHE_NAME = "kfc-atlas-prototype-v52";
 const CORE_ASSETS = [
   "./",
   "./rna-sneak-peek-prototype.html",
@@ -15,7 +15,7 @@ const CORE_ASSETS = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(CORE_ASSETS))
+      .then((cache) => Promise.all(CORE_ASSETS.map((asset) => cache.add(asset).catch(() => null))))
       .then(() => self.skipWaiting())
   );
 });
