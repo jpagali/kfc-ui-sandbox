@@ -23733,9 +23733,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
     function shouldUseFullscreenShell(mode) {
       if (isStandaloneAppLaunch()) return true;
+      if (isEmbeddedPrototypeShell()) return true;
       if (mode === "fullscreen") return true;
       if (mode === "framed") return false;
-      if (isEmbeddedPrototypeShell()) return true;
       return false;
     }
 
