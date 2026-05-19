@@ -456,6 +456,10 @@
       --ios-home-indicator-bottom: max(8px, calc(env(safe-area-inset-bottom) + 8px));
     }
 
+    body.app-shell-fullscreen.app-shell-embedded {
+      --status-safe-offset: 76px;
+    }
+
     body.app-shell-fullscreen.shell-debug .app-shell-toggle,
     body.app-shell-framed .app-shell-toggle {
       display: inline-flex;
@@ -23807,6 +23811,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       document.body.classList.toggle("app-shell-fullscreen", fullscreen);
       document.body.classList.toggle("app-shell-framed", !fullscreen);
       document.body.classList.toggle("shell-debug", debugShell);
+      document.body.classList.toggle("app-shell-embedded", isEmbeddedPrototypeShell());
       document.body.classList.toggle("app-shell-standalone", isStandaloneAppLaunch());
       appShellToggle.textContent = fullscreen ? "Frame view" : "App view";
       appShellToggle.setAttribute("aria-pressed", String(fullscreen));
