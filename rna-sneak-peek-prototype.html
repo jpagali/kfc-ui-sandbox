@@ -18390,6 +18390,20 @@
       cursor: default;
     }
 
+    .checkout-payment-sheet,
+    .checkout-card-entry-sheet {
+      padding-bottom: calc(16px + var(--ios-bottom-safe-gap)) !important;
+    }
+
+    .checkout-payment-sheet .checkout-sheet-primary,
+    .checkout-card-entry-sheet .checkout-sheet-primary {
+      width: 100% !important;
+      margin: 8px 0 0 !important;
+      border: 0 !important;
+      background-clip: border-box !important;
+      flex-shrink: 0;
+    }
+
     .phone :is(
       .start-order-btn,
       .postorder-floating-btn,
