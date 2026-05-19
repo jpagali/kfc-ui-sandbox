@@ -8712,6 +8712,7 @@
     .sheet-backdrop.open {
       opacity: 1;
       pointer-events: auto;
+      z-index: 120;
     }
 
     .sheet {
@@ -8737,6 +8738,12 @@
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
+      z-index: 130;
+    }
+
+    #cart-remove-sheet.open {
+      z-index: 140;
+      bottom: 0;
     }
 
     .sheet-panel {
@@ -9594,6 +9601,7 @@
 
     .sheet#upsell-sheet.open {
       transform: translateY(0);
+      z-index: 130;
     }
 
     .upsell-sheet {
@@ -10095,6 +10103,9 @@
     .cart-remove-sheet-panel {
       padding-top: 16px;
       border-radius: 16px 16px 0 0;
+      position: relative;
+      z-index: 2;
+      pointer-events: auto;
     }
 
     .cart-remove-sheet-panel .sheet-grabber {
@@ -10111,6 +10122,7 @@
       background: transparent;
       color: #000000;
       flex-shrink: 0;
+      pointer-events: auto;
     }
 
     .cart-remove-close svg {
@@ -10162,6 +10174,7 @@
       font-weight: 900;
       line-height: 18px;
       text-transform: uppercase;
+      pointer-events: auto;
     }
 
     .cart-remove-confirm {
@@ -11446,6 +11459,9 @@
     .screen[data-screen="cart"] {
       padding: 0;
       background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     .cart-screen,
@@ -11456,24 +11472,38 @@
 
     .cart-screen {
       min-height: 100%;
-      padding: 0 0 116px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
       background: #ffffff;
       color: #000000;
+      overflow: hidden;
+    }
+
+    .cart-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
       overflow-x: hidden;
+      padding-bottom: calc(132px + var(--ios-bottom-safe-gap));
+      -webkit-overflow-scrolling: touch;
     }
 
     .cart-screen .cart-header {
-      position: sticky;
+      position: relative;
       top: 0;
-      z-index: 8;
+      z-index: 80;
       display: grid;
-      grid-template-columns: 44px 1fr 44px;
-      align-items: center;
-      height: 52px;
-      padding: 0;
+      grid-template-columns: auto minmax(0, 1fr) 56px;
+      align-items: end;
+      min-height: calc(var(--status-safe-offset) + 58px);
+      padding: var(--status-safe-offset) 12px 10px;
       border-bottom: 1px solid #dedbd6;
       background: #ffffff;
       box-shadow: none;
+      flex-shrink: 0;
     }
 
     .cart-screen .cart-header::before,
@@ -11491,10 +11521,13 @@
 
     .cart-screen .cart-header-btn,
     .phone .cart-screen .cart-header-btn {
-      display: grid;
-      place-items: center;
-      width: 44px;
-      height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: auto;
+      min-width: 44px;
+      height: 44px;
       padding: 0;
       border: 0;
       background: transparent;
@@ -11510,31 +11543,115 @@
     .cart-screen .cart-header-btn.back,
     .phone .cart-screen .cart-header-btn.back {
       grid-column: 1;
-      font-size: 15px !important;
-      font-weight: 600 !important;
+      justify-self: start;
+      padding-right: 10px;
+      font-size: 14px !important;
+      font-weight: 700 !important;
     }
 
     .cart-screen .cart-header-btn.close,
     .phone .cart-screen .cart-header-btn.close {
       grid-column: 3;
+      justify-self: end;
       font-size: 16px !important;
       font-weight: 700 !important;
+    }
+
+    .cart-screen .cart-header-btn svg,
+    .phone .cart-screen .cart-header-btn svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+      flex: 0 0 auto;
+    }
+
+    .cart-screen .cart-back-label {
+      display: inline-block;
+      transform: translateY(1px);
     }
 
     .cart-screen .screen-kicker {
       display: none;
     }
 
-    .cart-screen .screen-title {
+    .cart-screen .cart-header-copy {
       grid-column: 2;
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+      justify-items: center;
+      align-self: center;
+      padding: 0 8px;
+    }
+
+    .cart-screen .screen-title {
       margin: 0;
       color: #000000;
       font-family: var(--font-ui);
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 16px;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 15px;
       text-align: center;
-      text-transform: none;
+      text-transform: uppercase;
+    }
+
+    .cart-screen .cart-context-line {
+      max-width: 100%;
+      overflow: hidden;
+      color: rgba(0, 0, 0, 0.66);
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 13px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cart-fixed-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 90;
+      display: block;
+      padding: 14px 16px calc(14px + var(--ios-bottom-safe-gap));
+      background: #000000;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .cart-fixed-footer[hidden] {
+      display: none !important;
+    }
+
+    .cart-fixed-checkout,
+    .phone .cart-fixed-checkout {
+      width: 100%;
+      min-height: 56px;
+      height: 56px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--red);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 18px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      box-shadow: none;
+    }
+
+    .cart-fixed-checkout:disabled,
+    .phone .cart-fixed-checkout:disabled {
+      background: #d7d4cf;
+      color: rgba(0, 0, 0, 0.52);
+      cursor: default;
     }
 
     .cart-screen .cart-figma-hero {
@@ -14888,8 +15005,8 @@
 
     .checkout-sheet-backdrop {
       position: absolute;
-      inset: 0 0 var(--bottom-nav-height) 0;
-      z-index: 40;
+      inset: 0;
+      z-index: 120;
       display: none;
       align-items: flex-end;
       background: rgba(0, 0, 0, 0.7);
@@ -14904,12 +15021,13 @@
       width: 100%;
       max-height: calc(100% - 54px);
       display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       gap: 16px;
-      padding: 16px 16px 16px;
+      padding: 16px 16px 0;
       border-radius: 32px 32px 0 0;
       background: #ffffff;
       color: #231f20;
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     .checkout-screen.keyboard-visible .checkout-card-entry-sheet {
@@ -14950,6 +15068,8 @@
     .checkout-payment-list {
       display: grid;
       gap: 0;
+      min-height: 0;
+      overflow-y: auto;
       padding: 0;
     }
 
@@ -15068,7 +15188,14 @@
     .checkout-sheet-primary {
       min-height: 42px;
       background: var(--red);
-      margin-top: 8px;
+      margin: 8px -16px 0;
+      width: calc(100% + 32px);
+      min-height: calc(104px + var(--ios-bottom-safe-gap));
+      border-radius: 0;
+      border: 16px solid #000000;
+      border-bottom-width: calc(14px + var(--ios-bottom-safe-gap));
+      padding: 0 16px;
+      background-clip: padding-box;
     }
 
     .checkout-card-fields {
@@ -15956,7 +16083,7 @@
       --content-cta-reserve: max(104px, calc(var(--bottom-nav-height) - 72px));
       --floating-cta-peek-height: 128px;
       --floating-cta-bottom-reserve: max(56px, calc(var(--bottom-nav-height) - var(--floating-cta-peek-height)));
-      --checkout-scroll-reserve: 108px;
+      --checkout-scroll-reserve: 184px;
     }
 
     body.app-shell-fullscreen {
@@ -15965,7 +16092,7 @@
       --content-cta-reserve: max(96px, calc(var(--bottom-nav-height) - 82px));
       --floating-cta-peek-height: clamp(128px, 15dvh, 152px);
       --floating-cta-bottom-reserve: max(48px, calc(var(--bottom-nav-height) - var(--floating-cta-peek-height)));
-      --checkout-scroll-reserve: max(104px, calc(var(--bottom-nav-height) - 42px));
+      --checkout-scroll-reserve: max(184px, calc(var(--bottom-nav-height) + 72px));
     }
 
     .screen[data-screen="home-guest"],
@@ -16021,14 +16148,41 @@
       padding-bottom: var(--content-cta-reserve);
     }
 
-    .cart-screen,
-    body.app-shell-fullscreen .cart-screen {
-      padding-bottom: var(--content-bottom-reserve);
+    .cart-scroll,
+    body.app-shell-fullscreen .cart-scroll {
+      padding-bottom: calc(132px + var(--ios-bottom-safe-gap));
     }
 
     .checkout-scroll,
     body.app-shell-fullscreen .checkout-scroll {
       padding-bottom: var(--checkout-scroll-reserve);
+    }
+
+    .phone.is-checkout-active .checkout-footer {
+      bottom: 0;
+    }
+
+    .phone:has(.screen[data-screen="cart"].active) .bottom-nav-wrap.pickup-footer-wrap {
+      padding-top: 14px;
+      padding-bottom: 0;
+      background: #000000;
+    }
+
+    .phone:has(.screen[data-screen="cart"].active) .bottom-nav {
+      display: none;
+    }
+
+    .phone:has(.screen[data-screen="cart"].active) .bottom-nav-wrap.pickup-footer-wrap::before {
+      background: #000000;
+    }
+
+    .phone:has(.screen[data-screen="cart"].active) .start-order-btn.pickup-footer {
+      margin-top: 0 !important;
+      margin-bottom: calc(12px + var(--ios-bottom-safe-gap)) !important;
+    }
+
+    .phone:has(.screen[data-screen="cart"].active) .bottom-nav-wrap {
+      display: none !important;
     }
 
     .more-page {
@@ -18984,6 +19138,14 @@
       color: #ffffff;
     }
 
+    .rewards-context-bar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #ffffff;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+    }
+
     .rewards-disposition {
       min-height: 52px;
       display: flex;
@@ -19027,9 +19189,8 @@
     }
 
     .rewards-tab-rail {
-      position: sticky;
-      top: 0;
-      z-index: 5;
+      position: relative;
+      z-index: 1;
       display: flex;
       gap: 24px;
       min-height: 68px;
@@ -19121,10 +19282,17 @@
       flex: 0 0 253px;
       scroll-snap-align: start;
       color: #ffffff;
+      display: block;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      text-align: left;
+      font: inherit;
     }
 
     .rewards-promo-media {
       position: relative;
+      display: block;
       width: 253px;
       height: 337px;
       overflow: hidden;
@@ -19236,6 +19404,15 @@
       font-style: italic;
       line-height: 24px;
       text-transform: uppercase;
+    }
+
+    .rewards-empty-copy {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 21px;
+      color: #231f20;
     }
 
     .rewards-landing-button {
@@ -19434,6 +19611,195 @@
       margin-top: 40px;
     }
 
+    .rewards-cart-cta {
+      position: sticky;
+      bottom: calc(var(--bottom-nav-height) + 8px);
+      z-index: 8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: calc(100% - 32px);
+      min-height: 52px;
+      margin: 24px 16px 0;
+      border: 0;
+      border-radius: 4px;
+      padding: 8px 12px 8px 16px;
+      background: #f5002b;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 18px;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    .rewards-cart-cta > span {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rewards-cart-bucket {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      background: #ffffff;
+      color: #f5002b;
+      font-family: var(--font-hero);
+      font-style: normal;
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .rewards-detail {
+      min-height: 100%;
+      background: #000000;
+      color: #ffffff;
+      padding-bottom: 28px;
+    }
+
+    .rewards-detail-header {
+      min-height: 52px;
+      display: grid;
+      grid-template-columns: 28px 1fr 28px;
+      align-items: center;
+      gap: 12px;
+      padding: 0 16px;
+      border-bottom: 1px solid #d7d4cf;
+      background: #ffffff;
+      color: #000000;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+    }
+
+    .rewards-detail-icon {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .rewards-detail-overview {
+      display: grid;
+      gap: 14px;
+      padding: 40px 16px 24px;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .rewards-detail-overview h1 {
+      margin: 0;
+      font-family: var(--font-hero);
+      font-size: 44px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 42px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #000000;
+    }
+
+    .rewards-detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px;
+      color: #231f20;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .rewards-detail-meta span + span {
+      color: #7e7c77;
+    }
+
+    .rewards-detail-overview p {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 24px;
+      color: #000000;
+    }
+
+    .rewards-detail-hero {
+      min-height: 375px;
+      background: #000000 center / contain no-repeat;
+    }
+
+    .rewards-detail-instructions {
+      display: grid;
+      gap: 20px;
+      padding: 40px 16px 0;
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .rewards-detail-instructions h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 24px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .rewards-detail-instructions ul {
+      margin: 0;
+      padding-left: 22px;
+      font-family: var(--font-ui);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 24px;
+      color: #ffffff;
+    }
+
+    .rewards-terms-link {
+      justify-self: start;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: #ffffff;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      line-height: 18px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .rewards-eligibility {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 4px;
+      padding: 16px;
+      background: #eef7ee;
+      color: #000000;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 18px;
+    }
+
+    .rewards-redeem-btn {
+      width: 100%;
+      min-height: 52px;
+      text-transform: none;
+    }
+
     body.app-shell-fullscreen .rewards-promo-card,
     body.app-shell-framed .rewards-promo-card {
       flex-basis: min(68vw, 253px);
@@ -19522,11 +19888,11 @@
 
             <main class="content">
               <section class="screen" data-screen="home-guest">
-                <div class="home-atlas" data-home-root=""><section class="home-welcome"><div class="home-welcome-title">Welcome back,<br><strong>Justin</strong></div></section><article class="home-content-card " style="min-height:168px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Crispy</span></div><div class="home-card-title ">Hot &amp; crispy favourites</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Browse crispy favourites">›</button></article><section class="home-carousel"><div class="home-carousel-track"><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Limited</span></div><div class="home-hero-title">Hope y'all saved some room...</div><button class="home-hero-btn" type="button" data-home-start="">Order now</button><p class="home-hero-disclaimer">Available at participating KFC restaurants. Pricing and availability may vary.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Late night</span><span class="home-tag secondary">Drive-thru</span></div><div class="home-hero-title">Cravings sorted after dark</div><button class="home-icon-btn" type="button" data-home-start="" aria-label="View late-night menu">›</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Fresh picks</span><span class="home-tag secondary">Menu</span></div><div class="home-hero-title">Build your next KFC feed</div><button class="home-hero-btn" type="button" data-home-start="">View menu</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article></div><div class="home-stepper"><button class="active" type="button" data-home-carousel-pill="0" aria-label="View banner 1"></button><button class="" type="button" data-home-carousel-pill="1" aria-label="View banner 2"></button><button class="" type="button" data-home-carousel-pill="2" aria-label="View banner 3"></button></div></section><section class="home-section-dark"><div class="home-section-title">Offers &amp;<br>Rewards</div><div class="home-offer-rail"><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Members</span><span class="home-tag secondary">Reward</span></div></div><div class="home-offer-title">Crispy Chicken for 1$</div><div class="home-offer-meta">From $1.00 <del>$3.95</del> <span>Limited time</span></div><div class="home-deal-chip">Saved in cart</div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Today</span><span class="home-tag secondary">Deal</span></div></div><div class="home-offer-title">Zinger burger deal is back</div><div class="home-offer-meta">$9.99 <del>$12.99</del></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Add-on</span></div></div><div class="home-offer-title">Add a crunchy side for less</div><div class="home-offer-meta">$2.95 <del>$4.95</del> <span>Selected sides</span></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"></div><button class="home-hero-btn" type="button" data-rewards-view="">All offers</button></article></div></section><article class="home-content-card is-hours" style="min-height:458px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">Open late</span><span class="home-tag secondary">Pickup</span></div><div class="home-card-title is-hours-title">We're staying open 24 hours</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Find open restaurants">›</button></article><section class="home-order-section"><div class="home-order-eyebrow">Order again</div><div class="home-section-title">We know you love these...</div><div class="home-order-rail"><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">5 Items</div><div class="home-order-copy muted">1x Zinger Burger Combo<br>1x 3 Wicked Wings<br>1x Large Chips<br>1x Potato &amp; Gravy<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div></div></div><div class="home-order-title">Last order</div><div class="home-order-copy">3 Items</div><div class="home-order-copy muted">1x Original Crispy Burger<br>1x Regular Chips<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">4 Items</div><div class="home-order-copy muted">1x 3 Piece Box<br>1x Regular Potato &amp; Gravy<br>1x Dinner Roll<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article></div></section><article class="home-feature-card"><div class="home-feature-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:16px;top:16px;z-index:2"><span class="home-tag">Stacked</span><span class="home-tag secondary">New</span></div></div><div class="home-feature-title">Stacked with crunch</div><p class="home-feature-copy">Layer crispy chicken, cheese, sauce, and fresh greens into a feed built for serious cravings.</p><button class="home-card-btn" type="button" data-home-start="">Order now</button></article><div class="home-logo" aria-label="KFC">KFC</div><div class="home-bottom-spacer" aria-hidden="true"></div></div>
+                <div class="home-atlas" data-home-root=""><section class="home-welcome"><div class="home-welcome-title">Welcome back,<br><strong>Justin</strong></div></section><article class="home-content-card " style="min-height:168px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Crispy</span></div><div class="home-card-title ">Hot &amp; crispy favourites</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Browse crispy favourites">›</button></article><section class="home-carousel"><div class="home-carousel-track"><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Limited</span></div><div class="home-hero-title">Hope y'all saved some room...</div><button class="home-hero-btn" type="button" data-home-start="">Order now</button><p class="home-hero-disclaimer">Available at participating KFC restaurants. Pricing and availability may vary.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Late night</span><span class="home-tag secondary">Drive-thru</span></div><div class="home-hero-title">Cravings sorted after dark</div><button class="home-icon-btn" type="button" data-home-start="" aria-label="View late-night menu">›</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Fresh picks</span><span class="home-tag secondary">Menu</span></div><div class="home-hero-title">Build your next KFC feed</div><button class="home-hero-btn" type="button" data-home-start="">View menu</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article></div><div class="home-stepper"><button class="active" type="button" data-home-carousel-pill="0" aria-label="View banner 1"></button><button class="" type="button" data-home-carousel-pill="1" aria-label="View banner 2"></button><button class="" type="button" data-home-carousel-pill="2" aria-label="View banner 3"></button></div></section><section class="home-section-dark"><div class="home-section-title">Offers &amp;<br>Rewards</div><div class="home-offer-rail"><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Members</span><span class="home-tag secondary">Reward</span></div></div><div class="home-offer-title">Crispy Chicken for 1$</div><div class="home-offer-meta">From $1.00 <del>$3.95</del> <span>Limited time</span></div><div class="home-deal-chip">Members deal</div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Today</span><span class="home-tag secondary">Deal</span></div></div><div class="home-offer-title">Zinger burger deal is back</div><div class="home-offer-meta">$9.99 <del>$12.99</del></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Add-on</span></div></div><div class="home-offer-title">Add a crunchy side for less</div><div class="home-offer-meta">$2.95 <del>$4.95</del> <span>Limited time</span></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"></div><button class="home-hero-btn" type="button" data-rewards-view="">All offers</button></article></div></section><article class="home-content-card is-hours" style="min-height:458px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">Open late</span><span class="home-tag secondary">Pickup</span></div><div class="home-card-title is-hours-title">We're staying open 24 hours</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Find open restaurants">›</button></article><section class="home-order-section"><div class="home-order-eyebrow">Order again</div><div class="home-section-title">We know you love these...</div><div class="home-order-rail"><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">5 Items</div><div class="home-order-copy muted">1x Zinger Burger Combo<br>1x 3 Wicked Wings<br>1x Large Chips<br>1x Potato &amp; Gravy<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div></div></div><div class="home-order-title">Last order</div><div class="home-order-copy">3 Items</div><div class="home-order-copy muted">1x Original Crispy Burger<br>1x Regular Chips<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">4 Items</div><div class="home-order-copy muted">1x 3 Piece Box<br>1x Regular Potato &amp; Gravy<br>1x Dinner Roll<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article></div></section><article class="home-feature-card"><div class="home-feature-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:16px;top:16px;z-index:2"><span class="home-tag">Stacked</span><span class="home-tag secondary">New</span></div></div><div class="home-feature-title">Stacked with crunch</div><p class="home-feature-copy">Layer crispy chicken, cheese, sauce, and fresh greens into a feed built for serious cravings.</p><button class="home-card-btn" type="button" data-home-start="">Order now</button></article><div class="home-logo" aria-label="KFC">KFC</div><div class="home-bottom-spacer" aria-hidden="true"></div></div>
               </section>
 
               <section class="screen active" data-screen="home-auth">
-                <div class="home-atlas" data-home-root=""><section class="home-welcome"><div class="home-welcome-title">Welcome back,<br><strong>Justin</strong></div></section><article class="home-content-card " style="min-height:168px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Crispy</span></div><div class="home-card-title ">Hot &amp; crispy favourites</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Browse crispy favourites">›</button></article><section class="home-carousel"><div class="home-carousel-track"><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Limited</span></div><div class="home-hero-title">Hope y'all saved some room...</div><button class="home-hero-btn" type="button" data-home-start="">Order now</button><p class="home-hero-disclaimer">Available at participating KFC restaurants. Pricing and availability may vary.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Late night</span><span class="home-tag secondary">Drive-thru</span></div><div class="home-hero-title">Cravings sorted after dark</div><button class="home-icon-btn" type="button" data-home-start="" aria-label="View late-night menu">›</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Fresh picks</span><span class="home-tag secondary">Menu</span></div><div class="home-hero-title">Build your next KFC feed</div><button class="home-hero-btn" type="button" data-home-start="">View menu</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article></div><div class="home-stepper"><button class="active" type="button" data-home-carousel-pill="0" aria-label="View banner 1"></button><button class="" type="button" data-home-carousel-pill="1" aria-label="View banner 2"></button><button class="" type="button" data-home-carousel-pill="2" aria-label="View banner 3"></button></div></section><section class="home-section-dark"><div class="home-section-title">Offers &amp;<br>Rewards</div><div class="home-offer-rail"><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Members</span><span class="home-tag secondary">Reward</span></div></div><div class="home-offer-title">Crispy Chicken for 1$</div><div class="home-offer-meta">From $1.00 <del>$3.95</del> <span>Limited time</span></div><div class="home-deal-chip">Saved in cart</div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Today</span><span class="home-tag secondary">Deal</span></div></div><div class="home-offer-title">Zinger burger deal is back</div><div class="home-offer-meta">$9.99 <del>$12.99</del></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Add-on</span></div></div><div class="home-offer-title">Add a crunchy side for less</div><div class="home-offer-meta">$2.95 <del>$4.95</del> <span>Selected sides</span></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"></div><button class="home-hero-btn" type="button" data-rewards-view="">All offers</button></article></div></section><article class="home-content-card is-hours" style="min-height:458px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">Open late</span><span class="home-tag secondary">Pickup</span></div><div class="home-card-title is-hours-title">We're staying open 24 hours</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Find open restaurants">›</button></article><section class="home-order-section"><div class="home-order-eyebrow">Order again</div><div class="home-section-title">We know you love these...</div><div class="home-order-rail"><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">5 Items</div><div class="home-order-copy muted">1x Zinger Burger Combo<br>1x 3 Wicked Wings<br>1x Large Chips<br>1x Potato &amp; Gravy<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div></div></div><div class="home-order-title">Last order</div><div class="home-order-copy">3 Items</div><div class="home-order-copy muted">1x Original Crispy Burger<br>1x Regular Chips<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">4 Items</div><div class="home-order-copy muted">1x 3 Piece Box<br>1x Regular Potato &amp; Gravy<br>1x Dinner Roll<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article></div></section><article class="home-feature-card"><div class="home-feature-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:16px;top:16px;z-index:2"><span class="home-tag">Stacked</span><span class="home-tag secondary">New</span></div></div><div class="home-feature-title">Stacked with crunch</div><p class="home-feature-copy">Layer crispy chicken, cheese, sauce, and fresh greens into a feed built for serious cravings.</p><button class="home-card-btn" type="button" data-home-start="">Order now</button></article><div class="home-logo" aria-label="KFC">KFC</div><div class="home-bottom-spacer" aria-hidden="true"></div></div>
+                <div class="home-atlas" data-home-root=""><section class="home-welcome"><div class="home-welcome-title">Welcome back,<br><strong>Justin</strong></div></section><article class="home-content-card " style="min-height:168px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Crispy</span></div><div class="home-card-title ">Hot &amp; crispy favourites</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Browse crispy favourites">›</button></article><section class="home-carousel"><div class="home-carousel-track"><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">New</span><span class="home-tag secondary">Limited</span></div><div class="home-hero-title">Hope y'all saved some room...</div><button class="home-hero-btn" type="button" data-home-start="">Order now</button><p class="home-hero-disclaimer">Available at participating KFC restaurants. Pricing and availability may vary.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Late night</span><span class="home-tag secondary">Drive-thru</span></div><div class="home-hero-title">Cravings sorted after dark</div><button class="home-icon-btn" type="button" data-home-start="" aria-label="View late-night menu">›</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article><article class="home-hero-card " style="--deferred-bg:none"><div class="home-tag-row"><span class="home-tag">Fresh picks</span><span class="home-tag secondary">Menu</span></div><div class="home-hero-title">Build your next KFC feed</div><button class="home-hero-btn" type="button" data-home-start="">View menu</button><p class="home-hero-disclaimer">Offers, pricing and availability may vary by restaurant.</p></article></div><div class="home-stepper"><button class="active" type="button" data-home-carousel-pill="0" aria-label="View banner 1"></button><button class="" type="button" data-home-carousel-pill="1" aria-label="View banner 2"></button><button class="" type="button" data-home-carousel-pill="2" aria-label="View banner 3"></button></div></section><section class="home-section-dark"><div class="home-section-title">Offers &amp;<br>Rewards</div><div class="home-offer-rail"><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Members</span><span class="home-tag secondary">Reward</span></div></div><div class="home-offer-title">Crispy Chicken for 1$</div><div class="home-offer-meta">From $1.00 <del>$3.95</del> <span>Limited time</span></div><div class="home-deal-chip">Members deal</div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Today</span><span class="home-tag secondary">Deal</span></div></div><div class="home-offer-title">Zinger burger deal is back</div><div class="home-offer-meta">$9.99 <del>$12.99</del></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:8px;top:8px;z-index:2"><span class="home-tag">Add-on</span></div></div><div class="home-offer-title">Add a crunchy side for less</div><div class="home-offer-meta">$2.95 <del>$4.95</del> <span>Limited time</span></div></article><article class="home-offer-card"><div class="home-offer-media" style="--deferred-bg:none"></div><button class="home-hero-btn" type="button" data-rewards-view="">All offers</button></article></div></section><article class="home-content-card is-hours" style="min-height:458px;--deferred-bg:none"><div><div class="home-tag-row"><span class="home-tag">Open late</span><span class="home-tag secondary">Pickup</span></div><div class="home-card-title is-hours-title">We're staying open 24 hours</div></div><button class="home-icon-btn" type="button" data-home-start="" aria-label="Find open restaurants">›</button></article><section class="home-order-section"><div class="home-order-eyebrow">Order again</div><div class="home-section-title">We know you love these...</div><div class="home-order-rail"><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">5 Items</div><div class="home-order-copy muted">1x Zinger Burger Combo<br>1x 3 Wicked Wings<br>1x Large Chips<br>1x Potato &amp; Gravy<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div></div></div><div class="home-order-title">Last order</div><div class="home-order-copy">3 Items</div><div class="home-order-copy muted">1x Original Crispy Burger<br>1x Regular Chips<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article><article class="home-order-card"><div class="home-order-card-head"><div class="home-order-time">▣ Last week</div><div class="home-order-heart">♥</div></div><div class="home-order-title">Justin order</div><div class="home-order-copy">4 Items</div><div class="home-order-copy muted">1x 3 Piece Box<br>1x Regular Potato &amp; Gravy<br>1x Dinner Roll<br>1x Pepsi Max</div><button class="home-order-review" type="button" data-home-start="">Review order</button></article></div></section><article class="home-feature-card"><div class="home-feature-media" style="--deferred-bg:none"><div class="home-tag-row" style="position:absolute;left:16px;top:16px;z-index:2"><span class="home-tag">Stacked</span><span class="home-tag secondary">New</span></div></div><div class="home-feature-title">Stacked with crunch</div><p class="home-feature-copy">Layer crispy chicken, cheese, sauce, and fresh greens into a feed built for serious cravings.</p><button class="home-card-btn" type="button" data-home-start="">Order now</button></article><div class="home-logo" aria-label="KFC">KFC</div><div class="home-bottom-spacer" aria-hidden="true"></div></div>
               </section>
 
               <section class="screen" data-screen="menu-landing">
@@ -19835,34 +20201,51 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
               <section class="screen" data-screen="cart">
                 <div class="cart-screen" id="cart-screen">
                   <div class="cart-header">
-                    <button class="cart-header-btn back" id="cart-back-btn" type="button" aria-label="Back from cart">&lt;</button>
-                    <div class="screen-kicker">Cart</div>
-                    <div class="screen-title">Cart</div>
-                    <button class="cart-header-btn close" id="cart-close-btn" type="button" aria-label="Close cart">x</button>
-                  </div>
-
-                  <div class="cart-figma-hero" id="cart-figma-hero"></div>
-                  <div class="cart-empty-state" id="cart-empty-state">
-                    <div class="cart-empty-hero" id="cart-empty-hero" aria-hidden="true"></div>
-                    <div class="cart-empty-mark" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 8.5H17.5L16.4 18.1C16.3 19 15.54 19.68 14.63 19.68H9.87C8.96 19.68 8.2 19 8.1 18.1L7 8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
-                        <path d="M9.5 8.5V7.4C9.5 6.08 10.58 5 11.9 5H12.1C13.42 5 14.5 6.08 14.5 7.4V8.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                    <button class="cart-header-btn back" id="cart-back-btn" type="button" aria-label="Back from cart">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
                       </svg>
+                      <span class="cart-back-label">Menu</span>
+                    </button>
+                    <div class="cart-header-copy">
+                      <div class="screen-kicker">Cart</div>
+                      <div class="screen-title" id="cart-header-title">Cart</div>
+                      <div class="cart-context-line" id="cart-header-context">Pick Up: Select store</div>
                     </div>
-                    <div class="cart-empty-title">There&rsquo;s plenty to get your taste buds tingling</div>
-                    <button class="cart-empty-cta" id="cart-empty-cta" type="button">View Menu</button>
+                    <button class="cart-header-btn close" id="cart-close-btn" type="button" aria-label="Close cart">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                      </svg>
+                    </button>
                   </div>
 
-                  <div class="cart-validation-stack" id="cart-validation-stack" hidden=""></div>
-                  <div class="cart-promo" id="cart-promo" hidden=""></div>
-                  <div class="cart-divider" id="cart-promo-divider" hidden=""></div>
-                  <div class="cart-offer" id="cart-offer" hidden=""></div>
-                  <div class="cart-divider" id="cart-offer-divider" hidden=""></div>
+                  <div class="cart-scroll" id="cart-scroll">
+                    <div class="cart-figma-hero" id="cart-figma-hero"></div>
+                    <div class="cart-empty-state" id="cart-empty-state">
+                      <div class="cart-empty-hero" id="cart-empty-hero" aria-hidden="true"></div>
+                      <div class="cart-empty-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7 8.5H17.5L16.4 18.1C16.3 19 15.54 19.68 14.63 19.68H9.87C8.96 19.68 8.2 19 8.1 18.1L7 8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+                          <path d="M9.5 8.5V7.4C9.5 6.08 10.58 5 11.9 5H12.1C13.42 5 14.5 6.08 14.5 7.4V8.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                        </svg>
+                      </div>
+                      <div class="cart-empty-title">There&rsquo;s plenty to get your taste buds tingling</div>
+                      <button class="cart-empty-cta" id="cart-empty-cta" type="button">View Menu</button>
+                    </div>
 
-                  <div class="cart-stack" id="cart-list" hidden=""></div>
-                  <div class="cart-upsell-section" id="cart-upsell-section" hidden=""></div>
-                  <div class="cart-summary" id="cart-summary" hidden=""></div>
+                    <div class="cart-validation-stack" id="cart-validation-stack" hidden=""></div>
+                    <div class="cart-promo" id="cart-promo" hidden=""></div>
+                    <div class="cart-divider" id="cart-promo-divider" hidden=""></div>
+                    <div class="cart-offer" id="cart-offer" hidden=""></div>
+                    <div class="cart-divider" id="cart-offer-divider" hidden=""></div>
+
+                    <div class="cart-stack" id="cart-list" hidden=""></div>
+                    <div class="cart-upsell-section" id="cart-upsell-section" hidden=""></div>
+                    <div class="cart-summary" id="cart-summary" hidden=""></div>
+                  </div>
+                  <div class="cart-fixed-footer" id="cart-fixed-footer" hidden="">
+                    <button class="cart-fixed-checkout" id="cart-fixed-checkout" type="button">CHECKOUT</button>
+                  </div>
                 </div>
               </section>
 
@@ -20009,7 +20392,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
                           </button>
                         </div>
                       </div>
-                      <button class="checkout-sheet-primary" id="checkout-payment-continue" type="button">PAY NOW</button>
+                      <button class="checkout-sheet-primary" id="checkout-payment-continue" type="button">SELECT PAYMENT</button>
                     </div>
                   </div>
 
@@ -22856,7 +23239,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       rewardsOptedIn: true,
       rewardsIntroSeen: true,
       rewardsPoints: 1200,
+      justinHasRewards: true,
       activeRewardId: "",
+      activeRewardDetailId: "",
+      pendingRewardPromoId: "",
       redeemedRewardId: "",
       rewardRedeemMessage: "",
       menuChipScrollLock: false,
@@ -23005,6 +23391,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const moreComingSoonFeature = document.getElementById("more-coming-soon-feature");
     const moreComingSoonClose = document.getElementById("more-coming-soon-close");
     const cartScreen = document.getElementById("cart-screen");
+    const cartScroll = document.getElementById("cart-scroll");
+    const cartHeaderTitle = document.getElementById("cart-header-title");
+    const cartHeaderContext = document.getElementById("cart-header-context");
+    const cartFixedFooter = document.getElementById("cart-fixed-footer");
+    const cartFixedCheckout = document.getElementById("cart-fixed-checkout");
     const cartFigmaHero = document.getElementById("cart-figma-hero");
     const cartEmptyState = document.getElementById("cart-empty-state");
     const cartEmptyHero = document.getElementById("cart-empty-hero");
@@ -23230,24 +23621,6 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     const PICKUP_MINIMUM = 10;
     const FREE_DELIVERY_THRESHOLD = 40;
     const persistedStateFields = [
-      "isAuthenticated",
-      "cartItems",
-      "nextCartItemId",
-      "fulfillmentType",
-      "activeStoreId",
-      "confirmedStoreId",
-      "draftStoreId",
-      "confirmedTimeOption",
-      "draftTimeOption",
-      "selectedStoreName",
-      "selectedAddressName",
-      "confirmedDeliveryAddressId",
-      "draftDeliveryAddressId",
-      "draftDeliveryInput",
-      "deliveryUnit",
-      "activeDeliveryStoreId",
-      "confirmedDeliveryStoreId",
-      "timeLabel",
       "accountFirstName",
       "accountLastName",
       "accountEmail",
@@ -23260,23 +23633,12 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       "rewardsOptedIn",
       "rewardsIntroSeen",
       "rewardsPoints",
-      "activeRewardId",
-      "redeemedRewardId",
-      "rewardRedeemMessage",
-      "checkoutCoupon",
       "checkoutPickupOption",
       "checkoutPaymentMethod",
       "checkoutCashTendered",
       "checkoutVoucherBalance",
       "checkoutVoucherRemainingMethod",
       "checkoutUsingNewCard",
-      "checkoutFulfillmentConfirmed",
-      "checkoutSummaryExpanded",
-      "checkoutPaymentSheetOpen",
-      "checkoutCardEntryOpen",
-      "checkoutSplitRows",
-      "freeDeliveryOptOut",
-      "cartIsEmpty",
       "language",
       "secretMenuUnlocked",
       "secretMenuFullyUnlocked"
@@ -23976,6 +24338,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function getCartItemSignature(cartItem) {
       return JSON.stringify({
         menuItemId: cartItem.menuItemId,
+        rewardPromoId: cartItem.rewardPromoId || "",
         sizeId: cartItem.sizeId || "",
         modifiers: Object.keys(cartItem.modifiers || {}).sort().reduce((acc, key) => {
           acc[key] = cartItem.modifiers[key];
@@ -25876,6 +26239,173 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       rewardsFullMenu: "VIEW ALL MENU .jpg"
     };
 
+    const prototypePromotionsConfig = {
+      rewards: [
+        {
+          id: "reward-zinger20",
+          type: "reward-item",
+          section: "rewards",
+          itemId: "zinger-burger",
+          promoCode: "ZINGER20",
+          title: "Free Zinger Burger",
+          description: "A member reward for a Zinger Burger. Redeem online, then add the item to your cart.",
+          badge: "Reward",
+          tags: ["Online Only", "Delivery Only"],
+          expiry: "Ends 10-12-2026",
+          discount: 8.45,
+          imageKey: "figmaOfferBurger",
+          redeemSteps: [
+            "Subject to availability at your chosen restaurant",
+            "Choose your fulfilment method and restaurant",
+            "Tap Redeem, customise the product, then add it to cart",
+            "Max 1 redemption per customer"
+          ],
+          terms: "Registered users only. Online only. Not available everywhere.",
+          eligibilityMessage: "You’re eligible to redeem this offer"
+        },
+        {
+          id: "reward-wicked-wings",
+          type: "reward-item",
+          section: "rewards",
+          itemId: "3-wicked-wings",
+          promoCode: "WINGSREWARD",
+          title: "Free 3 Wicked Wings",
+          description: "A member reward for 3 Wicked Wings. Add a crispy snack to your next order.",
+          badge: "Reward",
+          tags: ["Snack", "Limited Time"],
+          expiry: "Ends 10-12-2026",
+          discount: 6.95,
+          redeemSteps: [
+            "Subject to availability at your chosen restaurant",
+            "Choose your fulfilment method and restaurant",
+            "Tap Redeem, then add the reward to cart",
+            "Max 1 redemption per customer"
+          ],
+          terms: "Registered users only. Online only. Not available everywhere.",
+          eligibilityMessage: "You’re eligible to redeem this offer"
+        },
+        {
+          id: "reward-regular-chips",
+          type: "reward-item",
+          section: "rewards",
+          itemId: "regular-chips",
+          promoCode: "FREECHIPS",
+          title: "Free Regular Chips",
+          description: "A member reward for Regular Chips. A simple side reward for your next KFC feed.",
+          badge: "Reward",
+          tags: ["Side", "Online Only"],
+          expiry: "Ends 10-12-2026",
+          discount: 3.25,
+          redeemSteps: [
+            "Subject to availability at your chosen restaurant",
+            "Choose your fulfilment method and restaurant",
+            "Tap Redeem, then add the reward to cart",
+            "Max 1 redemption per customer"
+          ],
+          terms: "Registered users only. Online only. Not available everywhere.",
+          eligibilityMessage: "You’re eligible to redeem this offer"
+        },
+        {
+          id: "reward-pepsi-freeze",
+          type: "reward-item",
+          section: "rewards",
+          itemId: "pepsi-freeze",
+          promoCode: "FREEZEONUS",
+          title: "Free Pepsi Freeze",
+          description: "A member reward for a Pepsi Freeze. Cool down your order with a frozen drink.",
+          badge: "Reward",
+          tags: ["Drink", "Online Only"],
+          expiry: "Ends 10-12-2026",
+          discount: 4.95,
+          imageKey: "figmaOfferIcecream",
+          redeemSteps: [
+            "Subject to availability at your chosen restaurant",
+            "Choose your fulfilment method and restaurant",
+            "Tap Redeem, then add the reward to cart",
+            "Max 1 redemption per customer"
+          ],
+          terms: "Registered users only. Online only. Not available everywhere.",
+          eligibilityMessage: "You’re eligible to redeem this offer"
+        },
+        {
+          id: "reward-go-bucket-popcorn",
+          type: "reward-item",
+          section: "rewards",
+          itemId: "go-bucket-popcorn-chicken",
+          promoCode: "GOBUCKET",
+          title: "Free Popcorn Chicken Go Bucket",
+          description: "A member reward for a Popcorn Chicken Go Bucket. Built for an easy solo snack.",
+          badge: "Reward",
+          tags: ["Go Bucket", "Limited Time"],
+          expiry: "Ends 10-12-2026",
+          discount: 5.95,
+          redeemSteps: [
+            "Subject to availability at your chosen restaurant",
+            "Choose your fulfilment method and restaurant",
+            "Tap Redeem, then add the reward to cart",
+            "Max 1 redemption per customer"
+          ],
+          terms: "Registered users only. Online only. Not available everywhere.",
+          eligibilityMessage: "You’re eligible to redeem this offer"
+        }
+      ],
+      featuredOffers: [
+        {
+          id: "offer-box5",
+          type: "discount",
+          section: "featuredOffers",
+          itemId: "tower-burger-box",
+          promoCode: "BOX5",
+          title: "Tower Burger Box Deal",
+          description: "Save on a Tower Burger Box with this prototype offer.",
+          badge: "50% Off",
+          tags: ["Limited Time"],
+          expiry: "Ends 10-12-2026",
+          discount: 5,
+          imageKey: "figmaOfferProduct",
+          redeemSteps: ["Apply the offer or enter the promo code in cart"],
+          terms: "Prototype offer. Availability may vary.",
+          eligibilityMessage: "Offer available for this order"
+        },
+        {
+          id: "offer-welcome5",
+          type: "discount",
+          section: "featuredOffers",
+          itemId: "mega-fill-up",
+          promoCode: "WELCOME5",
+          title: "Mega Fill Up Welcome Deal",
+          description: "A simple welcome offer for prototype checkout testing.",
+          badge: "Deal",
+          tags: ["Online Only"],
+          expiry: "Ends 10-12-2026",
+          discount: 5,
+          imageKey: "figmaOfferIcecream",
+          redeemSteps: ["Apply the offer or enter the promo code in cart"],
+          terms: "Prototype offer. Availability may vary.",
+          eligibilityMessage: "Offer available for this order"
+        }
+      ],
+      amazingValue: [
+        {
+          id: "value-stacker5",
+          type: "discount",
+          section: "amazingValue",
+          itemId: "zinger-stacker-burger",
+          promoCode: "STACKER5",
+          title: "Zinger Stacker Value",
+          description: "A repeatable value promo for visual testing.",
+          badge: "Value",
+          tags: ["Amazing Value"],
+          expiry: "Ends 10-12-2026",
+          discount: 5,
+          imageKey: "figmaOfferAll",
+          redeemSteps: ["Apply the offer or enter the promo code in cart"],
+          terms: "Prototype offer. Availability may vary.",
+          eligibilityMessage: "Offer available for this order"
+        }
+      ]
+    };
+
     let lazyBackgroundObserver = null;
 
     function getLazyBackgroundAttrs(imageUrl, options = {}) {
@@ -26062,7 +26592,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           tags: ["Members", "Reward"],
           title: "Crispy Chicken for 1$",
           meta: "From $1.00 <del>$3.95</del> <span>Limited time</span>",
-          chip: "Saved in cart",
+          chip: "Members deal",
           image: homeImageUrls.figmaOfferIcecream
         },
         {
@@ -26074,7 +26604,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         {
           tags: ["Add-on"],
           title: "Add a crunchy side for less",
-          meta: "$2.95 <del>$4.95</del> <span>Selected sides</span>",
+          meta: "$2.95 <del>$4.95</del> <span>Limited time</span>",
           image: homeImageUrls.figmaOfferProduct
         },
         {
@@ -26187,8 +26717,54 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return Number(value || 0).toLocaleString("en-AU");
     }
 
+    function getAllPrototypePromotions() {
+      return Object.keys(prototypePromotionsConfig).reduce((promos, key) => promos.concat(prototypePromotionsConfig[key] || []), []);
+    }
+
+    function getPrototypePromotionById(promoId) {
+      return getAllPrototypePromotions().find((promo) => promo.id === promoId) || null;
+    }
+
+    function getPrototypePromotionByCode(code) {
+      const normalizedCode = String(code || "").trim().toUpperCase();
+      if (!normalizedCode) return null;
+      return getAllPrototypePromotions().find((promo) => promo.promoCode === normalizedCode) || null;
+    }
+
+    function getPromotionImage(promo) {
+      if (!promo) return kfcMenuPhoto;
+      if (promo.imageKey && homeImageUrls[promo.imageKey]) return homeImageUrls[promo.imageKey];
+      const product = getRewardsLandingProduct(promo.itemId);
+      return product && product.image ? product.image : kfcMenuPhoto;
+    }
+
+    function getPromotionProduct(promo) {
+      return promo && promo.itemId ? getRewardsLandingProduct(promo.itemId) : null;
+    }
+
+    function getPromotionDiscount(promo) {
+      if (!promo) return 0;
+      if (typeof promo.discount === "number") return promo.discount;
+      const product = getPromotionProduct(promo);
+      return product && typeof product.price === "number" ? product.price : 0;
+    }
+
+    function createCheckoutCouponFromPromotion(promo) {
+      if (!promo) return null;
+      return {
+        code: promo.promoCode,
+        promoCode: promo.promoCode,
+        promoId: promo.id,
+        rewardId: promo.type === "reward-item" ? promo.id : "",
+        itemId: promo.itemId,
+        label: promo.title,
+        discount: getPromotionDiscount(promo),
+        type: promo.type || "discount"
+      };
+    }
+
     function getRewardById(rewardId) {
-      return null;
+      return getPrototypePromotionById(rewardId);
     }
 
     function getActiveRewardTitle() {
@@ -26196,13 +26772,24 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       return "Reward";
     }
 
+    function getActiveRewardDiscount() {
+      if (!cartShouldShowReward()) return 0;
+      return Number(state.checkoutCoupon && state.checkoutCoupon.discount) || 0;
+    }
+
     function clearCheckoutCoupon(options = {}) {
       const shouldRefund = options.refundReward !== false;
       if (state.checkoutCoupon && state.checkoutCoupon.rewardId && shouldRefund) {
         state.rewardsPoints += Number(state.checkoutCoupon.rewardCost) || 0;
       }
+      if (state.checkoutCoupon && state.checkoutCoupon.rewardId && options.removeRewardItem !== false) {
+        const rewardPromoId = state.checkoutCoupon.rewardId;
+        state.cartItems = state.cartItems.filter((item) => item.rewardPromoId !== rewardPromoId);
+        syncCartCount();
+      }
       state.checkoutCoupon = null;
       state.activeRewardId = "";
+      state.pendingRewardPromoId = "";
       state.redeemedRewardId = "";
       state.rewardRedeemMessage = "";
       if (options.renderAfter) {
@@ -26241,6 +26828,36 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         price,
         energy
       };
+    }
+
+    function canApplyPrototypePromotion(options = {}) {
+      if (!state.isAuthenticated) {
+        state.returnScreen = options.returnScreen || "rewards";
+        beginAuth();
+        return false;
+      }
+      if (!hasOrderContext()) {
+        openSheet("order");
+        return false;
+      }
+      return true;
+    }
+
+    function applyPrototypePromotion(promo, options = {}) {
+      if (!promo) return false;
+      if (!canApplyPrototypePromotion({ returnScreen: options.returnScreen || state.screen || "rewards" })) return false;
+      clearCheckoutCoupon({ refundReward: true });
+      state.checkoutCoupon = createCheckoutCouponFromPromotion(promo);
+      state.activeRewardId = promo.type === "reward-item" ? promo.id : "";
+      state.redeemedRewardId = promo.type === "reward-item" ? promo.id : state.redeemedRewardId;
+      state.rewardRedeemMessage = promo.type === "reward-item" ? promo.eligibilityMessage : "";
+      return true;
+    }
+
+    function applyPrototypePromotionByCode(code, options = {}) {
+      const promo = getPrototypePromotionByCode(code);
+      if (!promo) return false;
+      return applyPrototypePromotion(promo, options);
     }
 
     function renderRewardsDisposition(localized) {
@@ -26284,6 +26901,15 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       );
     }
 
+    function renderRewardsContextBar(localized) {
+      return (
+        '<div class="rewards-context-bar">' +
+          renderRewardsDisposition(localized) +
+          renderRewardsTabRail(localized) +
+        '</div>'
+      );
+    }
+
     function renderRewardsSectionHeading(kicker, title, options = {}) {
       const localizedTitle = translatePhrase(title);
       const titleHtml = escapeHtml(localizedTitle).replace(/\s+/g, title === "Amazing Value" ? "<br>" : " ");
@@ -26295,76 +26921,113 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       );
     }
 
-    function renderRewardsCarousel() {
-      const cards = [
-        {
-          image: homeImageUrls.figmaOfferIcecream,
-          tags: ["Members", "Reward"],
-          title: "Crispy Chicken for 1$",
-          price: "$1.00",
-          oldPrice: "$3.95",
-          energy: "Limited time",
-          saved: true
-        },
-        {
-          image: homeImageUrls.figmaOfferBurger,
-          tags: ["Today", "Deal"],
-          title: "Zinger burger deal is back",
-          price: "$9.99",
-          oldPrice: "$12.99",
-          energy: "Selected stores"
-        },
-        {
-          image: homeImageUrls.figmaOfferProduct,
-          tags: ["Add-on", "Value"],
-          title: "Add a crunchy side for less",
-          price: "$2.95",
-          oldPrice: "$4.95",
-          energy: "Selected sides"
-        }
-      ];
+    function renderRewardsPromoChips(promo, options = {}) {
+      const tags = [promo.badge].concat(promo.tags || []);
+      if (options.includeCode !== false && promo.promoCode) tags.push(promo.promoCode);
+      return tags.filter(Boolean).map((tag, index) => (
+        '<span class="rewards-chip' + (index > 0 ? ' outline' : '') + '">' + escapeHtml(translatePhrase(tag)) + '</span>'
+      )).join("");
+    }
 
+    function renderRewardsCarousel(promos) {
+      const cards = (promos || []).filter(Boolean);
+      if (!cards.length) return renderRewardsEmptyState();
       return (
         '<div class="rewards-carousel" aria-label="Rewards carousel">' +
-          cards.map((card) => (
-            '<article class="rewards-promo-card">' +
-              '<div class="rewards-promo-media" style="background-image:url(\'' + sanitizeCssUrl(card.image) + '\')">' +
-                '<div class="rewards-chip-row">' +
-                  card.tags.map((tag, index) => '<span class="rewards-chip' + (index > 0 ? ' outline' : '') + '">' + escapeHtml(translatePhrase(tag)) + '</span>').join("") +
-                '</div>' +
-              '</div>' +
-              '<div class="rewards-promo-body">' +
-                '<div class="rewards-promo-title">' + escapeHtml(translatePhrase(card.title)) + '</div>' +
-                '<div class="rewards-price-line"><span>' + escapeHtml(card.price) + '</span><del>' + escapeHtml(card.oldPrice) + '</del><span class="rewards-energy">' + escapeHtml(translatePhrase(card.energy)) + '</span></div>' +
-                (card.saved ? '<div class="rewards-saved-chip">' + escapeHtml(translatePhrase("Deal in cart")) + '</div>' : '') +
-              '</div>' +
-            '</article>'
+          cards.map((promo) => (
+            '<button class="rewards-promo-card" ' + (promo.type === "reward-item" ? 'data-rewards-promo-id' : 'data-rewards-apply-promo-id') + '="' + escapeAttr(promo.id) + '" type="button">' +
+              '<span class="rewards-promo-media" style="background-image:url(\'' + sanitizeCssUrl(getPromotionImage(promo)) + '\')">' +
+                '<span class="rewards-chip-row">' + renderRewardsPromoChips(promo) + '</span>' +
+              '</span>' +
+              '<span class="rewards-promo-body">' +
+                '<span class="rewards-promo-title">' + escapeHtml(translatePhrase(promo.title)) + '</span>' +
+                '<span class="rewards-price-line"><span>' + escapeHtml(translatePhrase(promo.description)) + '</span></span>' +
+                (state.checkoutCoupon && state.checkoutCoupon.promoId === promo.id ? '<span class="rewards-saved-chip">' + escapeHtml(translatePhrase("Deal in cart")) + '</span>' : '') +
+              '</span>' +
+            '</button>'
           )).join("") +
         '</div>'
       );
     }
 
-    function renderRewardsProductRow(itemId) {
-      const product = getRewardsLandingProduct(itemId);
-      if (!product) return "";
+    function renderRewardsEmptyState() {
       return (
-        '<button class="rewards-product-row" data-rewards-product-id="' + escapeAttr(product.id) + '" type="button">' +
+        '<article class="rewards-unlock-card">' +
+          '<div class="rewards-unlock-title">' + escapeHtml(translatePhrase("No rewards available right now")) + '</div>' +
+          '<p class="rewards-empty-copy">' + escapeHtml(translatePhrase("Featured offers and amazing value are still available for this prototype.")) + '</p>' +
+        '</article>'
+      );
+    }
+
+    function renderRewardsProductRow(promo) {
+      const product = getPromotionProduct(promo);
+      if (!product) return "";
+      const priceText = typeof product.price === "number" ? formatCurrency(product.price) : "";
+      const actionAttr = promo.type === "reward-item" ? "data-rewards-promo-id" : "data-rewards-apply-promo-id";
+      return (
+        '<button class="rewards-product-row" ' + actionAttr + '="' + escapeAttr(promo.id) + '" type="button">' +
           '<span class="rewards-product-image" style="background-image:url(\'' + sanitizeCssUrl(product.image) + '\')"></span>' +
           '<span class="rewards-product-content">' +
-            '<span class="rewards-chip-row"><span class="rewards-chip">' + escapeHtml(translatePhrase("50% Off")) + '</span><span class="rewards-chip outline">' + escapeHtml(translatePhrase("Limited Time")) + '</span></span>' +
-            '<span class="rewards-product-title">' + escapeHtml(product.title) + '</span>' +
-            '<span class="rewards-product-meta"><span>' + escapeHtml(formatCurrency(product.price)) + '</span><span class="rewards-energy">' + escapeHtml(formatPoints(product.energy)) + ' kJ</span></span>' +
-            '<span class="rewards-product-end">' + escapeHtml(translatePhrase("Ends 10-12-2026")) + '</span>' +
+            '<span class="rewards-chip-row">' + renderRewardsPromoChips(promo) + '</span>' +
+            '<span class="rewards-product-title">' + escapeHtml(translatePhrase(promo.title)) + '</span>' +
+            '<span class="rewards-product-meta"><span>' + escapeHtml(priceText) + '</span><span class="rewards-energy">' + escapeHtml(formatPoints(product.energy)) + ' kJ</span></span>' +
+            '<span class="rewards-product-end">' + escapeHtml(translatePhrase(promo.expiry)) + '</span>' +
           '</span>' +
         '</button>'
       );
     }
 
-    function renderRewardsProductSection(id, kicker, title, itemIds, options = {}) {
+    function renderRewardsProductSection(id, kicker, title, promos, options = {}) {
       return (
         '<section class="rewards-list-section" id="rewards-section-' + escapeAttr(id) + '">' +
           renderRewardsSectionHeading(kicker, title, { red: options.red, dark: true }) +
-          '<div class="rewards-product-list">' + itemIds.map(renderRewardsProductRow).join("") + '</div>' +
+          '<div class="rewards-product-list">' + (promos || []).map(renderRewardsProductRow).join("") + '</div>' +
+        '</section>'
+      );
+    }
+
+    function renderRewardsCartCta() {
+      if (!hasCartItems()) return "";
+      const pricing = getCartPricing();
+      return (
+        '<button class="rewards-cart-cta" data-rewards-cart type="button">' +
+          '<span><span class="rewards-cart-bucket">' + escapeHtml(String(state.cartCount)) + '</span>' + escapeHtml(formatCurrency(pricing.total)) + '</span>' +
+          '<span>' + escapeHtml(translatePhrase("Cart")) + ' ›</span>' +
+        '</button>'
+      );
+    }
+
+    function renderRewardsDetail(promo) {
+      const product = getPromotionProduct(promo) || {};
+      const productTitle = promo.title || product.title || "Reward";
+      const productPrice = typeof product.price === "number" ? formatCurrency(product.price) : "";
+      const energy = product.energy ? formatPoints(product.energy) + " kJ" : "";
+      return (
+        '<section class="rewards-detail">' +
+          '<header class="rewards-detail-header">' +
+            '<button class="rewards-detail-icon" data-rewards-detail-back type="button" aria-label="' + escapeAttr(translatePhrase("Back")) + '">‹</button>' +
+            '<span>' + escapeHtml(translatePhrase(product.title || productTitle)) + '</span>' +
+            '<button class="rewards-detail-icon" data-rewards-detail-close type="button" aria-label="' + escapeAttr(translatePhrase("Close")) + '">×</button>' +
+          '</header>' +
+          '<div class="rewards-detail-overview">' +
+            '<div class="rewards-chip-row">' + renderRewardsPromoChips(promo) + '</div>' +
+            '<h1>' + escapeHtml(translatePhrase(productTitle)) + '</h1>' +
+            '<div class="rewards-detail-meta">' +
+              (productPrice ? '<span>' + escapeHtml(productPrice) + '</span>' : '') +
+              (energy ? '<span>' + escapeHtml(energy) + '</span>' : '') +
+            '</div>' +
+            '<p>' + escapeHtml(translatePhrase(promo.description)) + '</p>' +
+          '</div>' +
+          '<div class="rewards-detail-hero" style="background-image:url(\'' + sanitizeCssUrl(getPromotionImage(promo)) + '\')"></div>' +
+          '<div class="rewards-detail-instructions">' +
+            '<h2>' + escapeHtml(translatePhrase("How to redeem")) + '</h2>' +
+            '<div class="rewards-chip-row">' + renderRewardsPromoChips(promo) + '</div>' +
+            '<ul>' + (promo.redeemSteps || []).map((step) => '<li>' + escapeHtml(translatePhrase(step)) + '</li>').join("") + '</ul>' +
+            '<div class="rewards-product-end">' + escapeHtml(translatePhrase(promo.expiry)) + '</div>' +
+            '<button class="rewards-terms-link" type="button">' + escapeHtml(translatePhrase("Terms & Conditions")) + '</button>' +
+            '<div class="rewards-eligibility">✓ ' + escapeHtml(translatePhrase(promo.eligibilityMessage || "You’re eligible to redeem this offer")) + '</div>' +
+            '<button class="rewards-landing-button rewards-redeem-btn" data-rewards-redeem-id="' + escapeAttr(promo.id) + '" type="button">' + escapeHtml(translatePhrase("Redeem")) + '</button>' +
+          '</div>' +
         '</section>'
       );
     }
@@ -26391,19 +27054,33 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (!rewardsScreenRoot) return;
       const localized = state.isAuthenticated && hasOrderContext();
       const signedInUnlocalized = state.isAuthenticated && !localized;
-      const offers = ["original-crispy-burger-box", "zinger-stacker-burger-box", "mega-fill-up", "tower-burger-box"];
-      const amazingValue = ["mega-fill-up", "family-feast", "original-crispy-bbq-bacon-stacker-burger-box", "zinger-stacker-burger-box"];
+      const rewardPromos = state.justinHasRewards ? prototypePromotionsConfig.rewards : [];
+      const featuredOffers = prototypePromotionsConfig.featuredOffers;
+      const amazingValue = prototypePromotionsConfig.amazingValue.concat(prototypePromotionsConfig.featuredOffers.slice(0, 1));
+      const activeDetailPromo = getPrototypePromotionById(state.activeRewardDetailId);
+
+      if (activeDetailPromo) {
+        rewardsScreenRoot.className = "rewards-page is-detail";
+        rewardsScreenRoot.innerHTML = renderRewardsDetail(activeDetailPromo);
+        return;
+      }
 
       if (!state.isAuthenticated) {
         rewardsScreenRoot.className = "rewards-page is-guest";
         rewardsScreenRoot.innerHTML = (
-          renderRewardsDisposition(false) +
+          renderRewardsContextBar(false) +
           '<section class="rewards-signin-panel" id="rewards-section-rewards">' +
             '<div class="rewards-signin-image" style="background-image:url(\'' + sanitizeCssUrl(homeImageUrls.figmaHeroSavedRoom) + '\')"></div>' +
             '<div class="rewards-signin-title">' + escapeHtml(translatePhrase("Sign in to access exclusive deals")) + '</div>' +
             '<p class="rewards-signin-copy">' + escapeHtml(translatePhrase("Don’t miss out on special deals we think that you’ll love")) + '</p>' +
             '<button class="rewards-landing-button" data-rewards-sign-in type="button">' + escapeHtml(translatePhrase("Sign In / Sign Up")) + '</button>' +
           '</section>' +
+          '<section class="rewards-hero-section" id="rewards-section-rewards">' +
+            renderRewardsSectionHeading("Just for you", "Rewards") +
+            renderRewardsCarousel(prototypePromotionsConfig.rewards) +
+          '</section>' +
+          renderRewardsProductSection("offers", "Just for you", "Offers", featuredOffers, { red: true }) +
+          renderRewardsProductSection("amazing-value", "Save big", "Amazing Value", amazingValue, { red: true }) +
           renderRewardsMenuPromo()
         );
         return;
@@ -26411,15 +27088,16 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       rewardsScreenRoot.className = "rewards-page" + (signedInUnlocalized ? " is-unlocalized" : " is-localized");
       rewardsScreenRoot.innerHTML = (
-        renderRewardsDisposition(localized) +
-        renderRewardsTabRail(localized) +
+        renderRewardsContextBar(localized) +
         '<section class="rewards-hero-section" id="rewards-section-rewards">' +
           renderRewardsSectionHeading("Just for you", "Rewards") +
-          (localized ? renderRewardsCarousel() : renderRewardsLocationUnlock()) +
+          renderRewardsCarousel(rewardPromos) +
+          (localized ? "" : renderRewardsLocationUnlock()) +
         '</section>' +
-        (localized ? renderRewardsProductSection("offers", "Just for you", "Offers", offers, { red: true }) : "") +
+        (localized ? renderRewardsProductSection("offers", "Just for you", "Offers", featuredOffers, { red: true }) : "") +
         renderRewardsProductSection("amazing-value", "Save big", "Amazing Value", amazingValue, { red: true }) +
-        (localized ? renderRewardsMenuPromo() : "")
+        (localized ? renderRewardsMenuPromo() : "") +
+        renderRewardsCartCta()
       );
     }
 
@@ -26473,7 +27151,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       });
       const featureCard = (
         '<article class="home-feature-card">' +
-          '<div class="home-feature-media"' + getLazyBackgroundAttrs(homeImageUrls.figmaFeatureStack) + '><div class="home-tag-row" style="position:absolute;left:16px;top:16px;z-index:2"><span class="home-tag">Stacked</span><span class="home-tag secondary">New</span></div></div>' +
+          '<div class="home-feature-media"' + getLazyBackgroundAttrs(homeImageUrls.figmaFeatureStack, { eager: true }) + '><div class="home-tag-row" style="position:absolute;left:16px;top:16px;z-index:2"><span class="home-tag">Stacked</span><span class="home-tag secondary">New</span></div></div>' +
           '<div class="home-feature-title">Stacked with crunch</div>' +
           '<p class="home-feature-copy">Layer crispy chicken, cheese, sauce, and fresh greens into a feed built for serious cravings.</p>' +
           '<button class="home-card-btn" type="button" data-home-start>Order now</button>' +
@@ -28754,6 +29432,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.productDetailReturnScreen = options.returnScreen
         || (state.screen === "cart" ? "cart" : "")
         || (state.screen === "menu-search" ? "menu-search" : "menu");
+      state.pendingRewardPromoId = options.pendingRewardPromoId || "";
       state.bundleCustomizeContext = null;
       state.miniCustomizeDraftOptionId = "";
       ensureSelectedSize(item);
@@ -28903,6 +29582,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       const cartItem = createCartItemFromCurrentSelection(item, state.pdpQuantity);
       const summary = cartItem.summaryAtAdd;
+      const pendingReward = getPrototypePromotionById(state.pendingRewardPromoId);
 
       if (state.editingCartItemId) {
         state.cartItems = state.cartItems.reduce((nextItems, entry) => {
@@ -28921,7 +29601,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         return;
       }
 
+      if (pendingReward && pendingReward.itemId === item.id) {
+        clearCheckoutCoupon({ refundReward: true });
+        cartItem.rewardPromoId = pendingReward.id;
+      }
       appendCartItems([cartItem]);
+      if (pendingReward && pendingReward.itemId === item.id) {
+        state.checkoutCoupon = createCheckoutCouponFromPromotion(pendingReward);
+        state.activeRewardId = pendingReward.id;
+        state.redeemedRewardId = pendingReward.id;
+        state.rewardRedeemMessage = pendingReward.eligibilityMessage || "";
+        state.pendingRewardPromoId = "";
+      }
       state.upsellBaseItemId = item.id;
       if (state.productDetailReturnScreen === "cart") {
         goToCart();
@@ -28929,6 +29620,9 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         goToMenuLanding();
       } else if (state.productDetailReturnScreen === "menu-landing") {
         goToMenuLanding();
+      } else if (state.productDetailReturnScreen === "rewards") {
+        goToRewards();
+        return;
       } else {
         goToMenu();
       }
@@ -28973,7 +29667,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (state.activeSheet === "cart-remove") {
         state.activeSheet = null;
       }
-      refreshCartView();
+      render();
     }
 
     function confirmCartRemoveDialog() {
@@ -28985,6 +29679,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.pendingCartRemoveItemId = "";
       state.activeSheet = null;
       removeCartItem(cartItemId);
+      render();
     }
 
     function removeCartItem(cartItemId) {
@@ -29716,12 +30411,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       };
     }
 
-    const checkoutOfferConfigs = [
-      { code: "BOX5", itemId: "tower-burger-box", badge: "50% Off", tag: "Limited Time", expires: "Ends 10-12-2026", fallbackDiscount: 5 },
-      { code: "WELCOME5", itemId: "mega-fill-up", badge: "50% Off", tag: "Limited Time", expires: "Ends 10-12-2026", fallbackDiscount: 5 },
-      { code: "ZINGER10", itemId: "zinger-tower-burger", badge: "50% Off", tag: "Limited Time", expires: "Ends 10-12-2026", fallbackDiscount: 3.23 },
-      { code: "REWARD20", itemId: "footy-feed", badge: "50% Off", tag: "Limited Time", expires: "Ends 10-12-2026", fallbackDiscount: 5 }
-    ];
+    const checkoutOfferConfigs = prototypePromotionsConfig.featuredOffers.concat(prototypePromotionsConfig.amazingValue);
 
     function getCheckoutOfferPrice(item) {
       const primarySize = item && Array.isArray(item.sizes) ? item.sizes[0] : null;
@@ -29741,17 +30431,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       checkoutOffersCache = checkoutOfferConfigs.map((config) => {
         const item = getMenuItemById(config.itemId);
         const price = getCheckoutOfferPrice(item);
-        const discount = price ? Number((price * 0.5).toFixed(2)) : config.fallbackDiscount;
-        const title = item && item.title ? item.title : config.code;
+        const discount = getPromotionDiscount(config) || (price ? Number((price * 0.5).toFixed(2)) : 0);
+        const title = config.title || (item && item.title) || config.promoCode;
         return {
-          code: config.code,
-          label: config.badge + " " + title,
+          code: config.promoCode,
+          promoId: config.id,
+          label: title,
           title,
           badge: config.badge,
-          tag: config.tag,
-          expires: config.expires,
+          tag: (config.tags && config.tags[0]) || "Offer",
+          expires: config.expiry,
           discount,
-          type: "discount",
+          type: config.type || "discount",
           image: item ? getProductImage(item) : kfcMenuPhoto,
           imageFallback: item ? getUpsellFallbackImage(item) : kfcMenuPhoto,
           energy: getCheckoutOfferEnergy(item)
@@ -29762,10 +30453,13 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
     function getCheckoutCouponFromCode(code) {
       if (!code) return null;
+      const configuredPromo = getPrototypePromotionByCode(code);
+      if (configuredPromo) return createCheckoutCouponFromPromotion(configuredPromo);
       const availableOffer = getAvailableCheckoutOffers().find((offer) => offer.code === code);
       if (availableOffer) {
         return {
           code: availableOffer.code,
+          promoId: availableOffer.promoId,
           label: availableOffer.label,
           discount: availableOffer.discount,
           type: availableOffer.type
@@ -29781,6 +30475,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
     function applyCheckoutCouponCode(rawCode) {
       const code = (rawCode || "").trim().toUpperCase();
+      if (!code) return;
+      if (!canApplyPrototypePromotion({ returnScreen: state.screen || "cart" })) return;
       clearCheckoutCoupon({ refundReward: true });
       state.checkoutCoupon = getCheckoutCouponFromCode(code);
       state.checkoutCouponSheetOpen = false;
@@ -29790,8 +30486,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function getCheckoutTotal(cartValidation) {
       const validation = cartValidation || getCartValidation();
       const cartPricing = validation.pricing || getCartPricing();
-      const couponDiscount = state.checkoutCoupon ? state.checkoutCoupon.discount : 0;
-      const rewardDiscount = cartShouldShowReward() ? 14.9 : 0;
+      const couponDiscount = state.checkoutCoupon && !cartShouldShowReward() ? state.checkoutCoupon.discount : 0;
+      const rewardDiscount = getActiveRewardDiscount();
       const deliveryDiscount = cartShouldApplyFreeDelivery(validation) ? cartPricing.deliveryFee : 0;
       const discount = couponDiscount + rewardDiscount + deliveryDiscount;
       return {
@@ -29906,6 +30602,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
             '</span>' +
             '<span class="checkout-coupon-card-name">' + escapeHtml(offer.title) + '</span>' +
             '<span class="checkout-coupon-card-meta">' +
+              '<span>' + escapeHtml(offer.code) + '</span>' +
               '<span>' + escapeHtml(offer.energy) + '</span>' +
               '<span>' + escapeHtml(offer.expires) + '</span>' +
             '</span>' +
@@ -30028,11 +30725,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const isDelivery = state.fulfillmentType === "delivery";
       const offerLines = getCheckoutOfferLines(validation);
       const discountRows = [
-        state.checkoutCoupon && state.checkoutCoupon.discount
+        state.checkoutCoupon && state.checkoutCoupon.discount && !cartShouldShowReward()
           ? '<div class="checkout-summary-row discount"><span>Discount Coupon (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><strong>-' + formatCurrency(state.checkoutCoupon.discount) + '</strong></div>'
           : '',
         cartShouldShowReward()
-          ? '<div class="checkout-summary-row discount"><span>' + escapeHtml(getActiveRewardTitle()) + '</span><strong>-' + formatCurrency(14.9) + '</strong></div>'
+          ? '<div class="checkout-summary-row discount"><span>' + escapeHtml(getActiveRewardTitle()) + ' (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><strong>-' + formatCurrency(getActiveRewardDiscount()) + '</strong></div>'
           : '',
         cartShouldApplyFreeDelivery(validation) && isDelivery
           ? '<div class="checkout-summary-row discount"><span>Free Delivery</span><strong>-' + formatCurrency(pricing.deliveryFee || 4.99) + '</strong></div>'
@@ -30601,7 +31298,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           '<div class="cart-reward-copy">' +
             '<span class="cart-chip">Reward</span>' +
             '<div class="cart-reward-title">' + escapeHtml(getActiveRewardTitle()).toUpperCase() + '</div>' +
-            '<div class="cart-reward-desc">Reward item applied to this order.</div>' +
+            '<div class="cart-reward-desc">Code ' + escapeHtml(state.checkoutCoupon.code) + ' applied to this order.</div>' +
           '</div>' +
           '<div class="cart-reward-art"></div>' +
           '<button class="cart-reward-remove" data-cart-remove-coupon="true" type="button">Remove</button>' +
@@ -30619,7 +31316,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           '<div class="cart-coupon-copy">' +
             '<span class="cart-chip">Coupon</span>' +
             '<div class="cart-coupon-title">' + escapeHtml(state.checkoutCoupon.label || state.checkoutCoupon.code || "Coupon").toUpperCase() + '</div>' +
-            '<div class="cart-coupon-desc">' + escapeHtml(discountCopy) + '</div>' +
+            '<div class="cart-coupon-desc">Code ' + escapeHtml(state.checkoutCoupon.code) + '. ' + escapeHtml(discountCopy) + '</div>' +
           '</div>' +
           '<button class="cart-coupon-remove" data-cart-remove-coupon="true" type="button">Remove</button>' +
         '</section>'
@@ -30816,8 +31513,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
             '<div class="cart-summary-items">Items [' + state.cartCount + ']</div>' +
             '<div class="cart-summary-row"><span>Subtotal</span><span>' + formatCurrency(checkoutPricing.subtotal) + '</span></div>' +
             '<div class="cart-summary-row"><span>GST (included)</span><span></span></div>' +
-            (state.checkoutCoupon && state.checkoutCoupon.discount ? '<div class="cart-summary-row discount"><span>Discount Coupon (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><span>-' + formatCurrency(state.checkoutCoupon.discount) + '</span></div>' : '') +
-            (cartShouldShowReward() ? '<div class="cart-summary-row discount"><span>' + escapeHtml(getActiveRewardTitle()) + '</span><span>-' + formatCurrency(14.9) + '</span></div>' : '') +
+            (state.checkoutCoupon && state.checkoutCoupon.discount && !cartShouldShowReward() ? '<div class="cart-summary-row discount"><span>Discount Coupon (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><span>-' + formatCurrency(state.checkoutCoupon.discount) + '</span></div>' : '') +
+            (cartShouldShowReward() ? '<div class="cart-summary-row discount"><span>' + escapeHtml(getActiveRewardTitle()) + ' (#' + escapeHtml(state.checkoutCoupon.code) + ')</span><span>-' + formatCurrency(getActiveRewardDiscount()) + '</span></div>' : '') +
             (isDelivery ? '<div class="cart-summary-row"><span>Delivery Fee</span><span>' + formatCurrency(checkoutPricing.deliveryFee || 4.99) + '</span></div>' : '') +
             (cartShouldApplyFreeDelivery(validation) && isDelivery ? '<div class="cart-summary-row discount"><span>Free Delivery</span><span>-' + formatCurrency(checkoutPricing.deliveryFee || 4.99) + '</span></div>' : '') +
           '</div>' +
@@ -30830,7 +31527,6 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           (validation.notices.length ? renderCartMessages({ blockers: [], notices: validation.notices }) : '') +
           thresholdAlert +
           signedOutBlock +
-          '<button class="cart-summary-cta" data-cart-proceed-checkout="true" type="button"' + (primaryCta.disabled ? ' disabled' : '') + '>' + primaryCta.label + '</button>' +
         '</div>'
       );
     }
@@ -30890,6 +31586,29 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       syncCartCount();
       if (cartCountInline) cartCountInline.textContent = String(state.cartCount);
       if (menuCartTotal) menuCartTotal.textContent = formatCurrency(validation.pricing.total);
+      if (cartHeaderTitle) {
+        cartHeaderTitle.textContent = state.cartCount
+          ? "Cart · " + state.cartCount + " item" + (state.cartCount === 1 ? "" : "s")
+          : "Cart";
+      }
+      if (cartHeaderContext) {
+        const cartContextParts = [];
+        if (hasOrderContext()) {
+          cartContextParts.push(getContextLabel());
+        } else {
+          cartContextParts.push("Choose pickup or delivery");
+        }
+        if (state.timeLabel && state.timeLabel !== "Select time") {
+          cartContextParts.push(state.timeLabel);
+        }
+        cartHeaderContext.textContent = cartContextParts.join(" · ");
+      }
+      if (cartFixedFooter && cartFixedCheckout && state.screen === "cart") {
+        const cartPrimaryCta = getCartPrimaryCta(validation);
+        cartFixedFooter.hidden = false;
+        cartFixedCheckout.textContent = cartPrimaryCta.label;
+        cartFixedCheckout.disabled = cartPrimaryCta.disabled;
+      }
       if (menuToast) menuToast.hidden = !state.menuToastMessage;
       if (menuToastCopy) menuToastCopy.textContent = state.menuToastMessage || "";
       return validation;
@@ -31902,6 +32621,52 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       });
     }
 
+    function resetViewportScrollTreatment() {
+      const nodes = [
+        document.scrollingElement,
+        document.documentElement,
+        document.body,
+        document.querySelector(".stage"),
+        document.querySelector(".shell-frame"),
+        document.querySelector(".phone-wrap"),
+        phoneShell,
+        document.querySelector(".viewport"),
+        document.querySelector(".content")
+      ].filter(Boolean);
+
+      nodes.forEach((node) => {
+        if (node && typeof node.scrollTop === "number" && node.scrollTop !== 0) {
+          node.scrollTop = 0;
+        }
+      });
+
+      if (typeof window.scrollTo === "function") {
+        try {
+          window.scrollTo({ top: 0, left: window.scrollX || 0, behavior: "auto" });
+        } catch (error) {
+          window.scrollTo(window.scrollX || 0, 0);
+        }
+      }
+    }
+
+    function scrollRewardsSection(sectionId, options = {}) {
+      const target = document.getElementById("rewards-section-" + sectionId);
+      const rewardsScreen = document.querySelector('.screen[data-screen="rewards"]');
+      if (!target || !rewardsScreen) return;
+
+      const stickyContext = rewardsScreenRoot ? rewardsScreenRoot.querySelector(".rewards-context-bar") : null;
+      const stickyOffset = stickyContext ? stickyContext.getBoundingClientRect().height : 0;
+      const containerRect = rewardsScreen.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const top = Math.max(0, rewardsScreen.scrollTop + targetRect.top - containerRect.top - stickyOffset);
+
+      if (typeof rewardsScreen.scrollTo === "function") {
+        rewardsScreen.scrollTo({ top, behavior: options.behavior || "smooth" });
+      } else {
+        rewardsScreen.scrollTop = top;
+      }
+    }
+
     function render() {
       applyAppShellMode();
       syncCartCount();
@@ -31939,7 +32704,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       preOcb.hidden = authScreen(state.screen) || hasContext || orderContextChromeHidden;
       ocb.hidden = authScreen(state.screen) || !hasContext || orderContextChromeHidden;
       const sheetOpen = state.activeSheet !== null;
-      bottomNav.hidden = authScreen(state.screen) || state.screen === "cart";
+      const bottomNavSuppressed = state.screen === "cart" || state.screen === "checkout";
+      bottomNav.hidden = authScreen(state.screen) || bottomNavSuppressed;
       const showPickupCta = state.screen === "pickup";
       const showDeliveryAddressCta = state.screen === "delivery-address";
       const showDeliveryResultsCta = state.screen === "delivery-results";
@@ -31949,6 +32715,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const showProductDetailCta = state.screen === "product-detail" && !sheetOpen;
       const showSecretMenuCta = false;
       const showBundleCustomizeCta = state.screen === "bundle-customize";
+      const showCartFixedCta = state.screen === "cart";
       const showCartCta = false;
       const productDetailBarState = showProductDetailCta
         ? getProductDetailBarState()
@@ -31967,13 +32734,13 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         && state.screen !== "rewards"
         && state.screen !== "rewards-welcome"
         && (!hasContext || showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta);
-      const shouldShowBottomWrap = !authScreen(state.screen) && state.screen !== "cart";
+      const shouldShowBottomWrap = !authScreen(state.screen) && state.screen !== "checkout" && state.screen !== "cart";
       bottomNavWrap.hidden = !shouldShowBottomWrap;
       bottomNavWrap.classList.toggle("pickup-footer-wrap", shouldShowBottomWrap && (showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta || showProductDetailCta || showSecretMenuCta || showBundleCustomizeCta || showCartCta || showMenuCartCta || showHomeCartCta));
       bottomNavWrap.classList.toggle("floating-start-order-wrap", shouldShowBottomWrap && showGlobalStartOrder && !showPickupCta && !showOrderSettingsCta && !showDeliveryAddressCta && !showDeliveryResultsCta && !showDeliveryMapCta && !showDeliveryStoreCta && !showProductDetailCta && !showCartCta && !showMenuCartCta && !showHomeCartCta);
       bottomNavWrap.classList.toggle("pdp-only-footer-wrap", shouldShowBottomWrap && showBundleCustomizeCta);
       bottomNavWrap.classList.toggle("secret-entry-footer-wrap", shouldShowBottomWrap && state.screen === "secret-menu");
-      startOrderBtn.hidden = !(showGlobalStartOrder) || showProductDetailCta;
+      startOrderBtn.hidden = !(showGlobalStartOrder || showCartCta) || showProductDetailCta;
       startOrderBtn.classList.toggle("pickup-footer", showPickupCta || showOrderSettingsCta || showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta || showProductDetailCta || showCartCta);
       startOrderBtn.classList.toggle("pdp-footer", showProductDetailCta);
       startOrderBtn.classList.toggle("delivery-flow", showDeliveryAddressCta || showDeliveryResultsCta || showDeliveryMapCta || showDeliveryStoreCta);
@@ -32002,6 +32769,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           : showCartCta
             ? cartPrimaryCta.disabled
             : false;
+      if (cartFixedFooter && cartFixedCheckout) {
+        cartFixedFooter.hidden = !showCartFixedCta;
+        cartFixedCheckout.textContent = cartPrimaryCta.label;
+        cartFixedCheckout.disabled = cartPrimaryCta.disabled;
+      }
       const bottomChromeHeight = shouldShowBottomWrap && !bottomNavWrap.hidden ? Math.ceil(bottomNavWrap.getBoundingClientRect().height + 11) : 0;
       phoneShell.style.setProperty("--bottom-nav-height", bottomChromeHeight + "px");
 
@@ -32048,6 +32820,23 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         ? (state.fulfillmentType === "delivery" ? "Delivery Order" : "Pick Up Order")
         : getContextLabel();
       contextTimeText.textContent = state.timeLabel;
+      if (cartHeaderTitle) {
+        cartHeaderTitle.textContent = state.cartCount
+          ? "Cart · " + state.cartCount + " item" + (state.cartCount === 1 ? "" : "s")
+          : "Cart";
+      }
+      if (cartHeaderContext) {
+        const cartContextParts = [];
+        if (hasOrderContext()) {
+          cartContextParts.push(getContextLabel());
+        } else {
+          cartContextParts.push("Choose pickup or delivery");
+        }
+        if (state.timeLabel && state.timeLabel !== "Select time") {
+          cartContextParts.push(state.timeLabel);
+        }
+        cartHeaderContext.textContent = cartContextParts.join(" · ");
+      }
       cartCountInline.textContent = String(state.cartCount);
       orderUpdatedBanner.hidden = !state.orderSettingsBannerVisible;
       timeSheetKicker.textContent = state.fulfillmentType === "delivery" ? "Delivery time" : "Pickup time";
@@ -32169,6 +32958,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       requestAnimationFrame(() => {
         const activeScreen = document.querySelector('.screen[data-screen="' + screen + '"]');
         if (activeScreen) activeScreen.scrollTop = 0;
+        resetViewportScrollTreatment();
         resetHorizontalScrollState();
       });
     }
@@ -32244,6 +33034,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function goToRewards(options = {}) {
       state.editingCartItemId = "";
       state.productDetailReturnScreen = "menu";
+      state.pendingRewardPromoId = "";
+      if (!options.preserveDetail) state.activeRewardDetailId = "";
       state.activeSheet = null;
       state.rewardsIntroSeen = true;
       showScreen("rewards");
@@ -32322,6 +33114,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.productDetailReturnScreen = "cart";
       showScreen("cart");
       setActiveTab("cart");
+      if (cartScroll) cartScroll.scrollTop = 0;
       if (options.openUpsell && hasCartItems() && getCartUpsellBaseItem()) {
         openUpsellSheet();
       }
@@ -32711,6 +33504,21 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     closeCartRemoveSheetBtn.addEventListener("click", dismissCartRemoveDialog);
     confirmCartRemoveBtn.addEventListener("click", confirmCartRemoveDialog);
     cancelCartRemoveBtn.addEventListener("click", dismissCartRemoveDialog);
+    cartRemoveSheet.addEventListener("click", (event) => {
+      const closeControl = event.target.closest("#close-cart-remove-sheet, #cancel-cart-remove");
+      const confirmControl = event.target.closest("#confirm-cart-remove");
+      if (closeControl) {
+        event.preventDefault();
+        event.stopPropagation();
+        dismissCartRemoveDialog();
+        return;
+      }
+      if (confirmControl) {
+        event.preventDefault();
+        event.stopPropagation();
+        confirmCartRemoveDialog();
+      }
+    });
     sheetBackdrop.addEventListener("click", closeSheet);
     moreComingSoon.addEventListener("click", (event) => {
       if (event.target === moreComingSoon) closeMoreComingSoon();
@@ -32874,6 +33682,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         return;
       }
       if (state.productDetailReturnScreen === "rewards") {
+        state.pendingRewardPromoId = "";
         goToRewards();
         return;
       }
@@ -33396,8 +34205,14 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     });
     document.getElementById("checkout-back-btn").addEventListener("click", () => goToCart());
     checkoutCloseBtn.addEventListener("click", () => goToCart());
-    document.getElementById("cart-back-btn").addEventListener("click", () => leaveCart(false));
+    document.getElementById("cart-back-btn").addEventListener("click", () => {
+      state.activeSheet = null;
+      goToMenuLanding();
+    });
     document.getElementById("cart-close-btn").addEventListener("click", () => leaveCart(true));
+    if (cartFixedCheckout) {
+      cartFixedCheckout.addEventListener("click", proceedToCheckoutFromCart);
+    }
     productDetailInfoLink.addEventListener("click", () => openNutritionSheet(state.selectedMenuItemId, "nutrition"));
     bundleCustomizeInfoLink.addEventListener("click", () => openNutritionSheet(state.selectedMenuItemId, "nutrition"));
     miniCustomizeInfoLink.addEventListener("click", () => openNutritionSheet(state.selectedMenuItemId, "nutrition"));
@@ -33696,6 +34511,8 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       state.rewardsIntroSeen = false;
       state.rewardsPoints = 0;
       state.activeRewardId = "";
+      state.activeRewardDetailId = "";
+      state.pendingRewardPromoId = "";
       state.redeemedRewardId = "";
       state.rewardRedeemMessage = "";
       state.fulfillmentType = "";
@@ -33809,17 +34626,65 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       const rewardsScroll = event.target.closest("[data-rewards-scroll]");
       if (rewardsScroll) {
-        const target = document.getElementById("rewards-section-" + rewardsScroll.dataset.rewardsScroll);
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollRewardsSection(rewardsScroll.dataset.rewardsScroll, { behavior: "smooth" });
         rewardsScreenRoot.querySelectorAll("[data-rewards-scroll]").forEach((button) => {
           button.classList.toggle("active", button === rewardsScroll);
         });
         return;
       }
 
+      const rewardsDetailBack = event.target.closest("[data-rewards-detail-back]");
+      if (rewardsDetailBack) {
+        state.activeRewardDetailId = "";
+        render();
+        return;
+      }
+
+      const rewardsDetailClose = event.target.closest("[data-rewards-detail-close]");
+      if (rewardsDetailClose) {
+        state.activeRewardDetailId = "";
+        goToRewards();
+        return;
+      }
+
+      const rewardsRedeem = event.target.closest("[data-rewards-redeem-id]");
+      if (rewardsRedeem) {
+        const promo = getPrototypePromotionById(rewardsRedeem.dataset.rewardsRedeemId);
+        if (!promo) return;
+        if (!canApplyPrototypePromotion({ returnScreen: "rewards" })) return;
+        state.activeRewardDetailId = "";
+        openProductDetail(promo.itemId, { returnScreen: "rewards", pendingRewardPromoId: promo.id });
+        return;
+      }
+
+      const rewardsPromo = event.target.closest("[data-rewards-promo-id]");
+      if (rewardsPromo) {
+        const promo = getPrototypePromotionById(rewardsPromo.dataset.rewardsPromoId);
+        if (!promo) return;
+        if (!canApplyPrototypePromotion({ returnScreen: "rewards" })) return;
+        state.activeRewardDetailId = promo.id;
+        render();
+        return;
+      }
+
+      const rewardsApplyPromo = event.target.closest("[data-rewards-apply-promo-id]");
+      if (rewardsApplyPromo) {
+        const promo = getPrototypePromotionById(rewardsApplyPromo.dataset.rewardsApplyPromoId);
+        if (!promo) return;
+        if (applyPrototypePromotion(promo, { returnScreen: "rewards" })) {
+          goToCart({ returnScreen: "rewards" });
+        }
+        return;
+      }
+
       const rewardsProduct = event.target.closest("[data-rewards-product-id]");
       if (rewardsProduct) {
         openProductDetail(rewardsProduct.dataset.rewardsProductId, { returnScreen: "rewards" });
+        return;
+      }
+
+      if (event.target.closest("[data-rewards-cart]")) {
+        goToCart({ returnScreen: "rewards" });
         return;
       }
 
@@ -33958,13 +34823,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       const couponCard = event.target.closest("[data-checkout-coupon-code]");
       if (couponCard) {
-        clearCheckoutCoupon({ refundReward: true });
-        state.checkoutCoupon = {
-          code: couponCard.dataset.checkoutCouponCode,
-          label: couponCard.dataset.checkoutCouponLabel,
-          discount: Number(couponCard.dataset.checkoutCouponDiscount),
-          type: couponCard.dataset.checkoutCouponType || "discount"
-        };
+        applyCheckoutCouponCode(couponCard.dataset.checkoutCouponCode);
         state.checkoutCouponSheetOpen = false;
         refreshCheckoutView();
         return;
@@ -34257,15 +35116,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       }, delay);
     }
 
-    function canRegisterPrototypeServiceWorker(launchParams) {
-      return "serviceWorker" in navigator
-        && launchParams.get("noSw") !== "1"
-        && (window.location.protocol === "https:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
-    }
-
-    function registerPrototypeServiceWorker(launchParams) {
-      if (!canRegisterPrototypeServiceWorker(launchParams)) return Promise.resolve(null);
-      return navigator.serviceWorker.register("prototype-sw.js").catch(() => null);
+    function clearPrototypeServiceWorkers() {
+      if (!("serviceWorker" in navigator)) return Promise.resolve(null);
+      return navigator.serviceWorker.getRegistrations()
+        .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+        .catch(() => null);
     }
 
     function warmLocalStartupAssets() {
@@ -34275,9 +35130,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         "i18n/market-flags.js?v=15",
         "i18n/translations.js?v=14",
         "manifest.webmanifest",
-        "app-icon.svg",
-        "app-icon-192.png",
-        "app-icon-512.png"
+        "assets/Logo%20Clean.png"
       ];
 
       return Promise.allSettled(
@@ -34298,7 +35151,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
     function startAtlasStartupWarmup(launchParams) {
       const tasks = [
-        registerPrototypeServiceWorker(launchParams),
+        clearPrototypeServiceWorkers(),
         warmPrototypeI18n(),
         warmLocalStartupAssets(),
         warmPrototypeMenuData()
