@@ -16640,6 +16640,20 @@
       --menu-pinned-height: calc(var(--status-safe-offset) + 52px);
     }
 
+    body.app-shell-fullscreen.app-shell-embedded .auth-topbar {
+      height: calc(var(--status-safe-offset) + 52px);
+      padding: var(--status-safe-offset) 10px 0;
+    }
+
+    body.app-shell-fullscreen.app-shell-embedded .checkout-scroll {
+      padding-top: calc(var(--status-safe-offset) + 18px);
+    }
+
+    body.app-shell-fullscreen.app-shell-embedded .screen[data-screen="pickup"] {
+      top: var(--status-safe-offset);
+      height: calc(100% - var(--status-safe-offset));
+    }
+
     .menu-landing-pull-reveal {
       position: absolute;
       top: 0;
