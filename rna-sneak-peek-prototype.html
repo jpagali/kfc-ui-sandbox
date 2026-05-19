@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="--app-vw: 100vw; --app-vh: 1136px;"><head>
+<html lang="en" style="--app-vw: 440px; --app-vh: 956px;"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
@@ -206,8 +206,8 @@
 
     .phone-wrap {
       position: relative;
-      width: min(402px, calc(100vw - 24px));
-      aspect-ratio: 402 / 874;
+      width: min(440px, calc(100vw - 24px));
+      aspect-ratio: 440 / 956;
       height: auto;
       border-radius: 48px;
       padding: 0;
@@ -365,13 +365,13 @@
     }
 
     body.app-shell-fullscreen .phone-wrap {
-      width: min(100vw, calc(100vh * 0.459954));
-      width: min(100vw, calc(100dvh * 0.459954));
+      width: min(100vw, calc(100vh * 0.460251));
+      width: min(100vw, calc(100dvh * 0.460251));
       max-width: 100vw;
       max-height: 100vh;
       max-height: 100dvh;
       height: auto;
-      aspect-ratio: 402 / 874;
+      aspect-ratio: 440 / 956;
       border-radius: 0;
       border: 0;
       box-shadow: none;
@@ -15384,8 +15384,8 @@
     body.app-shell-fullscreen {
       --shell-vw: 100vw;
       --shell-vh: 100dvh;
-      --app-vw: min(100vw, calc(100dvh * 0.459954));
-      --app-vh: min(100dvh, calc(100vw * 2.174129));
+      --app-vw: min(100vw, calc(100dvh * 0.460251));
+      --app-vh: min(100dvh, calc(100vw * 2.172727));
       --mobile-gutter: clamp(14px, 4.1vw, 18px);
       --mobile-tight-gutter: clamp(10px, 3.2vw, 14px);
       --mobile-section-gap: clamp(14px, 2.2dvh, 22px);
@@ -15413,7 +15413,7 @@
       min-height: 0;
       max-width: var(--shell-vw);
       max-height: var(--shell-vh);
-      aspect-ratio: 402 / 874;
+      aspect-ratio: 440 / 956;
     }
 
     body.app-shell-fullscreen .phone,
@@ -19824,7 +19824,7 @@
     }
   </style>
 </head>
-<body class="app-shell-fullscreen" style="--app-vw: 100vw; --app-vh: 1136px;">
+<body class="app-shell-fullscreen" style="--app-vw: 440px; --app-vh: 956px;">
   <button class="app-shell-toggle" id="app-shell-toggle" type="button" aria-pressed="true">Frame view</button>
   <div class="stage">
     <div class="shell-frame">
@@ -23707,7 +23707,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
 
       const shellWidth = keyboardLikelyOpen ? stableShellWidth : visualWidth;
       const shellHeight = keyboardLikelyOpen ? stableShellHeight : visualHeight;
-      const appRatio = 402 / 874;
+      const appRatio = 440 / 956;
       let appWidth = shellWidth;
       let appHeight = Math.round(appWidth / appRatio);
 
