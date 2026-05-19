@@ -9296,6 +9296,16 @@
       overflow-wrap: anywhere;
     }
 
+    .meal-size-option-price {
+      font-family: var(--font-ui);
+      font-style: normal;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+      color: #111111;
+    }
+
     .meal-size-sheet-cta {
       width: 100%;
       min-height: 82px;
@@ -13663,11 +13673,10 @@
     }
 
     .postorder-screen.wip-locked .content,
+    .postorder-screen.wip-locked .postorder-sheet-backdrop,
+    .postorder-screen.wip-locked .postorder-sheet,
     .postorder-screen.wip-locked .postorder-footer-wrap {
-      filter: grayscale(1);
-      opacity: 0.28;
-      pointer-events: none;
-      user-select: none;
+      display: none !important;
     }
 
     .postorder-wip-overlay {
@@ -24024,6 +24033,18 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       clearSecretMenuDisposition();
     }
 
+    function enforceSignedInUnlocalizedInitialState() {
+      state.isAuthenticated = true;
+      state.fulfillmentType = "";
+      state.confirmedStoreId = "";
+      state.selectedStoreName = "Select store";
+      state.selectedAddressName = "";
+      state.confirmedDeliveryAddressId = "";
+      state.activeSheet = null;
+      state.returnScreen = "home-auth";
+      state.currentTab = "home";
+    }
+
     function resetPrototypeSessionToEmpty() {
       state.activeSheet = null;
       state.marketId = getLaunchMarketId();
@@ -24469,10 +24490,16 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     function itemUsesMealSizeSheet(item) {
       if (!item) return false;
       if (isSecretMenuItem(item)) return false;
-      if (itemHasStructuredMealSizes(item)) return true;
       const sourceProfile = getKfcAuSourceProfile(item);
+      if (sourceProfile && sourceProfile.family === "ala-carte") {
+        return !!(getRelatedMealVariant(item, "combo") || getRelatedMealVariant(item, "box"));
+      }
+      if (sourceProfile && sourceProfile.family === "combo") {
+        return Array.isArray(item.sizes) && item.sizes.length > 1;
+      }
+      if (itemHasStructuredMealSizes(item)) return true;
       if (sourceProfile) {
-        return sourceProfile.family === "combo" || sourceProfile.family === "box" || sourceProfile.family === "shared";
+        return sourceProfile.family === "box" || sourceProfile.family === "shared";
       }
       return item.category === "boxes" || /(burger|combo|wrap)/i.test(item.title);
     }
@@ -24562,6 +24589,10 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         return buildBoxMealSizes(item, sourceSizes);
       }
 
+      if (sourceProfile && sourceProfile.family === "ala-carte") {
+        return buildAlaCarteMealUpgradeOptions(item);
+      }
+
       if (sourceProfile && (sourceProfile.family === "combo" || sourceProfile.family === "box" || sourceProfile.family === "shared")) {
         return sourceSizes.map((size, index) => ({
           ...size,
@@ -24614,6 +24645,127 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
           isHero: false
         }
       ];
+    }
+
+    function normalizeMealVariantTitle(value) {
+      return String(value || "")
+        .replace(/[®™^]/g, "")
+        .replace(/\s+(combo|box|meal)$/i, "")
+        .replace(/[^a-z0-9]+/gi, " ")
+        .trim()
+        .toLowerCase();
+    }
+
+    function getMealVariantBaseKey(item) {
+      return normalizeMealVariantTitle(getMealBaseTitle(item) || (item && item.title));
+    }
+
+    function getRelatedMealVariant(item, family) {
+      const baseKey = getMealVariantBaseKey(item);
+      if (!baseKey) return null;
+      return getCatalogItemsWithAdditions().find((candidate) => {
+        if (!candidate || candidate.id === item.id) return false;
+        const profile = getKfcAuSourceProfile(candidate);
+        if (!profile || profile.family !== family) return false;
+        return getMealVariantBaseKey(candidate) === baseKey;
+      }) || null;
+    }
+
+    function getMealOptionPrimarySize(item) {
+      return item && Array.isArray(item.sizes) && item.sizes.length ? item.sizes[0] : null;
+    }
+
+    function formatMealOptionDelta(basePrice, targetPrice) {
+      if (typeof targetPrice !== "number") return translatePdpCopy("Price on PDP");
+      if (typeof basePrice !== "number") return formatCurrency(targetPrice);
+      const delta = Number((targetPrice - basePrice).toFixed(2));
+      if (Math.abs(delta) < 0.009) return formatCurrency(0);
+      return (delta > 0 ? "+" : "-") + formatCurrency(Math.abs(delta));
+    }
+
+    function buildAlaCarteMealUpgradeOptions(item) {
+      const baseSize = getMealOptionPrimarySize(item);
+      const comboItem = getRelatedMealVariant(item, "combo");
+      const boxItem = getRelatedMealVariant(item, "box");
+      const comboSize = getMealOptionPrimarySize(comboItem);
+      const boxSize = getMealOptionPrimarySize(boxItem);
+      const basePrice = baseSize && typeof baseSize.price === "number" ? baseSize.price : undefined;
+      const baseTitle = getMealBaseTitle(item) || item.title;
+      const options = [
+        {
+          ...(baseSize || {}),
+          id: "item-only",
+          label: "Item only",
+          note: baseTitle,
+          price: basePrice,
+          priceDisplay: formatMealOptionDelta(basePrice, basePrice),
+          badge: "",
+          mealTitle: baseTitle,
+          mealMeta: "",
+          choiceType: "solo",
+          targetItemId: item.id,
+          targetSizeId: baseSize ? baseSize.id : "",
+          image: getMealChoiceImage(item, "solo"),
+          isHero: true
+        }
+      ];
+
+      if (comboItem && comboSize) {
+        options.push({
+          ...comboSize,
+          id: "make-it-combo",
+          label: "Make it a Combo",
+          note: "Regular chips & drink",
+          priceDisplay: formatMealOptionDelta(basePrice, comboSize.price),
+          badge: "Meal upgrade",
+          mealTitle: baseTitle + " Combo",
+          mealMeta: "Regular chips & drink",
+          choiceType: "combo",
+          targetItemId: comboItem.id,
+          targetSizeId: comboSize.id,
+          image: getMealChoiceImage(comboItem, "combo"),
+          isHero: false
+        });
+      }
+
+      if (boxItem && boxSize) {
+        options.push({
+          ...boxSize,
+          id: "make-it-box",
+          label: "Make it a Box",
+          note: "Combo plus sides",
+          priceDisplay: formatMealOptionDelta(basePrice, boxSize.price),
+          badge: "Full meal",
+          mealTitle: baseTitle + " Box",
+          mealMeta: "Combo plus sides",
+          choiceType: "box",
+          targetItemId: boxItem.id,
+          targetSizeId: boxSize.id,
+          image: getMealChoiceImage(boxItem, "box"),
+          isHero: false
+        });
+      }
+
+      return options;
+    }
+
+    function getMealSizeSheetOptions(item) {
+      return Array.isArray(item && item.sizes) ? item.sizes : [];
+    }
+
+    function getSelectedMealSizeSheetOption(item) {
+      const options = getMealSizeSheetOptions(item);
+      return options.find((size) => size.id === state.selectedSizeId)
+        || options.find((size) => size.targetSizeId && size.targetSizeId === state.selectedSizeId)
+        || options[0]
+        || null;
+    }
+
+    function getMealSizeSheetMode(item) {
+      const sourceProfile = getKfcAuSourceProfile(item);
+      if (sourceProfile && sourceProfile.family === "ala-carte") return "meal-upgrade";
+      if (sourceProfile && sourceProfile.family === "combo") return "combo-size";
+      return "meal-size";
     }
 
     function getDisplayMenuItem(item) {
@@ -30284,22 +30436,36 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       }
 
       ensureSelectedSize(item);
-      mealSizeSheetTitle.textContent = translatePdpCopy("How do you want your meal?");
-      mealSizeSheetCopy.textContent = translatePdpCopy(item.title) + " " + translatePdpCopy("will open on the PDP with this meal setup preselected. You can still edit it there.");
-      mealSizeSheetList.innerHTML = item.sizes.map((size) => {
+      const sheetMode = getMealSizeSheetMode(item);
+      const options = getMealSizeSheetOptions(item);
+      const selectedOption = getSelectedMealSizeSheetOption(item);
+      if (selectedOption) state.selectedSizeId = selectedOption.id;
+      mealSizeSheetTitle.textContent = sheetMode === "combo-size"
+        ? translatePdpCopy("Upgrade your combo?")
+        : sheetMode === "meal-upgrade"
+          ? translatePdpCopy("Make it a meal?")
+          : translatePdpCopy("Select a size");
+      mealSizeSheetCopy.textContent = sheetMode === "combo-size"
+        ? translatePdpCopy("Choose regular combo or upgrade to large chips and drink.")
+        : sheetMode === "meal-upgrade"
+          ? translatePdpCopy("Choose item only, combo, or box before opening the product page.")
+          : translatePdpCopy(item.title) + " " + translatePdpCopy("will open on the PDP with this meal setup preselected. You can still edit it there.");
+      mealSizeSheetList.innerHTML = options.map((size) => {
+        const priceText = size.priceDisplay || (typeof size.price === "number" ? formatCurrency(size.price) : "");
         return (
           '<button class="meal-size-option' + (size.id === state.selectedSizeId ? ' active' : '') + (size.isHero ? ' is-hero' : '') + '" data-meal-size-id="' + size.id + '" onclick="selectMealSizeOption(this.dataset.mealSizeId)" type="button">' +
-            '<span class="meal-size-option-visual" style="background-image:url(\'' + (size.image || getProductImage(item)) + '\');"></span>' +
+            '<span class="meal-size-option-visual" style="background-image:url(\'' + sanitizeCssUrl(size.image || getProductImage(item)) + '\');"></span>' +
             '<span class="meal-size-option-copy">' +
               '<span class="meal-size-option-badge">' + (size.badge ? escapePdpCopy(size.badge) : '&nbsp;') + '</span>' +
               '<span class="meal-size-option-title">' + escapeHtml(getMealSizeOptionTitle(item, size)) + '</span>' +
               '<span class="meal-size-option-note">' + escapeHtml(getMealSizeOptionNote(item, size)) + '</span>' +
+              (priceText ? '<span class="meal-size-option-price">' + escapeHtml(priceText) + '</span>' : '') +
             '</span>' +
           '</button>'
         );
       }).join("");
       mealSizeSheetCta.disabled = !state.selectedSizeId;
-      mealSizeSheetCta.textContent = state.selectedSizeId ? translatePdpCopy("Continue") : translatePdpCopy("Choose a size");
+      mealSizeSheetCta.textContent = state.selectedSizeId ? translatePdpCopy("View Product") : translatePdpCopy("Choose a size");
     }
 
     function selectMealSizeOption(sizeId) {
@@ -34201,6 +34367,19 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       if (isPdpResize) {
         const item = getMenuItemById(state.selectedMealSheetItemId);
         if (!item) return;
+        const selectedOption = getSelectedMealSizeSheetOption(item);
+        if (selectedOption && selectedOption.targetItemId && selectedOption.targetItemId !== item.id) {
+          const targetItemId = selectedOption.targetItemId;
+          const targetSizeId = selectedOption.targetSizeId || "";
+          state.activeSheet = null;
+          state.selectedMealSheetItemId = "";
+          state.selectedSizeId = targetSizeId;
+          openProductDetail(targetItemId, { returnScreen: state.productDetailReturnScreen || "menu" });
+          return;
+        }
+        if (selectedOption && selectedOption.targetSizeId) {
+          state.selectedSizeId = selectedOption.targetSizeId;
+        }
         ensureSelectedSize(item);
         ensureSelectedModifiers(item);
         state.activeSheet = null;
@@ -34208,8 +34387,11 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         render();
         return;
       }
-      const chosenSizeId = state.selectedSizeId;
-      openProductDetail(state.selectedMealSheetItemId);
+      const sheetItem = getMenuItemById(state.selectedMealSheetItemId);
+      const selectedOption = getSelectedMealSizeSheetOption(sheetItem);
+      const targetItemId = selectedOption && selectedOption.targetItemId ? selectedOption.targetItemId : state.selectedMealSheetItemId;
+      const chosenSizeId = selectedOption && selectedOption.targetSizeId ? selectedOption.targetSizeId : state.selectedSizeId;
+      openProductDetail(targetItemId);
       if (chosenSizeId) {
         state.selectedSizeId = chosenSizeId;
         ensureSelectedSize(getSelectedMenuItem());
@@ -35233,6 +35415,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     if (!restorePrototypeState()) {
       resetPrototypeSessionToEmpty();
     }
+    enforceSignedInUnlocalizedInitialState();
     ensureLanguageForMarket();
     if (window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname + window.location.search);
