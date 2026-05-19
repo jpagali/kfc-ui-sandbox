@@ -22029,7 +22029,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
   </div>
 
   <script src="i18n/market-flags.js?v=15"></script>
-  <script src="i18n/translations.js?v=14"></script>
+  <script src="i18n/translations.js?v=15"></script>
   <script>
     const australiaStores = {
       elizabeth: {
@@ -22652,6 +22652,25 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const core = source.trim();
       const translation = table[source] || table[core];
       if (translation) output = leading + translation + trailing;
+      if (!translation) {
+        const composedPhrase = source
+          .replace(/\b(\d+)\s+Items\b/g, (match, count) => count + " " + (table.Items || "Items"))
+          .replace(/\bLast week\b/g, table["Last week"] || "Last week")
+          .replace(/\buntil\b/g, table.until || "until");
+        if (composedPhrase !== source) {
+          output = composedPhrase;
+        } else {
+          const exactMenuTerm = getExactMenuTermTranslation(language, source);
+          if (exactMenuTerm !== null) {
+            output = exactMenuTerm;
+          } else {
+            const menuTermEntries = getMenuTermEntries(language);
+            if (menuTermEntries.length) {
+              output = menuTermEntries.reduce((copy, entry) => copy.replace(entry[0], entry[1]), source);
+            }
+          }
+        }
+      }
       i18nPhraseCache.set(cacheKey, output);
       return output;
     }
@@ -35416,7 +35435,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
       const startupAssets = [
         "assets/splash/kfc-bucket-white.png",
         "i18n/market-flags.js?v=15",
-        "i18n/translations.js?v=14",
+        "i18n/translations.js?v=15",
         "manifest.webmanifest",
         "assets/Logo%20Clean.png"
       ];
