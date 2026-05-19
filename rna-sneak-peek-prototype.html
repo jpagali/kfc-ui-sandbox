@@ -139,9 +139,12 @@
       overflow-x: hidden;
       overscroll-behavior: none;
       background:
-        radial-gradient(circle at top left, rgba(228, 0, 43, 0.08), transparent 22%),
-        radial-gradient(circle at bottom right, rgba(255, 191, 91, 0.08), transparent 20%),
-        #f7f0e8;
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        radial-gradient(circle at top left, rgba(228, 0, 43, 0.16), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255, 191, 91, 0.08), transparent 22%),
+        #090706;
+      background-size: 64px 64px, 64px 64px, auto, auto, auto;
       color: var(--text);
       font-family: var(--font-display);
       font-style: italic;
@@ -176,9 +179,33 @@
     }
 
     .shell-frame {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 14px;
+    }
+
+    .shell-frame::before,
+    .shell-frame::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #34363a 0%, #17191d 48%, #090a0d 100%);
+      box-shadow: inset 1px 0 rgba(255, 255, 255, 0.12);
+      z-index: 4;
+    }
+
+    .shell-frame::before {
+      left: -5px;
+      top: 156px;
+      height: 118px;
+    }
+
+    .shell-frame::after {
+      right: -5px;
+      top: 220px;
+      height: 166px;
     }
 
     .app-shell-toggle {
@@ -206,27 +233,51 @@
 
     .phone-wrap {
       position: relative;
-      width: min(440px, calc(100vw - 24px));
-      aspect-ratio: 440 / 956;
+      width: min(466px, calc(100vw - 24px));
+      aspect-ratio: 466 / 982;
       height: auto;
-      border-radius: 48px;
-      padding: 0;
-      background: #000000;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(66, 40, 30, 0.10);
+      border-radius: 82px;
+      padding: 12px;
+      background:
+        linear-gradient(145deg, #3a3d42 0%, #17191d 36%, #050608 72%, #282b30 100%);
+      box-shadow:
+        0 32px 80px rgba(0, 0, 0, 0.62),
+        0 0 0 8px rgba(255, 255, 255, 0.035),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+        inset 0 0 0 3px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      overflow: visible;
     }
 
     .phone-wrap::before {
       content: "";
       position: absolute;
-      top: 18px;
+      top: 38px;
       left: 50%;
       transform: translateX(-50%);
-      width: 124px;
-      height: 30px;
+      width: 126px;
+      height: 36px;
       border-radius: 999px;
-      background: #dad0c7;
-      z-index: 30;
+      background: #050505;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.5);
+      z-index: 260;
+      pointer-events: none;
+    }
+
+    .phone-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 77px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.82),
+        inset 0 0 24px rgba(255, 255, 255, 0.035);
+      pointer-events: none;
+      z-index: 240;
     }
 
     .phone {
@@ -234,7 +285,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      border-radius: 48px;
+      border-radius: 68px;
       background: #000000;
     }
 
@@ -364,6 +415,11 @@
       overflow: hidden;
     }
 
+    body.app-shell-fullscreen .shell-frame::before,
+    body.app-shell-fullscreen .shell-frame::after {
+      display: none;
+    }
+
     body.app-shell-fullscreen .phone-wrap {
       width: min(100vw, calc(100vh * 0.460251));
       width: min(100vw, calc(100dvh * 0.460251));
@@ -372,9 +428,11 @@
       max-height: 100dvh;
       height: auto;
       aspect-ratio: 440 / 956;
+      padding: 0;
       border-radius: 0;
       border: 0;
       box-shadow: none;
+      background: #000000;
     }
 
     body.app-shell-fullscreen .phone-wrap::before,
@@ -23610,7 +23668,7 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
     let menuToastTimer = null;
     let upsellStageTimer = null;
     let cartRecoveryMenuDataRequested = false;
-    const appShellModeKey = "rna-sneak-peek-shell-mode-v1";
+    const appShellModeKey = "rna-sneak-peek-shell-mode-v2";
     const prototypeStateKey = "rna-sneak-peek-prototype-state-v2";
     const prototypeCookieKey = "rna_sneak_peek_state_v2";
     const secretMenuDispositionKey = "rna_sneak_peek_secret_menu_disposition_v1";
@@ -23669,11 +23727,16 @@ MENU</div><div class="secret-menu-poster-art" style="--deferred-bg:none;"></div>
         window.matchMedia("(display-mode: fullscreen)").matches;
     }
 
+    function isEmbeddedPrototypeShell() {
+      return window.self !== window.top;
+    }
+
     function shouldUseFullscreenShell(mode) {
       if (isStandaloneAppLaunch()) return true;
       if (mode === "fullscreen") return true;
       if (mode === "framed") return false;
-      return window.matchMedia("(max-width: 640px), (hover: none) and (pointer: coarse) and (max-width: 920px)").matches;
+      if (isEmbeddedPrototypeShell()) return true;
+      return false;
     }
 
     let stableShellWidth = 0;
