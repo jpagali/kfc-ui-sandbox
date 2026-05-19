@@ -297,9 +297,12 @@
       text-align: left;
       text-decoration: none;
       white-space: normal;
+      font-family: var(--font-ui);
       font-size: 11px;
       font-weight: 700;
+      font-style: normal;
       line-height: 1.35;
+      text-transform: none;
       opacity: 0;
       box-shadow: 3px 3px 0 var(--ink);
       content: attr(data-tooltip);
@@ -338,7 +341,7 @@
 
     .service-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 12px;
     }
@@ -355,8 +358,12 @@
       padding: 6px 12px;
       color: inherit;
       text-decoration: none;
-      font-size: 14px;
+      font-family: var(--font-display);
+      font-size: 18px;
       font-weight: 900;
+      font-style: italic;
+      line-height: 1;
+      text-transform: uppercase;
       cursor: pointer;
       box-shadow: 2px 2px 0 rgba(16, 24, 32, 0.18);
       transition: transform 160ms ease, box-shadow 160ms ease;
@@ -688,7 +695,6 @@
             <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Centralized platform for managing and configuring Byte solutions - including menus, pricing, promotions, taxes, customer support (order search/refunds), device management, and Connect - with real-time analytics and AI-powered reporting.">Portal</a>
             <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Global solution unifying menu and order integration across channels and brands, simplifying aggregator connections (DoorDash, UberEats, GrubHub) with centralized menu publishing, store management, and resilient order routing.">Connect</a>
             <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="Menu supports centralized menu configuration and publishing so markets can manage channel-ready menu data across Byte experiences.">Menu</a>
-            <a class="service" href="https://yumbrandsinc.sharepoint.com/:p:/r/sites/ARP/_layouts/15/Doc.aspx?sourcedoc=%7B108EF6B1-A3CA-4CED-B75A-6A4AE843F08A%7D&amp;file=Byte%20Architecture%20slides%20-%20Feb%202026.pptx&amp;action=edit&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" data-tooltip="POS supports store-level order handoff and point-of-sale integration so digital and aggregator orders can flow reliably into restaurant operations.">POS</a>
           </div>
 
           <div class="supporting-panel" id="supporting-platforms">
