@@ -58,6 +58,14 @@
 !atlas-tech-stack/assets/platform-logos/*.png
 !atlas-tech-stack/assets/platform-logos/*.svg
 !atlas-tech-stack/assets/*.js
+!atlas-summit-microsite/
+!atlas-summit-microsite/index.html
+!atlas-summit-microsite/assets/
+!atlas-summit-microsite/assets/*.css
+!atlas-summit-microsite/assets/*.js
+!atlas-summit-microsite/assets/*.png
+!atlas-summit-microsite/assets/*.woff
+!atlas-summit-microsite/assets/*.woff2
 node_modules/
 dist/
 build/
